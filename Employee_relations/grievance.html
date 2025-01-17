@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grievance Management - Smart HR</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="grievance_management.css">
+
+    <style>
+        /* Center-align the content */
+        .container {
+            text-align: center;
+        }
+
+        /* Breadcrumb underline on hover */
+        .breadcrumb a {
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-container {
+            text-align: left;
+        }
+
+        .breadcrumb {
+            justify-content: left;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="#" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="./relation.html">Employee Relations</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Grievance Management</li>
+            </ol>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <h1 class="text-center mb-4">Grievance Management</h1>
+
+        <!-- Content Section -->
+        <section class="content mb-5">
+            <p class="lead text-center">Monitor, manage, and resolve employee grievances efficiently for a harmonious workplace.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">View Submitted Grievances</h5>
+                            <p class="card-text">Access and review all employee-submitted grievances in one place.</p>
+                            <a href="view_grievances.html" class="btn btn-primary">View Grievances</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Assign Grievance Handlers</h5>
+                            <p class="card-text">Delegate grievances to appropriate HR team members for resolution.</p>
+                            <a href="assign_handlers.html" class="btn btn-primary">Assign Handlers</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Resolution Status</h5>
+                            <p class="card-text">Track the progress and status of grievance resolutions.</p>
+                            <a href="resolution_status.html" class="btn btn-primary">Track Status</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Generate Reports</h5>
+                            <p class="card-text">Generate detailed reports on grievances and resolutions for analysis.</p>
+                            <a href="generate_reports.html" class="btn btn-primary">Generate Reports</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="grievance_management.js"></script>
+</body>
+
+</html>
