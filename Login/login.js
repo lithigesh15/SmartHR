@@ -11,7 +11,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       message.className = "alert success";
       message.innerText = "Login successful!";
       setTimeout(() => {
-        window.location.href = "./dashboard.html"; // Redirect to dashboard
+        window.location.href = "../dashboard.html"; // Redirect to dashboard
       }, 1000);
     } else {
       message.style.display = "block";
