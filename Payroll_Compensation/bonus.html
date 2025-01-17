@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus and Incentives | Smart HR</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bonus.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Page Title -->
+        <h2 class="mb-4 text-center">Bonus and Incentives</h2>
+
+        <!-- Breadcrumb -->
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="payroll.html">Payroll</a></li>
+                <li class="breadcrumb-item active">Bonus and Incentives</li>
+            </ol>
+        </nav>
+
+        <!-- Bonus and Incentives Calculation Form -->
+        <div class="card p-4">
+            <h4 class="mb-3">Calculate Bonus and Incentives</h4>
+            <form id="bonusForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="employeeId" class="form-label">Employee ID</label>
+                        <input type="text" id="employeeId" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="employeeName" class="form-label">Employee Name</label>
+                        <input type="text" id="employeeName" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="basicSalary" class="form-label">Basic Salary</label>
+                        <input type="number" id="basicSalary" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <label for="performanceRating" class="form-label">Performance Rating</label>
+                        <input type="number" id="performanceRating" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="bonusPercentage" class="form-label">Bonus Percentage (%)</label>
+                        <input type="number" id="bonusPercentage" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="incentiveAmount" class="form-label">Incentive Amount</label>
+                        <input type="number" id="incentiveAmount" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="totalBonus" class="form-label">Total Bonus</label>
+                        <input type="text" id="totalBonus" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Calculate Bonus and Incentives</button>
+            </form>
+        </div>
+
+        <!-- Generate Bonus Slip Button -->
+        <div class="text-center mt-4">
+            <a href="generateBonusSlip.html" class="btn btn-success">Update Bonus Slip</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="bonus.js"></script>
+</body>
+</html>

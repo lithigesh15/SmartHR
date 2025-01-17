@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Slip | Smart HR</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="payslip.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Page Title -->
+        <h2 class="mb-4 text-center">Pay Slip</h2>
+
+        <!-- Breadcrumb -->
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="payroll.html">Payroll</a></li>
+                <li class="breadcrumb-item active">Pay Slip</li>
+            </ol>
+        </nav>
+
+        <!-- Pay Slip Details -->
+        <div class="card p-4 mb-4">
+            <h4 class="mb-3">Employee Salary Details</h4>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Basic Salary</th>
+                        <th>HRA</th>
+                        <th>Bonus</th>
+                        <th>Incentive</th>
+                        <th>Deductions</th>
+                        <th>Tax</th>
+                        <th>Net Salary</th>
+                    </tr>
+                </thead>
+                <tbody id="paySlipTable">
+                    <!-- Pay Slip data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Download Pay Slip Button -->
+        <div class="text-center mt-4">
+            <button class="btn btn-success" id="downloadPayslipBtn">Update Pay Slip</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="jspdf.min.js"></script>
+    <script src="payslip.js"></script>
+</body>
+</html>

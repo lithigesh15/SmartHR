@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Information | Smart HR</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="tax.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Page Title -->
+        <h2 class="mb-4 text-center">Tax Information</h2>
+
+        <!-- Breadcrumb -->
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="payroll.html">Payroll</a></li>
+                <li class="breadcrumb-item active">Tax Information</li>
+            </ol>
+        </nav>
+
+        <!-- Tax Calculation Form -->
+        <div class="card p-4">
+            <h4 class="mb-3">Calculate Tax</h4>
+            <form id="taxForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="annualSalary" class="form-label">Annual Salary</label>
+                        <input type="number" id="annualSalary" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="taxRate" class="form-label">Tax Rate (%)</label>
+                        <input type="number" id="taxRate" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="netTax" class="form-label">Net Tax</label>
+                        <input type="text" id="netTax" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Calculate Tax</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="tax.js"></script>
+</body>
+</html>
