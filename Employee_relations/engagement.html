@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Engagement Activities - Smart HR</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="engagement_activities.css">
+
+    <style>
+        /* Center-align the content */
+        .container {
+            text-align: center;
+        }
+
+        /* Breadcrumb underline on hover */
+        .breadcrumb a {
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-container {
+            text-align: left;
+        }
+
+        .breadcrumb {
+            justify-content: left;
+        }
+    </style>    
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="#" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="../employee_relations.html">Employee Relations</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Engagement Activities</li>
+            </ol>
+        </div>
+    </nav>
+
+    <main class="container my-5 justify-content-center">
+        <h1 class="text-center mb-4">Engagement Activities</h1>
+
+        <!-- Content Section -->
+        <section class="content mb-5">
+            <p class="lead text-center">Foster a positive and engaging work environment through planned activities.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Plan Activities</h5>
+                            <p class="card-text">Create and organize activities that boost employee morale.</p>
+                            <a href="plan_activities.html" class="btn btn-primary">Plan Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Participation Tracking</h5>
+                            <p class="card-text">Monitor employee participation and engagement levels.</p>
+                            <a href="participation_tracking.html" class="btn btn-primary">Track Participation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Feedback Collection</h5>
+                            <p class="card-text">Gather feedback to improve future engagement activities.</p>
+                            <a href="feedback_collection.html" class="btn btn-primary">Collect Feedback</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Activity Reports</h5>
+                            <p class="card-text">Generate detailed reports on engagement activity outcomes.</p>
+                            <a href="activity_reports.html" class="btn btn-primary">Generate Reports</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="engagement_activities.js"></script>
+</body>
+
+</html>

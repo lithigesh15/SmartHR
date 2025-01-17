@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Surveys & Polls - Smart HR</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="surveys_polls.css">
+
+    <style>
+        .breadcrumb a {
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .breadcrumb-container {
+            text-align: left;
+        }
+
+        .breadcrumb {
+            justify-content: left;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="#" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="../employee_relations.html">Employee Relations</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Surveys & Polls</li>
+            </ol>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <h1 class="text-center mb-4">Surveys & Polls</h1>
+
+        <!-- Content Section -->
+        <section class="content mb-5">
+            <p class="lead text-center">Facilitate employee engagement and gather valuable insights through structured surveys and quick polls.</p>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Create Surveys</h5>
+                            <p class="card-text">Design comprehensive surveys to gather detailed employee feedback.</p>
+                            <a href="create_surveys.html" class="btn btn-primary">Create Surveys</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Conduct Polls</h5>
+                            <p class="card-text">Set up quick polls for real-time feedback and decision-making.</p>
+                            <a href="conduct_polls.html" class="btn btn-primary">Conduct Polls</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Monitor Responses</h5>
+                            <p class="card-text">Track participation and analyze survey and poll responses efficiently.</p>
+                            <a href="monitor_responses.html" class="btn btn-primary">Monitor Responses</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Generate Insights</h5>
+                            <p class="card-text">Analyze data to identify trends and make informed HR decisions.</p>
+                            <a href="generate_insights.html" class="btn btn-primary">Generate Insights</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="surveys_polls.js"></script>
+</body>
+
+</html>
