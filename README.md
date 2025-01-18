@@ -1,4 +1,4 @@
-# 🌟 **Smart HR - Revolutionizing Workforce Management** 🌟
+# 🌟 **Smart HR -Revolutionizing Workforce Management**🌟
 
 Smart HR is an innovative solution designed to streamline and enhance human resource management processes. With features tailored for modern organizations, it simplifies hiring, employee management, payroll, offboarding, and more. 💼📊
 
