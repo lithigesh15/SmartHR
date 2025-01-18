@@ -3,78 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/owl.carousel.min.css">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    /* Checkbox customization */
-    .control--checkbox .control__indicator {
-      background-color: blue !important;
-    }
-
-    /* Login button customization */
-    .btn-primary {
-      background-color: blue !important; 
-      border-color: blue !important;   
-    }
-
-    /* Prompt styling */
-    .alert {
-      padding: 10px;
-      background-color: #f44336;
-      color: white;
-      margin-bottom: 15px;
-      border-radius: 5px;
-    }
-
-    .alert.success {
-      background-color: #4CAF50;
-    }
-  </style>
-  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Login Page</title>
 </head>
 <body>
-<div class="content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 order-md-2">
-        <img src="images/5561830_21207.svg" alt="Image" class="img-fluid">
-      </div>
-      <div class="col-md-6 contents">
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <div class="mb-4">
-              <h3>Sign In</h3>
-            </div>
-            <form id="loginForm">
-              <div id="message" class="alert" style="display: none;"></div>
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" required>
-              </div>
-              <div class="form-group last mb-4">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" required>
-              </div>
-              
-              <div class="d-flex mb-5 align-items-center">
-                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
-              </div>
-              <input type="submit" value="Log In" class="btn text-white btn-block btn-primary">
-            </form>
-          </div>
+<div class="content vh-100 d-flex align-items-center justify-content-center">
+  <div class="row w-100 mx-0 shadow-lg rounded overflow-hidden" style="max-width: 1000px; height: 90vh;">
+    <!-- Illustration Section -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center bg-white p-4">
+      <img src="5561830_21207.svg" alt="Login Illustration" class="img-fluid" style="max-width: 90%; height: auto;">
+    </div>
+    <!-- Login Form Section -->
+    <div class="col-md-6 d-flex flex-column justify-content-center bg-light p-5">
+      <h3 class="text-center mb-4">Sign In</h3>
+      <form id="loginForm">
+        <div id="message" class="alert d-none"></div>
+        <div class="form-group mb-3">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
         </div>
-      </div>
+        <div class="form-group mb-4">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <a href="#" class="text-decoration-none">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block w-100">Log In</button>
+      </form>
     </div>
   </div>
 </div>
-
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
 <script src="login.js"></script>
 </body>
 </html>

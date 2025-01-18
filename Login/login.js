@@ -1,21 +1,21 @@
 document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
   
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
     const message = document.getElementById("message");
   
-    // Check credentials
     if (username === "admin" && password === "admin") {
-      message.style.display = "block";
       message.className = "alert success";
-      message.innerText = "Login successful!";
+      message.textContent = "Login successful!";
+      message.classList.remove("d-none");
       setTimeout(() => {
-        window.location.href = "../dashboard/dashboard.html"; // Redirect to dashboard
+        window.location.href = "../dashboard/dashboard.html";
       }, 1000);
     } else {
-      message.style.display = "block";
-      message.className = "alert";
-      message.innerText = "Incorrect username or password.";
+      message.className = "alert error";
+      message.textContent = "Incorrect username or password.";
+      message.classList.remove("d-none");
     }
   });
+  
