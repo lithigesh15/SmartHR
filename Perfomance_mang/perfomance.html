@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Smart HR</title>
+    <link rel="icon" type="image/png" href="../Resources/logo.png">
+
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- External CSS -->
-    <link rel="stylesheet" href="payroll.css">
+    <link rel="stylesheet" href="perfomance.css">
 </head>
 
 <body>
@@ -44,22 +46,70 @@
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="#">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="#">Library</a>
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <span class="text-secondary">Data</span>
+                    <span class="text-secondary">perfomance</span>
                 </li>
             </ol>
         </div>
     </nav>
+    <h1 class="mb-4 text-center">Perfomance</h1>
+    <!-- Box Layout -->
+    <div class="container my-5">
+
+        <div class="row text-center">
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded" id="goal-setting">
+                    <h4>Goal Setting</h4>
+                    <p>Establish clear objectives to align employee efforts with organizational goals.</p>
+                    <a href="goal.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded" id="goal-setting">
+                    <h4>Goal Tracking</h4>
+                    <p>Track and manage employee progress towards achieving set goals and achieving.</p>
+                    <a href="goal_track.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded" id="appraisal-system">
+                    <h4>Appraisal System</h4>
+                    <p>Evaluate employee performance to provide feedback and recognition.</p>
+                    <a href="appraisal.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded" id="feedback-mechanism">
+                    <h4>Feedback Mechanism</h4>
+                    <p>Implement a structured approach to provide employee feedback.</p>
+                    <a href="feedback.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
+      
+          <a  class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+            <span class="fs-4 text-primary">Smart HR</span>
+          </a>
+      
+          <ul class="nav col-md-4 justify-content-end text-body-dark">
+              <li class="nav-item text-body-dark"><a href="#" class="nav-link px-2 text-dark">About</a></li>
+          </ul>
+        </footer>
+      </div>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- External JS -->
-    <script src="payroll.js"></script>
+    <script src="perfomance.js"></script>
 </body>
 </html>

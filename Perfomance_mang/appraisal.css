@@ -1,0 +1,42 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card h4 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Appraisal form styles */
+form input,
+form textarea {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form button {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .col-md-6 {
+        width: 100%;
+    }
+}
