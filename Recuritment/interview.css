@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+table th, table td {
+    text-align: center;
+    vertical-align: middle;
+}
