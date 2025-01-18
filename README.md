@@ -1,6 +1,3 @@
-To ensure that your `README.md` looks good on the browser when directly displayed as an "About" page for your website, here’s a refined and visually organized version of your content. This version utilizes headings, sections, and formatting to create an engaging and professional look.
-
-```markdown
 # 🌟 **Smart HR - Revolutionizing Workforce Management** 🌟
 
 Smart HR is an innovative solution designed to streamline and enhance human resource management processes. With features tailored for modern organizations, it simplifies hiring, employee management, payroll, offboarding, and more. 💼📊
