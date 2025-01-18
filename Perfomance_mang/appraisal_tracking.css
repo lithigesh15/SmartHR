@@ -1,0 +1,51 @@
+/* Theme Styling */
+body {
+    background-color: #f8f9fa;
+}
+
+
+
+.card {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* Table Styling */
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    vertical-align: middle;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}

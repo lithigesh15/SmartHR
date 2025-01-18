@@ -2,7 +2,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const goalList = document.getElementById("goal-list");
     const updateGoalForm = document.getElementById("update-goal-form");
 
+    // Sample data for first-time users
+    const sampleGoals = [
+        {
+            title: "Improve Employee Training",
+            description: "Implement a new training module for employees to enhance productivity.",
+            deadline: "2025-03-15",
+            status: "In Progress"
+        },
+        {
+            title: "Enhance Payroll System",
+            description: "Automate payroll calculations for more accurate salary processing.",
+            deadline: "2025-02-28",
+            status: "Completed"
+        },
+        {
+            title: "Develop Performance Metrics",
+            description: "Establish clear performance tracking KPIs for all departments.",
+            deadline: "2025-04-10",
+            status: "Pending"
+        }
+    ];
+
     let goals = JSON.parse(localStorage.getItem("goals")) || [];
+
+    // If no goals are found in localStorage, use sample data
+    if (goals.length === 0) {
+        goals = sampleGoals;
+        localStorage.setItem("goals", JSON.stringify(goals));
+    }
 
     function renderGoals() {
         goalList.innerHTML = "";
@@ -16,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <small>Deadline: ${goal.deadline}</small>
                 </div>
                 <div>
-                    <button class="btn btn-warning btn-sm edit-btn" data-index="${index}">Edit</button>
+                    <button class="btn btn-success btn-sm edit-btn" data-index="${index}">Edit</button>
                     <button class="btn btn-danger btn-sm delete-btn" data-index="${index}">Delete</button>
                 </div>
             `;
