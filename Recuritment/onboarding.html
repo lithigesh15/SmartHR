@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./onboarding.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="#" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-container">
+            <div class="container-fluid">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="../dashboard/dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="./recruitment.html">Recruitment</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <span class="text-secondary">Onboarding</span>
+                    </li>
+                </ol>
+            </div>
+        </nav>
+
+    <!-- Title -->
+    <div class="container my-4">
+        <h1 class="text-center">Onboarding</h1>
+    </div>
+
+    <!-- Onboarding Form -->
+    <div class="container my-5">
+        <form id="onboarding-form" class="shadow p-4 rounded">
+            <h4 class="mb-4">Onboard New Employee</h4>
+
+            <div class="mb-3">
+                <label for="employeeName" class="form-label">Employee Name</label>
+                <input type="text" id="employeeName" class="form-control" placeholder="Enter employee name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter employee email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="designation" class="form-label">Designation</label>
+                <input type="text" id="designation" class="form-control" placeholder="Enter employee designation" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="department" class="form-label">Department</label>
+                <input type="text" id="department" class="form-control" placeholder="Enter department" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="documents" class="form-label">Upload Documents</label>
+                <input type="file" id="documents" class="form-control" multiple>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+
+    <!-- Onboarding List -->
+    <div class="container my-5">
+        <h4 class="mb-4">Onboarding Status</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Designation</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="onboarding-list">
+                <!-- Onboarding data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="d-flex justify-content-between align-items-center py-3 mt-auto border-top">
+        <p class="mb-0">© 2025 Smart HR</p>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="onboarding.js"></script>
+</body>
+
+</html>
