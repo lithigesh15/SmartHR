@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Benefits Management - Admin</title>
+    <link rel="icon" type="image/png" href="../Resources/logo.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="benefits.css">
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="benefits.html">Benefits</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-secondary">Benefits Management</span>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <h1 class="mb-4 text-center">Update Employee Benefits</h1>
+
+    <!-- Benefits Management Form -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="box shadow p-4 rounded">
+                    <h4 class="mb-3">Update Benefits</h4>
+                    <form id="update-benefits-form">
+                        <div class="mb-3">
+                            <label for="employee-id" class="form-label">Employee ID</label>
+                            <input type="text" class="form-control" id="employee-id" placeholder="Enter Employee ID" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reward-points" class="form-label">Reward Points</label>
+                            <input type="number" class="form-control" id="reward-points" placeholder="Enter Reward Points" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3" placeholder="Provide a brief description" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">© 2025</p>
+
+            <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="../README.md" class="nav-link px-2 text-muted">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="benefits.js"></script>
+</body>
+
+</html>

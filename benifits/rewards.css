@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.form-container {
+    max-width: 600px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Form Inputs */
+input, select, textarea {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+/* Button Styling */
+button {
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}

@@ -1,0 +1,64 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Table Styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #343a40;
+    color: white;
+}
+
+tbody td, thead th {
+    padding: 10px;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Button Styling */
+button {
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.approve {
+    background-color: #28a745; /* Green */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button.approve:hover {
+    background-color: #218838; /* Darker Green */
+    transform: scale(1.1);
+}
+
+button.reject {
+    background-color: #dc3545; /* Red */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button.reject:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: scale(1.1);
+}
+
+/* Add subtle animation on click */
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

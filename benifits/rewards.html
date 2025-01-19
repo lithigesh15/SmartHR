@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perks and Rewards</title>
+    <link rel="icon" type="image/png" href="../Resources/logo.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="perks_rewards.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="benefits.html">Benifits</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Perks and Rewards</li>
+            </ol>
+        </div>
+    </nav>
+
+    <h1 class="mb-4 text-center">Perks and Rewards</h1>
+
+    <!-- Form Section -->
+    <div class="container my-5">
+        <div class="form-container mx-auto p-4 shadow rounded">
+            <form id="perksForm" >
+                <div class="mb-3">
+                    <label for="employeeId" class="form-label">Employee ID</label>
+                    <input type="text" class="form-control" id="employeeId" placeholder="Enter Employee ID" required>
+                </div>
+                <div class="mb-3">
+                    <label for="giftType" class="form-label">Select Gift Type</label>
+                    <select class="form-select" id="giftType" required>
+                        <option value="" disabled selected>Select a gift type</option>
+                        <option value="amazon">Amazon Gift Voucher</option>
+                        <option value="flipkart">Flipkart Gift Voucher</option>
+                        <option value="bookmyshow">BookMyShow Voucher</option>
+                        <option value="swiggy">Swiggy Voucher</option>
+                        <option value="zomato">Zomato Voucher</option>
+                        <option value="wonderla">Wonderla Voucher</option>
+                        <option value="google-play">Google Play Store Voucher</option>
+                        <option value="apple-store">Apple App Store Voucher</option>
+                        <option value="uber">Uber Ride Voucher</option>
+                        <option value="ola">Ola Ride Voucher</option>
+                        <option value="myntra">Myntra Gift Voucher</option>
+                        <option value="dominos">Domino's Pizza Voucher</option>
+                        <option value="pvr-cinemas">PVR Cinemas Gift Card</option>
+                        <option value="bigbasket">BigBasket Grocery Voucher</option>
+                        <option value="netflix">Netflix Subscription Gift Card</option>
+                        <option value="spotify">Spotify Premium Voucher</option>
+                        <option value="paytm">Paytm Cashback Voucher</option>
+                        <option value="cleartrip">Cleartrip Travel Voucher</option>
+                        <option value="make-my-trip">MakeMyTrip Gift Voucher</option>
+                        <option value="croma">Croma Electronics Gift Card</option>
+                        <option value="tata-cliq">Tata CliQ Voucher</option>
+                        <option value="decathlon">Decathlon Sports Voucher</option>
+                        <option value="amazon-prime">Amazon Prime Membership Voucher</option>                    
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="3" placeholder="Add a small note" required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">© 2025</p>
+            <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="../README.md" class="nav-link px-2 text-muted">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- External JS -->
+    <script src="perks_rewards.js"></script>
+</body>
+
+</html>
