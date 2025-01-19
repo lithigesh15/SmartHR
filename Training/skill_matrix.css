@@ -16,6 +16,7 @@ header .container-fluid {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 header .navbar-brand {
@@ -27,6 +28,11 @@ header .navbar-brand {
 header .dropdown-toggle {
     display: flex;
     align-items: center;
+}
+
+header img {
+    width: 30px;
+    height: auto;
 }
 
 /* Navbar Styling */
@@ -44,6 +50,7 @@ header .dropdown-toggle {
 .breadcrumb-container {
     background-color: #ffffff;
     padding: 10px 0;
+    text-align: center;
 }
 
 .breadcrumb {
@@ -61,6 +68,8 @@ h1 {
     font-size: 2.5rem;
     color: #343a40;
     font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Table Styling */
@@ -69,6 +78,8 @@ h1 {
     width: 100%;
     margin-top: 20px;
     background-color: white;
+    overflow-x: auto;
+    display: block;
 }
 
 .table th, .table td {
@@ -87,12 +98,12 @@ h1 {
     background-color: #f9f9f9;
 }
 
-
-/* Card Styling for Training Programs (if used) */
+/* Card Styling for Training Programs */
 .card {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .card-body {
@@ -111,6 +122,7 @@ h1 {
 
 .card img {
     border-radius: 8px;
+    max-width: 100%;
 }
 
 /* Button Styling */
@@ -128,3 +140,88 @@ h1 {
     background-color: #0056b3;
 }
 
+/* Footer Styling */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+footer img {
+    width: 30px;
+    height: auto;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+footer ul li {
+    margin: 0;
+}
+
+footer ul li a {
+    text-decoration: none;
+    color: #343a40;
+}
+
+footer ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .breadcrumb-container {
+        padding: 5px 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .table th, .table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+
+    footer ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    footer img {
+        width: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    footer img {
+        width: 20px;
+    }
+}
