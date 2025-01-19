@@ -1,11 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Updated courses data from the provided HTML
     const courses = [
-        { name: "Leadership Training", description: "Enhance leadership skills for better management.", image: "leadership.jpg" },
-        { name: "Data Analysis", description: "Learn data-driven decision-making techniques.", image: "data_analysis.jpg" },
-        { name: "Project Management", description: "Master project planning and execution.", image: "project_management.jpg" },
-        { name: "Communication Skills", description: "Improve workplace communication effectiveness.", image: "communication.jpg" },
-        { name: "Cybersecurity Basics", description: "Understand fundamental cybersecurity principles.", image: "cybersecurity.jpg" },
-        { name: "AI & Machine Learning", description: "Introduction to AI and ML concepts.", image: "ai_ml.jpg" }
+        {
+            name: "Python for Beginners",
+            description: "Learn Python from scratch. Build programming skills step by step.",
+            image: "Programs_cover/python.jpeg",
+        },
+        {
+            name: "Advanced Java",
+            description: "Master Java programming with advanced concepts and best practices.",
+            image: "Programs_cover/java.jpeg",
+        },
+        {
+            name: "Web Development",
+            description: "Learn HTML, CSS, and JavaScript to build interactive websites.",
+            image: "Programs_cover/web_development.jpeg",
+        },
+        {
+            name: "Data Science",
+            description: "Explore data analytics, machine learning, and AI techniques.",
+            image: "Programs_cover/data_science.jpeg",
+        },
+        {
+            name: "Project Management",
+            description: "Develop skills to manage projects efficiently and meet deadlines.",
+            image: "Programs_cover/porject_mang.jpeg",
+        },
+        {
+            name: "Cybersecurity Basics",
+            description: "Understand fundamental cybersecurity principles and practices.",
+            image: "Programs_cover/cyber.jpeg",
+        },
     ];
 
     const courseContainer = document.getElementById("course-list");
@@ -19,10 +44,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="card-body">
                     <h5 class="card-title">${course.name}</h5>
                     <p class="card-text">${course.description}</p>
-                    <a href="#" class="btn btn-primary">Enroll Now</a>
+                    <button class="btn btn-primary enroll-btn">Enroll Now</button>
                 </div>
             </div>
         `;
         courseContainer.appendChild(courseCard);
+    });
+
+    // Event listener for Enroll buttons
+    document.querySelectorAll(".enroll-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            const modal = new bootstrap.Modal(document.getElementById("enrollModal"));
+            modal.show();
+        });
+    });
+
+    // Handle form submission
+    const enrollForm = document.getElementById("enrollForm");
+    enrollForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const employeeId = document.getElementById("employeeId").value;
+        const employeeName = document.getElementById("employeeName").value;
+        const phoneNo = document.getElementById("phoneNo").value;
+        const dob = document.getElementById("dob").value;
+
+        // Simulate storing data (e.g., sending to a database)
+        const enrollmentData = { employeeId, employeeName, phoneNo, dob };
+        console.log("Enrollment Data:", enrollmentData);
+
+        // Show success message
+        alert(`You have successfully enrolled. Further details will be sent to ${phoneNo}.`);
+
+        // Reset form
+        enrollForm.reset();
+
+        // Hide modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById("enrollModal"));
+        modal.hide();
     });
 });

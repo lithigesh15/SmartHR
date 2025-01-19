@@ -32,3 +32,15 @@ h1 {
 .col-md-4 {
     padding: 15px;
 }
+
+/* Styling for green Submit button */
+button.btn-success {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button.btn-success:hover {
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+}
