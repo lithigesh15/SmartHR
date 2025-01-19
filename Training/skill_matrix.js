@@ -1,51 +1,71 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Example static data for Skill Matrix table
+document.addEventListener("DOMContentLoaded", function () {
+    // Example static data for Skill Matrix table (Mock data)
     const employees = [
-        { name: 'John Doe', skill1: 'Advanced', skill2: 'Intermediate', skill3: 'Beginner', skill4: 'Expert' },
-        { name: 'Jane Smith', skill1: 'Intermediate', skill2: 'Advanced', skill3: 'Advanced', skill4: 'Intermediate' },
-        { name: 'Emily Johnson', skill1: 'Expert', skill2: 'Beginner', skill3: 'Advanced', skill4: 'Intermediate' },
-        { name: 'Michael Brown', skill1: 'Beginner', skill2: 'Intermediate', skill3: 'Intermediate', skill4: 'Expert' },
+        { name: 'John Doe', python: 80, webDevelopment: 60, dataScience: 40, projectManagement: 90, java: 70, cyberSecurity: 95 },
+        { name: 'Jane Smith', python: 60, webDevelopment: 80, dataScience: 85, projectManagement: 60, java: 50, cyberSecurity: 70 },
+        { name: 'Emily Johnson', python: 90, webDevelopment: 50, dataScience: 70, projectManagement: 60, java: 75, cyberSecurity: 55 },
+        { name: 'Michael Brown', python: 40, webDevelopment: 60, dataScience: 65, projectManagement: 90, java: 85, cyberSecurity: 60 },
         // Add more employee data as needed
     ];
 
-    // Function to populate the skill matrix table
-    function populateSkillMatrix() {
+    // Function to populate the skill matrix table with mock data
+    function populateSkillMatrix(employeeData) {
         const tableBody = document.querySelector('#skillMatrix tbody');
         tableBody.innerHTML = '';  // Clear existing table data
-        
+
         // Loop through each employee and create table rows
-        employees.forEach(employee => {
+        employeeData.forEach(employee => {
             const row = document.createElement('tr');
 
             // Create table cells for each skill
             const employeeCell = document.createElement('td');
             employeeCell.textContent = employee.name;
 
-            const skill1Cell = document.createElement('td');
-            skill1Cell.textContent = employee.skill1;
+            const pythonCell = document.createElement('td');
+            pythonCell.textContent = getSkillLevel(employee.python);
 
-            const skill2Cell = document.createElement('td');
-            skill2Cell.textContent = employee.skill2;
+            const webDevelopmentCell = document.createElement('td');
+            webDevelopmentCell.textContent = getSkillLevel(employee.webDevelopment);
 
-            const skill3Cell = document.createElement('td');
-            skill3Cell.textContent = employee.skill3;
+            const dataScienceCell = document.createElement('td');
+            dataScienceCell.textContent = getSkillLevel(employee.dataScience);
 
-            const skill4Cell = document.createElement('td');
-            skill4Cell.textContent = employee.skill4;
+            const projectManagementCell = document.createElement('td');
+            projectManagementCell.textContent = getSkillLevel(employee.projectManagement);
+
+            const javaCell = document.createElement('td');
+            javaCell.textContent = getSkillLevel(employee.java);
+
+            const cyberSecurityCell = document.createElement('td');
+            cyberSecurityCell.textContent = getSkillLevel(employee.cyberSecurity);
 
             // Append cells to the row
             row.appendChild(employeeCell);
-            row.appendChild(skill1Cell);
-            row.appendChild(skill2Cell);
-            row.appendChild(skill3Cell);
-            row.appendChild(skill4Cell);
+            row.appendChild(pythonCell);
+            row.appendChild(webDevelopmentCell);
+            row.appendChild(dataScienceCell);
+            row.appendChild(projectManagementCell);
+            row.appendChild(javaCell);
+            row.appendChild(cyberSecurityCell);
 
             // Append the row to the table body
             tableBody.appendChild(row);
         });
     }
 
-    // Call the function to populate the table when the page loads
-    populateSkillMatrix();
-});
+    // Function to classify skill level based on the percentage
+    function getSkillLevel(percentage) {
+        if (percentage <= 30) {
+            return 'Beginner';
+        } else if (percentage <= 60) {
+            return 'Intermediate';
+        } else if (percentage <= 85) {
+            return 'Advanced';
+        } else {
+            return 'Expert';
+        }
+    }
 
+    // Call the populateSkillMatrix function with the mock data
+    populateSkillMatrix(employees);
+});

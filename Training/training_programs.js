@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="card-body">
                     <h5 class="card-title">${course.name}</h5>
                     <p class="card-text">${course.description}</p>
-                    <button class="btn btn-primary enroll-btn">Enroll Now</button>
                 </div>
             </div>
         `;

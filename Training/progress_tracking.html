@@ -59,13 +59,13 @@
     <!-- Search and Filters -->
     <div class="container my-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6 mb-3 mb-md-0">
                 <div class="input-group">
                     <input type="text" class="form-control" id="search" placeholder="Search for an employee...">
                     <button class="btn btn-primary" type="button">Search</button>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <select class="form-select" id="filter">
                     <option value="">Filter by department</option>
                     <option value="IT">IT</option>
@@ -78,37 +78,25 @@
 
     <!-- Employee Progress Table -->
     <div class="container">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Employee</th>
-                    <th scope="col">Python</th>
-                    <th scope="col">Web Development</th>
-                    <th scope="col">Data Science</th>
-                    <th scope="col">Project Management</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="employeeTable">
-                <!-- Rows of employee progress (Dynamic in future with PHP/MySQL) -->
-                <tr>
-                    <td>John Doe</td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 60%" id="python1">60%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 75%" id="web1">75%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 40%" id="data1">40%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 50%" id="project1">50%</div></div></td>
-                    <td><button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateProgressModal" data-employee="John Doe" data-python="60" data-web="75" data-data="40" data-project="50">Update Progress</button></td>
-                </tr>
-                <tr>
-                    <td>Jane Smith</td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 80%" id="python2">80%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 55%" id="web2">55%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 30%" id="data2">30%</div></div></td>
-                    <td><div class="progress"><div class="progress-bar" style="width: 90%" id="project2">90%</div></div></td>
-                    <td><button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateProgressModal" data-employee="Jane Smith" data-python="80" data-web="55" data-data="30" data-project="90">Update Progress</button></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Python</th>
+                        <th scope="col">Web Development</th>
+                        <th scope="col">Data Science</th>
+                        <th scope="col">Project Management</th>
+                        <th scope="col">Java</th>
+                        <th scope="col">Cyber Security</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTable">
+                    <!-- Employee progress rows will be inserted dynamically here -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Update Progress Modal -->
@@ -140,6 +128,14 @@
                         <div class="mb-3">
                             <label for="projectProgress" class="form-label">Project Management Progress (%)</label>
                             <input type="number" class="form-control" id="projectProgress" min="0" max="100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="javaProgress" class="form-label">Java Progress (%)</label>
+                            <input type="number" class="form-control" id="javaProgress" min="0" max="100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cyberProgress" class="form-label">Cyber Security Progress (%)</label>
+                            <input type="number" class="form-control" id="cyberProgress" min="0" max="100">
                         </div>
                         <button type="submit" class="btn btn-primary">Update Progress</button>
                     </form>
