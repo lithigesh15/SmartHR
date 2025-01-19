@@ -1,0 +1,130 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #f1f1f1;
+    padding: 10px 0;
+}
+
+header .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .navbar-brand {
+    color: #007bff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+header .dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    margin-left: 20px;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb-container {
+    background-color: #ffffff;
+    padding: 10px 0;
+}
+
+.breadcrumb {
+    background-color: #f8f9fa;
+    margin-bottom: 0;
+}
+
+/* Main Content Styling */
+.container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #343a40;
+    font-weight: 600;
+}
+
+/* Table Styling */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.table td {
+    background-color: #f9f9f9;
+}
+
+
+/* Card Styling for Training Programs (if used) */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card img {
+    border-radius: 8px;
+}
+
+/* Button Styling */
+.btn {
+    font-size: 1rem;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+

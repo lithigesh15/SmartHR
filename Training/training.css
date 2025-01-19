@@ -1,42 +1,43 @@
-/* Navbar styles */
-header {
-    background-color: #007bff; /* Bootstrap primary blue */
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
 
-header a, header a:hover, header a:focus {
-    color: white; /* Ensure text and links in the navbar are white */
-    text-decoration: none;
+h1 {
+    color: #007bff;
+    margin-top: 20px;
 }
 
-header img {
-    border: 2px solid white; /* Optional: Add a border to the logo for better visibility */
+.container {
+    max-width: 1200px;
+    margin: auto;
 }
 
-/* Breadcrumb container */
-nav.breadcrumb-container {
-    margin-top: -1px; /* Remove gap between breadcrumb and header */
+.box {
+    background-color: #ffffff;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Breadcrumb styles */
-.breadcrumb {
-    background-color: #f8f9fa; /* Light gray background */
-    margin: 0;
-    padding: 0.75rem 1rem;
-    border-radius: 0;
-    border-top: 1px solid #e9ecef; /* Subtle border for separation */
+.box:hover {
+    transform: scale(1.05);
 }
 
-.breadcrumb a {
-    text-decoration: none;
-    color: #0d6efd; /* Bootstrap's primary color */
+.box h4 {
+    color: #343a40;
+    font-weight: bold;
 }
 
-.breadcrumb a:hover {
-    text-decoration: underline;
+.box p {
+    color: #6c757d;
 }
 
-.breadcrumb .text-secondary {
-    font-weight: 500;
+.btn-primary {
+    background-color: #007bff;
+    border: none;
 }
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+

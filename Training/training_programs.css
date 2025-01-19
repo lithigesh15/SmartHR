@@ -1,0 +1,34 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    color: black;
+}
+
+.breadcrumb-container {
+    background-color: #e9ecef;
+    padding: 10px 0;
+}
+
+.card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .card-body {
+    transform: scale(1.05);
+}
+
+.card img {
+    height: 150px;
+    object-fit: cover;
+}
+
+.row {
+    row-gap: 30px;
+}
+
+.col-md-4 {
+    padding: 15px;
+}

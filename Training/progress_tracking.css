@@ -1,0 +1,40 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #000;
+    font-weight: bold;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.table td {
+    text-align: center;
+}
+
+.progress {
+    height: 25px;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+}
+
+input[type="text"] {
+    width: 75%;
+}
+
+select.form-select {
+    width: 75%;
+}
+
+/* Styling for the search bar and filter */
+.input-group,
+select.form-select {
+    margin-top: 10px;
+}

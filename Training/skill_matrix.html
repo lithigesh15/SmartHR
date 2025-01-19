@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Training & Development</title>
+    <title>Skill Matrix</title>
     <link rel="icon" type="image/png" href="../Resources/logo.png">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- External CSS -->
-    <link rel="stylesheet" href="training.css">
+    <link rel="stylesheet" href="skill_matrix.css">
 </head>
 
 <body>
-    <!-- Navbar -->
+    <!-- Header -->
     <header class="py-3 border-bottom bg-light">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <!-- Logo -->
@@ -25,7 +25,7 @@
                 <span class="fs-4 text-primary">Smart HR</span>
             </a>
 
-            <!-- Right-side Profile Dropdown -->
+            <!-- Profile Dropdown -->
             <div class="dropdown">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
@@ -44,50 +44,31 @@
     <nav class="breadcrumb-container">
         <div class="container-fluid">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="../dashboard/dashboard.html">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    <span class="text-secondary">Training & Development</span>
-                </li>
+                <li class="breadcrumb-item"><a href="../dashboard/dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="training.html">Training</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Skill Matrix</li>
             </ol>
         </div>
     </nav>
-    <h1 class="mb-4 text-center">Training & Development</h1>
-    
-    <!-- Box Layout -->
-    <div class="container my-5">
-        <div class="row text-center">
-            <div class="col-md-6 mb-4">
-                <div class="box shadow p-4 rounded" id="training-programs">
-                    <h4>Training Programs</h4>
-                    <p>Access various training sessions and courses to enhance employee skills.</p>
-                    <a href="training_programs.html" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="box shadow p-4 rounded" id="skill-matrix">
-                    <h4>Skill Matrix</h4>
-                    <p>Analyze and map employees' skills to track professional development.</p>
-                    <a href="skill_matrix.html" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
 
-            <div class="col-md-6 mb-4">
-                <div class="box shadow p-4 rounded" id="progress-tracking">
-                    <h4>Progress Tracking</h4>
-                    <p>Monitor learning progress and performance improvements.</p>
-                    <a href="progress_tracking.html" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="box shadow p-4 rounded" id="feedback-collection">
-                    <h4>Feedback Collection</h4>
-                    <p>Collect and review feedback on training programs to enhance quality.</p>
-                    <a href="feedback_collection.html" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>        
+    <h1 class="text-center mb-4 text-dark">Skill Matrix</h1>
+    <div class="container my-5">
+        <div class="card p-4">
+            <table class="table table-bordered" id="skillMatrix">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Skill 1</th>
+                        <th>Skill 2</th>
+                        <th>Skill 3</th>
+                        <th>Skill 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic Data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="container">
@@ -110,6 +91,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- External JS -->
-    <script src="training.js"></script>
+    <script src="skill_matrix.js"></script>
 </body>
+
 </html>
