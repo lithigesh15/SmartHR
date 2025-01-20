@@ -30,8 +30,8 @@ function populateTable() {
             <td>${request.endDate}</td>
             <td>${request.reason}</td>
             <td>
-                <button class="approve" onclick="handleApprove('${request.employeeId}')">✔️</button>
-                <button class="reject" onclick="handleReject('${request.employeeId}')">❌</button>
+                <button class="approve" onclick="handleApprove('${request.employeeId}')">✔</button>
+                <button class="reject" onclick="handleReject('${request.employeeId}')">✕</button>
             </td>
         `;
 
