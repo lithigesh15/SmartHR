@@ -33,7 +33,7 @@ document.getElementById("schedule-form").addEventListener("submit", function (e)
 document.getElementById("manage-search-form").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const role = document.getElementById("search-role").value.trim();
+    const role = document.getElementById("search-job").value.trim();
     const date = document.getElementById("search-date").value.trim();
 
     if (!role && !date) {
@@ -45,7 +45,6 @@ document.getElementById("manage-search-form").addEventListener("submit", functio
     const tbody = document.querySelector("#search-results tbody");
     tbody.innerHTML = `
         <tr>
-            <td>I1234</td>
             <td>Software Engineer</td>
             <td>2025-01-20</td>
             <td>John Smith</td>

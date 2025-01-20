@@ -22,13 +22,13 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
     const jobTitle = document.getElementById('jobTitle').value;
     const jobDescription = document.getElementById('jobDescription').value;
-    const jobLocation = document.getElementById('jobLocation').value;
+    const jobQualification = document.getElementById('jobQualification').value;
     const jobType = document.getElementById('jobType').value;
 
     fetch('/api/job-postings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ job_title: jobTitle, description: jobDescription, location: jobLocation, type: jobType }),
+        body: JSON.stringify({ job_title: jobTitle, description: jobDescription, qualification: jobQualification, type: jobType }),
     })
     .then(response => response.json())
     .then(data => {

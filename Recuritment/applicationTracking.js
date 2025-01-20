@@ -1,22 +1,24 @@
 document.getElementById("search-btn").addEventListener("click", () => {
-    const jobTitle = document.getElementById("jobTitle").value.trim().toLowerCase();
-    const location = document.getElementById("location").value.trim().toLowerCase();
-    const experience = document.getElementById("experience").value.trim().toLowerCase();
+    const searchCriteria = document.getElementById("searchCriteria").value;
+    const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
 
-    console.log("Search Inputs - Job Title:", jobTitle, "Location:", location, "Experience:", experience);
+    console.log("Search By:", searchCriteria, "Input:", searchInput);
 
     const applicants = [
-        { id: "A001", name: "Alice Smith", job: "Software Engineer", location: "New York", experience: "3 years", status: "Shortlisted" },
-        { id: "A002", name: "John Doe", job: "Backend Developer", location: "San Francisco", experience: "5 years", status: "Applied" },
-        { id: "A003", name: "Jane Doe", job: "Software Engineer", location: "New York", experience: "2 years", status: "Interview Scheduled" },
+        { id: "A001", name: "Alice Smith", job: "Software Engineer", qualification: "Under-Graduate", experience: "3 years", status: "Shortlisted" },
+        { id: "A002", name: "John Doe", job: "Backend Developer", qualification: "Post-Graduate", experience: "5 years", status: "Applied" },
+        { id: "A003", name: "Jane Doe", job: "Software Engineer", qualification: "Under-Graduate", experience: "2 years", status: "Interview Scheduled" },
     ];
 
     const filteredApplicants = applicants.filter(applicant => {
-        return (
-            (!jobTitle || applicant.job.toLowerCase().includes(jobTitle)) &&
-            (!location || applicant.location.toLowerCase().includes(location)) &&
-            (!experience || applicant.experience.toLowerCase().includes(experience))
-        );
+        if (searchCriteria === "jobTitle") {
+            return applicant.job.toLowerCase().includes(searchInput);
+        } else if (searchCriteria === "name") {
+            return applicant.name.toLowerCase().includes(searchInput);
+        } else if (searchCriteria === "experience") {
+            return applicant.experience.toLowerCase().includes(searchInput);
+        }
+        return false;
     });
 
     console.log("Filtered Results:", filteredApplicants);
@@ -31,7 +33,7 @@ document.getElementById("search-btn").addEventListener("click", () => {
                     <td>${applicant.id}</td>
                     <td>${applicant.name}</td>
                     <td>${applicant.job}</td>
-                    <td>${applicant.location}</td>
+                    <td>${applicant.qualification || "N/A"}</td>
                     <td>${applicant.experience}</td>
                     <td>${applicant.status}</td>
                 </tr>

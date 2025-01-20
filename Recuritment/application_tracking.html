@@ -10,48 +10,19 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Internal CSS -->
-    <style>
-        /* Styling for the container and search section */
-        .container {
-            margin-top: 30px;
-        }
-
-        .search-section {
-            margin-bottom: 30px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-section {
-            margin-top: 20px;
-        }
-
-        footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #dee2e6;
-            margin-top: auto;
-        }
-    </style>
+    <link href="./application.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Navbar -->
     <header class="py-3 border-bottom bg-light">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Logo -->
             <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
                 <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
                 <span class="fs-4 text-primary">Smart HR</span>
             </a>
-            <!-- Profile Dropdown -->
             <div class="dropdown">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40"
-                        class="rounded-circle">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small shadow">
                     <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
@@ -60,42 +31,33 @@
         </div>
     </header>
 
-    <!-- Breadcrumb -->
     <nav class="breadcrumb-container">
         <div class="container-fluid">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="../dashboard/dashboard.html">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="./recruitment.html">Recruitment</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    <span class="text-secondary">Application Tracking</span>
-                </li>
+                <li class="breadcrumb-item"><a href="../dashboard/dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="./recruitment.html">Recruitment</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><span class="text-secondary">Application Tracking</span></li>
             </ol>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
         <h1 class="mb-4 text-center">Application Tracking</h1>
 
-        <!-- Search Section -->
         <div class="search-section">
             <h3>Search Applicants</h3>
             <form id="search-form" class="row g-3">
                 <div class="col-md-4">
-                    <label for="jobTitle" class="form-label">Job Title</label>
-                    <input type="text" class="form-control" id="jobTitle" placeholder="e.g., Software Engineer">
+                    <label for="searchCriteria" class="form-label">Search By</label>
+                    <select class="form-select" id="searchCriteria">
+                        <option value="jobTitle" selected>Job Title</option>
+                        <option value="name">Name</option>
+                        <option value="experience">Experience Level</option>
+                    </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" placeholder="e.g., New York">
-                </div>
-                <div class="col-md-4">
-                    <label for="experience" class="form-label">Experience Level</label>
-                    <input type="text" class="form-control" id="experience" placeholder="e.g., 2-5 years">
+                    <label for="searchInput" class="form-label">Input</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Enter value">
                 </div>
                 <div class="col-12">
                     <button type="button" class="btn btn-primary" id="search-btn">Search</button>
@@ -103,7 +65,6 @@
             </form>
         </div>
 
-        <!-- Result Section (Initially Hidden) -->
         <div class="result-section" id="result-container" style="display: none;">
             <h3>Search Results</h3>
             <div id="results" class="table-responsive">
@@ -113,22 +74,21 @@
                             <th>Applicant ID</th>
                             <th>Applicant Name</th>
                             <th>Job Title</th>
-                            <th>Location</th>
+                            <th>Qualification</th>
                             <th>Experience</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="result-body">
-                    <tr>
-                        <td colspan="6" class="text-center text-muted">No results found</td>
-                    </tr>
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No results found</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="py-3 mt-auto">
         <div class="container d-flex flex-wrap justify-content-between align-items-center">
             <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
@@ -144,8 +104,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Application Tracking JS -->
-    <script src="applicationTracking.js"></script>
+    <script src="./applicationTracking.js"></script>
 </body>
 
 </html>

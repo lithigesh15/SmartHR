@@ -53,10 +53,6 @@
     <!-- Title and Toggle -->
     <div class="container my-4 text-center">
         <h1>Onboarding</h1>
-        <div class="btn-group mt-3" role="group" aria-label="Onboarding Toggle">
-            <button id="onboarding-toggle" class="btn btn-primary active" onclick="showOnboardingForm()">Perform Onboarding</button>
-            <button id="status-toggle" class="btn btn-outline-primary" onclick="showStatus()">Onboarding Status</button>
-        </div>
     </div>
 
     <!-- Onboarding Form -->
@@ -64,60 +60,20 @@
         <form id="onboarding-form" class="shadow p-4 rounded">
             <h4 class="mb-4">Onboard New Employee</h4>
             <div class="mb-3">
-                <label for="employeeName" class="form-label">Employee Name</label>
-                <input type="text" id="employeeName" class="form-control" placeholder="Enter employee name" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" placeholder="Enter employee email" required>
-            </div>
-            <div class="mb-3">
-                <label for="designation" class="form-label">Designation</label>
-                <input type="text" id="designation" class="form-control" placeholder="Enter employee designation" required>
+                <label for="applicantID" class="form-label">Applicant ID</label>
+                <input type="text" id="applicantID" class="form-control" placeholder="Enter applicant ID" required>
             </div>
             <div class="mb-3">
                 <label for="department" class="form-label">Department</label>
                 <input type="text" id="department" class="form-control" placeholder="Enter department" required>
             </div>
             <div class="mb-3">
-                <label for="documents" class="form-label">Upload Documents</label>
-                <input type="file" id="documents" class="form-control" multiple>
+                <label for="salary" class="form-label">Salary</label>
+                <input type="number" id="salary" class="form-control" placeholder="Enter Initial Salary" required>
             </div>
+
             <button type="submit" class="btn btn-primary w-100">Submit</button>
         </form>
-    </div>
-
-    <!-- Onboarding Status -->
-    <div id="status-container" class="container my-5" style="display: none;">
-        <form id="status-search-form" class="shadow p-4 rounded mb-4">
-            <h4 class="mb-3">Search Onboarding Status</h4>
-            <div class="mb-3">
-                <label for="searchName" class="form-label">Employee Name</label>
-                <input type="text" id="searchName" class="form-control" placeholder="Enter employee name">
-            </div>
-            <div class="mb-3">
-                <label for="searchDepartment" class="form-label">Department</label>
-                <input type="text" id="searchDepartment" class="form-control" placeholder="Enter department">
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Search</button>
-        </form>
-
-        <h4 class="mb-4">Search Results</h4>
-        <table id="search-results" class="table table-striped" style="display: none;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Designation</th>
-                    <th>Department</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Search results will be dynamically added here -->
-            </tbody>
-        </table>
     </div>
 
     <footer class="py-3 mt-auto">
