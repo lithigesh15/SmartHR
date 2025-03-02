@@ -6,6 +6,7 @@ const session = require('express-session');
 const cors = require('cors');
 const db = require('./config/db'); // Ensure database connection is established
 
+
 // Load environment variables
 dotenv.config();
 
@@ -21,6 +22,7 @@ const recordsRoutes = require('./routes/records');
 const complianceRoutes = require('./routes/compliance');
 const leaveRoutes = require('./routes/leave');
 const offboardingRoutes = require('./routes/offboarding');
+const aboutRoutes = require('./routes/about');
 
 // Initialize app
 const app = express();
@@ -57,6 +59,7 @@ app.use('/records', recordsRoutes);
 app.use('/compliance', complianceRoutes);
 app.use('/leave', leaveRoutes);
 app.use('/offboarding', offboardingRoutes);
+app.use('/about', aboutRoutes); 
 
 // Error handler for 404
 app.use((req, res, next) => {

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart HR - About</title>
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/about.css">
+
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-dark: #0a58ca;
+            --secondary-color: #0099ff;
+            --light-grey: #f8f9fa;
+            --dark-grey: #343a40;
+            --transition-speed: 0.3s;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Enhanced feature icons */
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            transition: transform 0.3s ease, color 0.3s ease;
+            display: inline-flex;
+            width: 80px;
+            height: 80px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) translateY(-5px);
+            color: var(--primary-dark);
+        }
+        
+        /* Enhanced tech badges */
+        .tech-badge {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            margin: 0.7rem;
+            border-radius: 20px;
+            background-color: var(--light-grey);
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .tech-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+            background-color: #e9ecef;
+        }
+        
+        /* Improved hero section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Enhanced section headings */
+        .section-heading {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+        
+        .section-heading:hover:after {
+            width: 120px;
+        }
+        
+        /* Enhanced feature cards */
+        .feature-card {
+            transition: all var(--transition-speed) ease;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to bottom, rgba(13, 110, 253, 0.03), transparent);
+            transition: height 0.5s ease;
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+        
+        .feature-card:hover::before {
+            height: 100%;
+        }
+        
+        .feature-card .card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover .card-title {
+            color: var(--primary-color);
+        }
+        
+        /* Get started section */
+        .get-started-section {
+            background-color: var(--light-grey);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .get-started-section:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .code-block {
+            background-color: var(--dark-grey);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .code-block::before {
+            content: 'Terminal';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .code-block:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Animated get started button */
+        .btn-get-started {
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-get-started::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 1s ease;
+        }
+        
+        .btn-get-started:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+        }
+        
+        .btn-get-started:hover::before {
+            left: 100%;
+        }
+        
+        /* Logo animation */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-icon {
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        /* Breadcrumb enhancements */
+        .breadcrumb-container {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 4rem 0;
+            }
+            
+            .tech-badge {
+                margin: 0.5rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Include header partial with title parameter -->
+    <%- include('./partials/header', {title: 'Smart HR - About'}) %>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container py-2">
+        <div class="container-fluid">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="/"><i class="fas fa-home"></i> dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    About
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h1 class="display-4 fw-bold">Smart HR</h1>
+            <p class="lead">Revolutionizing Workforce Management</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mb-5">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up" data-aos-duration="800">
+                <p class="lead">
+                    Smart HR is an innovative solution designed to streamline and enhance human resource management processes. 
+                    With features tailored for modern organizations, it simplifies hiring, employee management, payroll, offboarding, and more.
+                </p>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <h2 class="section-heading text-center mb-5" data-aos="fade-up">Key Features</h2>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h5 class="card-title">Employee Management</h5>
+                        <p class="card-text">Centralized employee records with easy access and updates.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h5 class="card-title">Onboarding & Offboarding</h5>
+                        <p class="card-text">Smooth employee transitions with automated workflows.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h5 class="card-title">Payroll and Compensation</h5>
+                        <p class="card-text">Simplified salary processing and tax calculations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title">Performance Management</h5>
+                        <p class="card-text">Monitor and evaluate employee performance seamlessly.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5 class="card-title">Training and Development</h5>
+                        <p class="card-text">Track employee training and skill development programs.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h5 class="card-title">Leave Management</h5>
+                        <p class="card-text">Effortless leave application, approval, and tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h5 class="card-title">Notifications</h5>
+                        <p class="card-text">Alerts for important tasks, deadlines, and updates.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h5 class="card-title">Compliance and Policies</h5>
+                        <p class="card-text">Ensure the organization adheres to legal and internal policies.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-medkit"></i>
+                        </div>
+                        <h5 class="card-title">Benefits and Welfare</h5>
+                        <p class="card-text">Manage employee benefits like insurance and health plans.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technologies Section -->
+        <h2 class="section-heading text-center mb-5" data-aos="fade-up">Technologies Used</h2>
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="text-center mb-4" data-aos="fade-up">
+                    <div class="tech-badge">
+                        <i class="fas fa-code"></i> <strong>Frontend:</strong> HTML, CSS, JavaScript, EJS
+                    </div>
+                    <div class="tech-badge">
+                        <i class="fas fa-server"></i> <strong>Backend:</strong> Node.js, Express
+                    </div>
+                    <div class="tech-badge">
+                        <i class="fas fa-database"></i> <strong>Database:</strong> MySQL
+                    </div>
+                    <div class="tech-badge">
+                        <i class="fas fa-lock"></i> <strong>Authentication:</strong> Employee ID and password-based login
+                    </div>
+                    <div class="tech-badge">
+                        <i class="fas fa-cloud"></i> <strong>Hosting:</strong> Cloud server
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Get Started Section -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h3 class="mb-4">Getting Started</h3>
+                <div class="get-started-section mb-4">
+                    <p class="mb-0">Clone this repository to your local machine:</p>
+                    <div class="code-block mt-2">
+                        <code>git clone https://github.com/yourusername/SmartHR.git</code>
+                    </div>
+                </div>
+                <a href="/dashboard" class="btn btn-primary btn-lg btn-get-started">
+                    <i class="fas fa-rocket me-2"></i> Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 25px;"></div>
+
+    <!-- Include footer partial -->
+    <%- include('./partials/footer') %>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <!-- Initialize AOS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Add hover effect to feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.querySelector('.feature-icon').classList.add('animated');
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.querySelector('.feature-icon').classList.remove('animated');
+                });
+            });
+        });
+    </script>
+
+    <!-- External JS -->
+    <script src="/js/about.js"></script>
+</body>
+</html>
