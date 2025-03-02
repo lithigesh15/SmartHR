@@ -1,0 +1,48 @@
+<!-- views/modules/recruitment/recruitment.ejs -->
+<%- include('../../partials/header') %>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Recruitment</li>
+    </ol>
+  </nav>
+
+<h1 class="mb-4 text-center">Recruitment</h1>
+
+<!-- Recruitment Layout -->
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="job-postings">
+                <h4>Job Postings</h4>
+                <p>Create, manage, and share job postings seamlessly.</p>
+                <a href="/recruitment/job-postings" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="application-tracking">
+                <h4>Application Tracking</h4>
+                <p>Track and review applications effectively in one place.</p>
+                <a href="/recruitment/application-tracking" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="onboarding">
+                <h4>Onboarding</h4>
+                <p>Streamline the onboarding process for new hires.</p>
+                <a href="/recruitment/onboarding" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="interview-scheduling">
+                <h4>Interview Scheduling</h4>
+                <p>Schedule and manage interviews with ease.</p>
+                <a href="/recruitment/interview-scheduling" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

@@ -1,0 +1,57 @@
+/* public/css/recruitment.css */
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.content-section {
+    display: none;
+    margin-top: 20px;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.box {
+    transition: transform 0.3s;
+    height: 100%;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+}
+
+#manage-section table {
+    margin-top: 20px;
+}
+
+#create-section form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.result-section {
+    margin-top: 30px;
+}
+
+#schedule-form-container form, #manage-container form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+#onboarding-form-container form {
+    max-width: 500px;
+    margin: 0 auto;
+}

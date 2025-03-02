@@ -1,0 +1,161 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Light background for overall page */
+    color: #333; /* Standard text color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Styles */
+header {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .text-primary {
+    font-weight: bold;
+}
+
+/* Breadcrumb Styles */
+.breadcrumb-container {
+    background-color: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* Box Section Styles */
+.box-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 0 15px;
+}
+
+.box {
+    flex: 1; /* Ensures all boxes are of equal width */
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.box-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.box-value {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.box-change {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.box-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.box-link:hover {
+    text-decoration: underline;
+}
+
+/* Button Section Styles */
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 15px;
+}
+
+/* Button Section Styles */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px; /* Increased the height of the button (double the current size) */
+    padding: 0 40px; /* Adjusted padding to reduce width */
+    font-size: 1rem;
+    border-radius: 8px; /* Rounded corners */
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Initial shadow */
+}
+
+/* Hover effect - elevation when hovering */
+.btn:hover {
+    transform: translateY(-3px); /* Elevated effect on hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+}
+
+/* Active effect - button pressed */
+.btn:active {
+    transform: translateY(4px); /* Button appears pressed */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Reduced shadow when pressed */
+}
+
+/* Icon styling */
+.btn svg {
+    margin-right: 12px; /* Increase gap between icon and text */
+    width: 20px; /* Slightly larger icon */
+    height: 20px; /* Slightly larger icon */
+}
+
+/* btn-outline-primary specific styles */
+.btn-outline-primary {
+    border: 2px solid #007bff; /* Blue border for outline button */
+    color: #007bff; /* Blue text color */
+    background-color: transparent; /* Transparent background */
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Blue background when hovered */
+    color: white; /* White text on hover */
+}
+
+.btn-outline-primary:active {
+    background-color: #0056b3; /* Darker blue when button is clicked */
+    color: white; /* Keep white text on active */
+}
+
+/* Animation for menu buttons */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
+}

@@ -1,0 +1,292 @@
+<%- include('../../partials/header') %>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .tab-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .schedule-section, .manage-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .result-section {
+    margin-top: 20px;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .status-scheduled {
+    background-color: #d1e7dd;
+    color: #0f5132;
+  }
+  
+  .status-not-scheduled {
+    background-color: #f8d7da;
+    color: #842029;
+  }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/recruitment">Recruitment</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Interview Scheduling</li>
+  </ol>
+</nav>
+
+<h1 class="mb-4 text-center">Interview Scheduling</h1>
+
+<div class="container">
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs mb-4" id="interviewTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button" role="tab" aria-controls="schedule" aria-selected="true">Schedule Interview</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manage" type="button" role="tab" aria-controls="manage" aria-selected="false">Manage Interviews</button>
+        </li>
+    </ul>
+    
+    <!-- Tab Content -->
+    <div class="tab-content" id="interviewTabsContent">
+        <!-- Schedule Interview Tab -->
+        <div class="tab-pane fade show active" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+            <div class="schedule-section shadow-sm">
+                <h3 class="mb-3">Schedule an Interview</h3>
+                <form id="schedule-form" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="applicantId" class="form-label">Applicant ID</label>
+                        <input type="text" class="form-control" id="applicantId" name="applicantId" <% if(typeof applicantId !== 'undefined') { %>value="<%= applicantId %>"<% } %>>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="interviewDate" class="form-label">Interview Date</label>
+                        <input type="datetime-local" class="form-control" id="interviewDate" name="interviewDate">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="interviewer" class="form-label">Interviewer</label>
+                        <input type="text" class="form-control" id="interviewer" name="interviewer">
+                    </div>
+                    <div class="col-12 mt-4 text-center">
+                        <button type="button" class="btn btn-primary" id="schedule-btn">
+                            <i class="bi bi-calendar-check me-1"></i> Schedule
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Manage Interviews Tab -->
+        <div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage-tab">
+            <div class="manage-section shadow-sm">
+                <h3 class="mb-3">Manage Scheduled Interviews</h3>
+                <form id="search-interviews-form" class="row g-3">
+                    <div class="col-md-5">
+                        <label for="jobTitle" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="searchInterviewDate" class="form-label">Interview Date</label>
+                        <input type="date" class="form-control" id="searchInterviewDate">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" id="search-interviews-btn">
+                            <i class="bi bi-search me-1"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="result-section card shadow-sm" id="interviews-result-container">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Scheduled Interviews</h3>
+                </div>
+                <div class="card-body">
+                    <div id="interviews-results" class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Applicant ID</th>
+                                    <th>Name</th>
+                                    <th>Job Title</th>
+                                    <th>Date</th>
+                                    <th>Interviewer</th>
+                                    <th>Department</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="interviews-result-body">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">Search to view scheduled interviews</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const scheduleBtn = document.getElementById('schedule-btn');
+    const searchInterviewsBtn = document.getElementById('search-interviews-btn');
+    const interviewsResultContainer = document.getElementById('interviews-result-container');
+    const interviewsResultBody = document.getElementById('interviews-result-body');
+    
+    // Schedule Interview button click handler
+    scheduleBtn.addEventListener('click', async function() {
+        const applicantId = document.getElementById('applicantId').value;
+        const interviewDate = document.getElementById('interviewDate').value;
+        const interviewer = document.getElementById('interviewer').value;
+        
+        // Validate form inputs
+        if (!applicantId || !interviewDate || !interviewer) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        try {
+            // Debug - show what we're sending
+            console.log('Scheduling interview with:', { applicantId, interviewDate, interviewer });
+            
+            const response = await fetch('/recruitment/schedule-interview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ applicantId, interviewDate, interviewer })
+            });
+            
+            // Debug - log response status
+            console.log('Response status:', response.status);
+            
+            const responseData = await response.json();
+            
+            if (response.ok) {
+                alert('Interview scheduled successfully!');
+                // Clear the form
+                document.getElementById('schedule-form').reset();
+            } else {
+                console.error('Error scheduling interview:', responseData.message);
+                alert(`Failed to schedule interview: ${responseData.message}`);
+            }
+        } catch (error) {
+            console.error('Error scheduling interview:', error);
+            alert('An error occurred while scheduling the interview. Please try again.');
+        }
+    });
+    
+    // Search Interviews button click handler
+    searchInterviewsBtn.addEventListener('click', async function() {
+        const jobTitle = document.getElementById('jobTitle').value.trim();
+        const interviewDate = document.getElementById('searchInterviewDate').value.trim();
+        
+        // At least one search parameter should be provided
+        if (!jobTitle && !interviewDate) {
+            alert('Please provide at least one search criteria (Job Title or Interview Date)');
+            return;
+        }
+        
+        try {
+            // Build query string
+            const queryParams = new URLSearchParams();
+            if (jobTitle) queryParams.append('job_title', jobTitle);
+            if (interviewDate) queryParams.append('interview_date', interviewDate);
+            
+            const queryString = queryParams.toString();
+            
+            // Debug - show the URL we're trying to fetch
+            console.log(`Fetching: /recruitment/interviews/search?${queryString}`);
+            
+            const response = await fetch(`/recruitment/interviews/search?${queryString}`);
+            
+            // Debug - log response status
+            console.log('Response status:', response.status);
+            
+            if (response.ok) {
+                const interviews = await response.json();
+                
+                // Debug - log what we received
+                console.log('Received interviews:', interviews);
+                
+                // Clear previous results
+                interviewsResultBody.innerHTML = '';
+                
+                if (interviews && interviews.length > 0) {
+                    interviews.forEach(interview => {
+                        const row = document.createElement('tr');
+                        
+                        // Format date to a readable string
+                        const interviewDate = interview.Interview_Date ? 
+                            new Date(interview.Interview_Date).toLocaleString() : 'N/A';
+                        
+                        // Format interview data in the row
+                        row.innerHTML = `
+                            <td>${interview.Applicant_ID || ''}</td>
+                            <td>${interview.Name || ''}</td>
+                            <td>${interview.Job_Title || ''}</td>
+                            <td>${interviewDate}</td>
+                            <td>${interview.Interviewer || 'N/A'}</td>
+                            <td>${interview.Department_Name || 'Based on job title'}</td>
+                            <td>
+                                <a href="/recruitment/applicants/${interview.Applicant_ID}" class="btn btn-sm btn-info">View Applicant</a>
+                                <button class="btn btn-sm btn-warning reschedule-btn" data-id="${interview.Applicant_ID}">Reschedule</button>
+                            </td>
+                        `;
+                        
+                        interviewsResultBody.appendChild(row);
+                    });
+                    
+                    // Add event listeners to reschedule buttons
+                    document.querySelectorAll('.reschedule-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const applicantId = this.getAttribute('data-id');
+                            // Switch to schedule tab and fill in the applicant ID
+                            document.getElementById('schedule-tab').click();
+                            document.getElementById('applicantId').value = applicantId;
+                        });
+                    });
+                } else {
+                    interviewsResultBody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No interviews found</td></tr>';
+                }
+            } else {
+                console.error('Error searching interviews:', response.statusText);
+                const errorText = await response.text();
+                console.error('Error details:', errorText);
+                interviewsResultBody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error searching interviews. Please try again.</td></tr>';
+            }
+        } catch (error) {
+            console.error('Error searching interviews:', error);
+            interviewsResultBody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">An error occurred while searching. Please try again.</td></tr>';
+        }
+    });
+    
+    // If applicantId is present in URL params, switch to schedule tab
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('applicantId')) {
+        document.getElementById('schedule-tab').click();
+    }
+});
+</script>
+
+<%- include('../../partials/footer') %>

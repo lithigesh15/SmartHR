@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart HR</title>
+    <link rel="icon" href="/images/logo.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+    <!-- Include header partial -->
+    <%- include('./partials/header') %>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container bg-light py-2">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+      <!-- Box Section -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-3">
+        <div class="col">
+          <div class="box p-3 border rounded h-100 d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="box-title">Attendance</h5>
+              <p class="box-value">92/99</p>
+              <p class="box-change text-success">+2.1%</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="box p-3 border rounded h-100 d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="box-title">Total Projects</h5>
+              <p class="box-value">90/94</p>
+              <p class="box-change text-danger">-2.1%</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="box p-3 border rounded h-100 d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="box-title">Total Clients</h5>
+              <p class="box-value">69/86</p>
+              <p class="box-change text-danger">-11.2%</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="box p-3 border rounded h-100 d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="box-title">Total Tasks</h5>
+              <p class="box-value">25/28</p>
+              <p class="box-change text-success">+11.2%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 50px;"></div>
+
+    <!-- Bootstrap Buttons Section -->
+    <div class="container">
+      <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+        
+        <!-- Recruitment -->
+        <div class="col">
+          <a href="/recruitment" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill me-2" viewBox="0 0 16 16">
+              <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+            </svg>
+            Recruitment
+          </a>
+        </div>
+
+        <!-- Employee Relations -->
+        <div class="col">
+          <a href="/relations" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill me-2" viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+            </svg>
+            Relations
+          </a>
+        </div>
+
+        <!-- Payroll -->
+        <div class="col">
+          <a href="/payroll" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+              <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+              <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+              <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+            </svg>
+            Payroll
+          </a>
+        </div>
+
+        <!-- Training -->
+        <div class="col">
+          <a href="/training" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-easel2-fill me-2" viewBox="0 0 16 16">
+              <path d="M8.447.276a.5.5 0 0 0-.894 0L7.19 1H2.5A1.5 1.5 0 0 0 1 2.5V10h14V2.5A1.5 1.5 0 0 0 13.5 1H8.809z"/>
+              <path fill-rule="evenodd" d="M.5 11a.5.5 0 0 0 0 1h2.86l-.845 3.379a.5.5 0 0 0 .97.242L3.89 14h8.22l.405 1.621a.5.5 0 0 0 .97-.242L12.64 12h2.86a.5.5 0 0 0 0-1z"/>
+            </svg>
+            Training
+          </a>
+        </div>
+
+        <!-- Performance -->
+        <div class="col">
+          <a href="/performance" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line-fill" viewBox="0 0 16 16">
+              <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1z"/>
+            </svg>
+            Performance
+          </a>
+        </div>
+
+        <!-- Employee Records -->
+        <div class="col">
+          <a href="/records" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-bookmark-fill me-2" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"/>
+              <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+              <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+            </svg>
+            Records
+          </a>
+        </div>
+
+        <!-- Complaints -->
+        <div class="col">
+          <a href="/compliance" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
+              <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+              <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+            </svg>
+            Compliance
+          </a>
+        </div>
+
+        <!-- Benefits -->
+        <div class="col">
+          <a href="/leave" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
+              <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+            </svg>
+            Leave Request's
+          </a>
+        </div>
+
+        <!-- Exit Management -->
+        <div class="col">
+          <a href="/offboarding" class="btn btn-outline-primary d-flex align-items-center w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill me-2" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+            </svg>
+            Offboarding
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 25px;"></div>
+
+    <!-- Include footer partial -->
+    <%- include('./partials/footer') %>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- External JS -->
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!-- views/modules/recruitment/application_tracking.ejs -->
+<%- include('../../partials/header') %>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .search-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .result-section {
+    margin-top: 20px;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .status-scheduled {
+    background-color: #d1e7dd;
+    color: #0f5132;
+  }
+  
+  .status-not-scheduled {
+    background-color: #f8d7da;
+    color: #842029;
+  }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/recruitment">Recruitment</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Application Tracking</li>
+  </ol>
+</nav>
+
+<h1 class="mb-4 text-center">Application Tracking</h1>
+
+<div class="container">
+    <div class="search-section shadow-sm">
+        <h3 class="mb-3">Search Applicants</h3>
+        <form id="search-form" class="row g-3">
+            <div class="col-md-4">
+                <label for="searchCriteria" class="form-label">Search By</label>
+                <select class="form-select" id="searchCriteria">
+                    <option value="name" selected>Name</option>
+                    <option value="email">Email</option>
+                    <option value="experience">Experience</option>
+                    <option value="interviewStatus">Interview Status</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="searchInput" class="form-label">Input</label>
+                <input type="text" class="form-control" id="searchInput" placeholder="Enter search term">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="button" class="btn btn-primary w-100" id="search-btn">
+                    <i class="bi bi-search me-1"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="result-section card shadow-sm" id="result-container">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Search Results</h3>
+        </div>
+        <div class="card-body">
+            <div id="results" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Applicant ID</th>
+                            <th>Applied Job ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Experience</th>
+                            <th>Interview Status</th>
+                            <th>Interview Date</th>
+                            <th>Interviewer</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result-body">
+                        <% if(applicants && applicants.length > 0) { %>
+                            <% applicants.forEach(applicant => { %>
+                                <tr>
+                                    <td><%= applicant.Applicant_ID %></td>
+                                    <td><%= applicant.Applied_Job_ID %></td>
+                                    <td><%= applicant.Name %></td>
+                                    <td><%= applicant.Email %></td>
+                                    <td><%= applicant.Experience %></td>
+                                    <td>
+                                        <span class="status-badge <%= applicant.Interview_Scheduled_Status == 1 ? 'status-scheduled' : 'status-not-scheduled' %>">
+                                            <%= applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Not Scheduled' %>
+                                        </span>
+                                    </td>
+                                    <td><%= applicant.Interview_Date || 'N/A' %></td>
+                                    <td><%= applicant.Interviewer || 'N/A' %></td>
+                                    <td>
+                                        <a href="/recruitment/applicants/<%= applicant.Applicant_ID %>" class="btn btn-sm btn-info">View</a>
+                                        <a href="/recruitment/interview-scheduling?applicantId=<%= applicant.Applicant_ID %>" class="btn btn-sm btn-primary" <%= applicant.Interview_Scheduled_Status == 1 ? 'disabled' : '' %>>
+                                            <%= applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Schedule Interview' %>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center text-muted">No results found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('search-btn');
+    const resultContainer = document.getElementById('result-container');
+    const resultBody = document.getElementById('result-body');
+    
+    // Function to get status badge class
+    function getStatusBadgeClass(status) {
+        return status == 1 ? 'status-badge status-scheduled' : 'status-badge status-not-scheduled';
+    }
+    
+    // Search button click handler
+    searchBtn.addEventListener('click', async function() {
+        const searchCriteria = document.getElementById('searchCriteria').value;
+        const searchInput = document.getElementById('searchInput').value;
+        
+        try {
+            // Debug - show the URL we're trying to fetch
+            console.log(`Fetching: /recruitment/applicants/search?searchCriteria=${searchCriteria}&searchInput=${searchInput}`);
+            
+            const response = await fetch(`/recruitment/applicants/search?searchCriteria=${searchCriteria}&searchInput=${searchInput}`);
+            
+            // Debug - log response status
+            console.log('Response status:', response.status);
+            
+            if (response.ok) {
+                const applicants = await response.json();
+                
+                // Debug - log what we received
+                console.log('Received applicants:', applicants);
+                
+                // Show the result container
+                resultContainer.style.display = 'block';
+                
+                // Clear previous results
+                resultBody.innerHTML = '';
+                
+                if (applicants && applicants.length > 0) {
+                    applicants.forEach(applicant => {
+                        const row = document.createElement('tr');
+                        
+                        // Format applicant data in the row
+                        row.innerHTML = `
+                            <td>${applicant.Applicant_ID || ''}</td>
+                            <td>${applicant.Applied_Job_ID || ''}</td>
+                            <td>${applicant.Name || ''}</td>
+                            <td>${applicant.Email || ''}</td>
+                            <td>${applicant.Experience || ''}</td>
+                            <td>
+                                <span class="${getStatusBadgeClass(applicant.Interview_Scheduled_Status)}">
+                                    ${applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Not Scheduled'}
+                                </span>
+                            </td>
+                            <td>${applicant.Interview_Date || 'N/A'}</td>
+                            <td>${applicant.Interviewer || 'N/A'}</td>
+                            <td>
+                                <a href="/recruitment/applicants/${applicant.Applicant_ID}" class="btn btn-sm btn-info">View</a>
+                                <a href="/recruitment/interview-scheduling?applicantId=${applicant.Applicant_ID}" class="btn btn-sm btn-primary" ${applicant.Interview_Scheduled_Status == 1 ? 'disabled' : ''}>
+                                    ${applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Schedule Interview'}
+                                </a>
+                            </td>
+                        `;
+                        
+                        resultBody.appendChild(row);
+                    });
+                } else {
+                    resultBody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">No results found</td></tr>';
+                }
+            } else {
+                console.error('Error searching applicants:', response.statusText);
+                const errorText = await response.text();
+                console.error('Error details:', errorText);
+                resultBody.innerHTML = '<tr><td colspan="9" class="text-center text-danger">Error searching applicants. Please try again.</td></tr>';
+            }
+        } catch (error) {
+            console.error('Error searching applicants:', error);
+            resultBody.innerHTML = '<tr><td colspan="9" class="text-center text-danger">An error occurred while searching. Please try again.</td></tr>';
+        }
+    });
+});
+</script>
+
+<%- include('../../partials/footer') %>
