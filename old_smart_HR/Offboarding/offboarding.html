@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart HR - Offboarding</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar styles */
+        header {
+            background-color: #007bff; /* Bootstrap primary blue */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header a, header a:hover, header a:focus {
+            color: white; /* Ensure text and links in the navbar are white */
+            text-decoration: none;
+        }
+
+        header img {
+            border: 2px solid white; /* Optional: Add a border to the logo for better visibility */
+        }
+
+        /* Breadcrumb container */
+        nav.breadcrumb-container {
+            margin-top: -1px; /* Remove gap between breadcrumb and header */
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        /* Breadcrumb styles */
+        .breadcrumb {
+            background-color: #f8f9fa; /* Light gray background */
+            margin: 0;
+            padding: 0.75rem 1rem;
+            border-radius: 0;
+            border-top: 1px solid #e9ecef; /* Subtle border for separation */
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #0d6efd; /* Bootstrap's primary color */
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .text-secondary {
+            font-weight: 500;
+        }
+
+        /* Box Styling */
+        .box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .box h4 {
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .box p {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        /* Footer Styling */
+        .footer {
+            margin-top: auto;
+        }
+
+        h1 {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
+              <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+              <span class="fs-4 text-primary">Smart HR</span>
+          </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-secondary">Offboarding</span>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <h1 class="mb-4 text-center ">Offboarding</h1>
+
+    <!-- Offboarding Layout -->
+    <div class="container my-5">
+        <div class="row text-center">
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded">
+                    <h4>Exit Interviews</h4>
+                    <p>Conduct and manage employee exit interviews to gather valuable feedback.</p>
+                    <a href="./exit_interview.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded">
+                    <h4>Clearance Process</h4>
+                    <p>Manage and track all clearance requirements for departing employees.</p>
+                    <a href="clearance_process.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded">
+                    <h4>Relieving Letters</h4>
+                    <p>Generate and issue standardized relieving letters for exiting employees.</p>
+                    <a href="relieving_letters.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="box shadow p-4 rounded">
+                    <h4>Resignation Process</h4>
+                    <p>Streamline and track the complete resignation workflow efficiently.</p>
+                    <a href="resignation_process.html" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container">
+            <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
+
+            <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end text-body-dark">
+                <li class="nav-item text-body-dark"><a href="../README.md" class="nav-link px-2 text-dark">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // JavaScript for enhanced interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation class when page loads
+            const boxes = document.querySelectorAll('.box');
+            
+            // Animate boxes on page load
+            setTimeout(() => {
+                boxes.forEach((box, index) => {
+                    setTimeout(() => {
+                        box.style.opacity = '1';
+                    }, 100 * index);
+                });
+            }, 300);
+
+            // Add click event listeners for analytics tracking (placeholder functionality)
+            boxes.forEach(box => {
+                box.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('btn')) {
+                        const id = this.querySelector('h4').textContent.trim().toLowerCase().replace(/\s+/g, '-');
+                        const link = this.querySelector('a').getAttribute('href');
+                        console.log(`User clicked on ${id} section`);
+                        // You can add actual analytics tracking here
+                        
+                        // Navigate to the link if click is not on the button
+                        if (e.target.tagName !== 'A') {
+                            window.location.href = link;
+                        }
+                    }
+                });
+            });
+
+            // Make entire box clickable
+            boxes.forEach(box => {
+                box.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+
+</html>

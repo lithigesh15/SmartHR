@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Smart HR - Exit Interviews</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar styles */
+        header {
+            background-color: #007bff; /* Bootstrap primary blue */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header a, header a:hover, header a:focus {
+            color: white; /* Ensure text and links in the navbar are white */
+            text-decoration: none;
+        }
+
+        header img {
+            border: 2px solid white; /* Optional: Add a border to the logo for better visibility */
+        }
+
+        /* Breadcrumb container */
+        nav.breadcrumb-container {
+            margin-top: -1px; /* Remove gap between breadcrumb and header */
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        /* Breadcrumb styles */
+        .breadcrumb {
+            background-color: #f8f9fa; /* Light gray background */
+            margin: 0;
+            padding: 0.75rem 1rem;
+            border-radius: 0;
+            border-top: 1px solid #e9ecef; /* Subtle border for separation */
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #0d6efd; /* Bootstrap's primary color */
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .text-secondary {
+            font-weight: 500;
+        }
+
+        /* Card Styling */
+        .card {
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 20px;
+        }
+
+        /* Table Styling */
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 6px 10px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            margin-top: auto;
+        }
+
+        h1, h5 {
+            color: #007bff;
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            border-left: 4px solid;
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-card.completed {
+            border-left-color: #28a745;
+        }
+
+        .stats-card.pending {
+            border-left-color: #ffc107;
+        }
+
+        .stats-card.declined {
+            border-left-color: #dc3545;
+        }
+
+        .stats-card.total {
+            border-left-color: #0d6efd;
+        }
+
+        .stats-card h2 {
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+
+        .stats-card p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Search and Filter */
+        .search-filters {
+            margin-bottom: 20px;
+        }
+
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Responsive table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Modal Customization */
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .modal-title {
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="py-3 border-bottom">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Logo -->
+            <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4">Smart HR</span>
+            </a>
+
+            <!-- Right-side Profile Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="../offboarding/offboarding.html">Offboarding</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-secondary">Exit Interviews</span>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h1 class="mb-4">Exit Interviews</h1>
+
+        <!-- Statistics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card total">
+                    <p>Total Interviews</p>
+                    <h2>42</h2>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card completed">
+                    <p>Completed</p>
+                    <h2>28</h2>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card pending">
+                    <p>Pending</p>
+                    <h2>10</h2>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stats-card declined">
+                    <p>Declined/No-show</p>
+                    <h2>4</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="row search-filters">
+            <div class="col-md-4 mb-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name, department...">
+            </div>
+            <div class="col-md-2 mb-3">
+                <select class="form-select" id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Declined">Declined</option>
+                    <option value="No-show">No-show</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <select class="form-select" id="departmentFilter">
+                    <option value="">All Departments</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Operations">Operations</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <input type="date" class="form-control" id="dateFilter">
+            </div>
+            <div class="col-md-2 mb-3">
+                <button class="btn btn-primary w-100" id="resetFilters">Reset Filters</button>
+            </div>
+        </div>
+
+        <!-- Interview Tracking Table Card -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Exit Interview Tracking</h5>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterviewModal">
+                    <i class="bi bi-plus-lg"></i> New Interview
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="interviewTable">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>Position</th>
+                                <th>Last Working Day</th>
+                                <th>Interview Date</th>
+                                <th>Interviewer</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Smith</td>
+                                <td>IT</td>
+                                <td>Senior Developer</td>
+                                <td>15 Mar 2025</td>
+                                <td>12 Mar, 10:00 AM</td>
+                                <td>Sarah Johnson</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewInterviewModal">View</button>
+                                    <button class="btn btn-outline-primary btn-sm">Report</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Emily Davis</td>
+                                <td>Marketing</td>
+                                <td>Content Manager</td>
+                                <td>20 Mar 2025</td>
+                                <td>18 Mar, 2:00 PM</td>
+                                <td>Mark Wilson</td>
+                                <td><span class="badge bg-warning text-dark">Scheduled</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-outline-danger btn-sm">Cancel</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Robert Johnson</td>
+                                <td>Finance</td>
+                                <td>Financial Analyst</td>
+                                <td>10 Mar 2025</td>
+                                <td>08 Mar, 11:30 AM</td>
+                                <td>Lisa Brown</td>
+                                <td><span class="badge bg-danger">Declined</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#rejectionDetailModal">Reason</button>
+                                    <button class="btn btn-outline-primary btn-sm">Contact</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jennifer Miller</td>
+                                <td>HR</td>
+                                <td>Recruitment Specialist</td>
+                                <td>05 Mar 2025</td>
+                                <td>03 Mar, 9:00 AM</td>
+                                <td>David Taylor</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">View</button>
+                                    <button class="btn btn-outline-primary btn-sm">Report</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Michael Brown</td>
+                                <td>Operations</td>
+                                <td>Supply Chain Manager</td>
+                                <td>22 Mar 2025</td>
+                                <td>20 Mar, 1:00 PM</td>
+                                <td>Amanda Clark</td>
+                                <td><span class="badge bg-warning text-dark">Scheduled</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-outline-danger btn-sm">Cancel</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jessica Wilson</td>
+                                <td>IT</td>
+                                <td>UX Designer</td>
+                                <td>12 Mar 2025</td>
+                                <td>09 Mar, 3:30 PM</td>
+                                <td>Sarah Johnson</td>
+                                <td><span class="badge bg-secondary">No-show</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Reschedule</button>
+                                    <button class="btn btn-outline-primary btn-sm">Contact</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between">
+                <div>Showing 6 of 42 interviews</div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Rejection Analysis Section -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Rejection Analysis</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="rejectionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Rejection Reasons</h5>
+                        <button class="btn btn-sm btn-outline-primary">Export Data</button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Reason</th>
+                                        <th>Count</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Not comfortable sharing feedback</td>
+                                        <td>5</td>
+                                        <td>38.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Already provided feedback to manager</td>
+                                        <td>3</td>
+                                        <td>23.1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time constraints/unavailability</td>
+                                        <td>2</td>
+                                        <td>15.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Personal reasons</td>
+                                        <td>2</td>
+                                        <td>15.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No reason provided</td>
+                                        <td>1</td>
+                                        <td>7.7%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Interview Modal -->
+    <div class="modal fade" id="viewInterviewModal" tabindex="-1" aria-labelledby="viewInterviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewInterviewModalLabel">Exit Interview: John Smith</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Employee:</strong> John Smith</p>
+                            <p><strong>Department:</strong> IT</p>
+                            <p><strong>Position:</strong> Senior Developer</p>
+                            <p><strong>Join Date:</strong> 15 Mar 2020</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Last Working Day:</strong> 15 Mar 2025</p>
+                            <p><strong>Interview Date:</strong> 12 Mar 2025, 10:00 AM</p>
+                            <p><strong>Interviewer:</strong> Sarah Johnson</p>
+                            <p><strong>Status:</strong> Completed</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="text-primary">Feedback Summary</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Reason for Leaving:</strong> Better opportunity</p>
+                            <p><strong>Management Satisfaction:</strong> 4/5</p>
+                            <p><strong>Team Satisfaction:</strong> 5/5</p>
+                            <p><strong>Work-Life Balance:</strong> 3/5</p>
+                            <p><strong>Growth Opportunities:</strong> 2/5</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Compensation Satisfaction:</strong> 3/5</p>
+                            <p><strong>Company Culture:</strong> 4/5</p>
+                            <p><strong>Workload Satisfaction:</strong> 3/5</p>
+                            <p><strong>Overall Experience:</strong> 4/5</p>
+                            <p><strong>Would Recommend:</strong> Yes</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-primary">Exit Comments</h6>
+                        <p>I've had a great experience working here for the past 5 years. My decision to leave is primarily driven by a new opportunity that offers more specialized work in AI development, which aligns better with my career goals. My feedback would be to provide more technical growth paths for senior developers who want to specialize rather than move into management.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-primary">HR Notes</h6>
+                        <p>John has been a valuable team member. His feedback about technical growth paths aligns with comments from other senior technical staff. Recommend reviewing technical career pathways with the CTO. No immediate red flags or concerns.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Download Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejection Detail Modal -->
+    <div class="modal fade" id="rejectionDetailModal" tabindex="-1" aria-labelledby="rejectionDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectionDetailModalLabel">Rejection Details: Robert Johnson</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p><strong>Employee:</strong> Robert Johnson</p>
+                        <p><strong>Department:</strong> Finance</p>
+                        <p><strong>Position:</strong> Financial Analyst</p>
+                        <p><strong>Last Working Day:</strong> 10 Mar 2025</p>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <h6 class="text-primary">Rejection Reason</h6>
+                        <p>Not comfortable sharing feedback in an interview format</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-primary">Additional Comments</h6>
+                        <p>Robert indicated that he would prefer to provide feedback via a written form instead of a face-to-face interview. He mentioned feeling uncomfortable discussing certain aspects of his experience in person.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-primary">HR Follow-up Actions</h6>
+                        <p>Sent online exit survey on March 8. Awaiting response. Follow-up email scheduled for March 13 if no response received.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send Follow-up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Interview Modal -->
+    <div class="modal fade" id="addInterviewModal" tabindex="-1" aria-labelledby="addInterviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addInterviewModalLabel">Schedule New Exit Interview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="employeeSelect" class="form-label">Employee</label>
+                                <select class="form-select" id="employeeSelect" required>
+                                    <option value="">Select Employee</option>
+                                    <option value="1">Thomas Anderson - IT</option>
+                                    <option value="2">Rachel Green - Marketing</option>
+                                    <option value="3">David Williams - Finance</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="interviewerSelect" class="form-label">Interviewer</label>
+                                <select class="form-select" id="interviewerSelect" required>
+                                    <option value="">Select Interviewer</option>
+                                    <option value="1">Sarah Johnson - HR Manager</option>
+                                    <option value="2">Mark Wilson - HR Specialist</option>
+                                    <option value="3">Lisa Brown - HR Director</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="interviewDate" class="form-label">Interview Date</label>
+                                <input type="date" class="form-control" id="interviewDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="interviewTime" class="form-label">Interview Time</label>
+                                <input type="time" class="form-control" id="interviewTime" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="templateSelect" class="form-label">Interview Template</label>
+                            <select class="form-select" id="templateSelect">
+                                <option value="1">Standard Exit Interview</option>
+                                <option value="2">Technical Staff Template</option>
+                                <option value="3">Management Template</option>
+                                <option value="4">Remote Worker Template</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notesTextarea" class="form-label">Pre-interview Notes</label>
+                            <textarea class="form-control" id="notesTextarea" rows="3" placeholder="Any specific areas to focus on or background information"></textarea>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="sendNotificationCheck" checked>
+                            <label class="form-check-label" for="sendNotificationCheck">
+                                Send email notification to employee and interviewer
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Schedule Interview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container">
+            <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
+
+            <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end text-body-dark">
+                <li class="nav-item text-body-dark"><a href="../README.md" class="nav-link px-2 text-dark">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize rejection chart
+            const ctx = document.getElementById('rejectionChart').getContext('2d');
+            const rejectionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['IT', 'Finance', 'Marketing', 'HR', 'Operations'],
+                    datasets: [
+                        {
+                            label: 'Declined Interviews',
+                            data: [3, 2, 1, 0, 1],
+                            backgroundColor: '#dc3545',
+                        },
+                        {
+                            label: 'No-show',
+                            data: [2, 0, 1, 1, 0],
+                            backgroundColor: '#6c757d',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Declined/No-show Interviews by Department'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Interviews'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Department'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Search and filter functionality
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const departmentFilter = document.getElementById('departmentFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            const resetFiltersBtn = document.getElementById('reset');})
