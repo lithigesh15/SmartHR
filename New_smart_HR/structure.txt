@@ -30,16 +30,6 @@
 │
 ├── models/                     # Data models
 │   ├── User.js                 # User model
-│   ├── Employee.js             # Employee model
-│   ├── JobPosting.js           # Job posting model
-│   ├── Applicant.js            # Applicant model
-│   ├── Interview.js            # Interview model
-│   ├── Attendance.js           # Attendance model
-│   ├── Payroll.js              # Payroll model
-│   ├── Leave.js                # Leave model
-│   ├── Performance.js          # Performance model
-│   ├── Compliance.js           # Compliance model
-│   └── Offboarding.js          # Offboarding model
 │
 ├── public/                     # Static assets
 │   ├── css/                    # CSS files

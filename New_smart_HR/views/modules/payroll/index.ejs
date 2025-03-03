@@ -1,0 +1,73 @@
+<%- include('../../partials/header') %>
+
+<style>
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .breadcrumb {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Payroll</li>
+  </ol>
+</nav>
+
+<h1 class="mb-4 text-center">Payroll Management</h1>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Salary Structure</h4>
+          <p class="card-text">Define and manage employee salary components.</p>
+          <a href="/payroll/salary" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Tax Management</h4>
+          <p class="card-text">Calculate and manage tax deductions efficiently.</p>
+          <a href="/payroll/tax" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Bonuses & Incentives</h4>
+          <p class="card-text">Manage performance-based incentives for employees.</p>
+          <a href="/payroll/bonus" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Payslip Generation</h4>
+          <p class="card-text">Generate and distribute employee payslips seamlessly.</p>
+          <a href="/payroll/payslip" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>
