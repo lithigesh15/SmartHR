@@ -78,7 +78,7 @@
             </tr>
           </thead>
           <tbody id="tax-brackets">
-            <% if(taxBrackets && taxBrackets.length > 0) { %>
+            <% if(locals.taxBrackets && taxBrackets.length > 0) { %>
               <% taxBrackets.forEach((bracket, index) => { %>
                 <tr>
                   <td><%= index + 1 %></td>
@@ -248,7 +248,7 @@
             </tr>
           </thead>
           <tbody id="tax-reports">
-            <% if(taxReports && taxReports.length > 0) { %>
+            <% if(locals.taxReports && taxReports.length > 0) { %>
               <% taxReports.forEach((report, index) => { %>
                 <tr>
                   <td><%= index + 1 %></td>
