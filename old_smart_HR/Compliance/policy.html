@@ -33,6 +33,9 @@
                 <li class="breadcrumb-item">
                     <a href="../dashboard/dashboard.html">Dashboard</a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="./compliance.html">Compliance</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">Policy Repository</li>
             </ol>
         </div>
@@ -95,6 +98,37 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="policyScript.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const toggleCreate = document.getElementById("add-policy-btn");
+    const toggleManage = document.getElementById("existing-policy-btn");
+    const createSection = document.getElementById("add-policy-section");
+    const manageSection = document.getElementById("existing-policy-section");
+
+    toggleCreate.addEventListener('click', () => {
+        toggleCreate.classList.add('btn-primary');
+        toggleCreate.classList.remove('btn-outline-primary');
+        toggleManage.classList.add('btn-outline-primary');
+        toggleManage.classList.remove('btn-primary');
+
+        createSection.style.display = "block";
+        manageSection.style.display = "none";
+    });
+
+    toggleManage.addEventListener('click', () => {
+        toggleManage.classList.add('btn-primary');
+        toggleManage.classList.remove('btn-outline-primary');
+        toggleCreate.classList.add('btn-outline-primary');
+        toggleCreate.classList.remove('btn-primary');
+
+        manageSection.style.display = "block";
+        createSection.style.display = "none";
+    });
+
+    // Initialize Default Section
+    toggleManage.click();  // Ensures "Existing Policies" is active by default
+});
+
+    </script>
 </body>
 </html>

@@ -1,40 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const addPolicySection = document.getElementById("add-policy-section");
-    const existingPolicySection = document.getElementById("existing-policy-section");
 
-    const addPolicyButton = document.getElementById("add-policy-btn");
-    const existingPolicyButton = document.getElementById("existing-policy-btn");
+    const toggleCreate = document.getElementById("add-policy-btn");
+        const toggleManage = document.getElementById("existing-policy-btn");
+        const createSection = document.getElementById("add-policy-section");
+        const manageSection = document.getElementById("existing-policy-btn");
 
-    const policyTableBody = document.getElementById("policy-table-body");
-    const addPolicyForm = document.getElementById("add-policy-form");
-    const policyNameInput = document.getElementById("policy-name");
-    const policyDescriptionInput = document.getElementById("policy-description");
+        toggleCreate.addEventListener('click', () => {
+            toggleCreate.classList.add('active');
+            toggleManage.classList.remove('active');
+            createSection.classList.add('active');
+            manageSection.classList.remove('active');
+        });
 
-    // Toggle Functionality
-    function showAddPolicy() {
-        addPolicySection.style.display = "block";
-        existingPolicySection.style.display = "none";
+        toggleManage.addEventListener('click', () => {
+            toggleManage.classList.add('active');
+            toggleCreate.classList.remove('active');
+            manageSection.classList.add('active');
+            createSection.classList.remove('active');
+        });
 
-        addPolicyButton.classList.remove("btn-outline-primary");
-        addPolicyButton.classList.add("btn-primary");
 
-        existingPolicyButton.classList.remove("btn-primary");
-        existingPolicyButton.classList.add("btn-outline-primary");
-    }
-
-    function showExistingPolicy() {
-        addPolicySection.style.display = "none";
-        existingPolicySection.style.display = "block";
-
-        existingPolicyButton.classList.remove("btn-outline-primary");
-        existingPolicyButton.classList.add("btn-primary");
-
-        addPolicyButton.classList.remove("btn-primary");
-        addPolicyButton.classList.add("btn-outline-primary");
-    }
-
-    addPolicyButton.addEventListener("click", showAddPolicy);
-    existingPolicyButton.addEventListener("click", showExistingPolicy);
 
     // Form Submission for Adding Policy
     addPolicyForm.addEventListener("submit", function (e) {
