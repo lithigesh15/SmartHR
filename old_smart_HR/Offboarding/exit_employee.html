@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart HR - Interview Offboarding</title>
+    <title>Smart HR - Employee Offboarding</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html, body { height: 100%; margin: 0; display: flex; flex-direction: column; }
@@ -17,78 +17,64 @@
 </head>
 
 <body>
-        <!-- Navbar -->
-        <header class="py-3 border-bottom bg-light">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <!-- Logo -->
-                <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
-                    <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
-                    <span class="fs-4 text-primary">Smart HR</span>
+    <header class="py-3 border-bottom bg-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="../dashboard/dashboard.html" class="d-flex align-items-center text-decoration-none">
+                <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
+                <span class="fs-4 text-primary">Smart HR</span>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
                 </a>
-    
-                <!-- Right-side Profile Dropdown -->
-                <div class="dropdown">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40"
-                            class="rounded-circle">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                            <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
-                        </ul>
-                </div>
+                <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                </ul>
             </div>
-        </header>
+        </div>
+    </header>
     
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb-container">
-            <div class="container-fluid">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="../dashboard/dashboard.html">Dashboard</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="./offboarding.html">Offboarding</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <span class="text-secondary">Job Postings</span>
-                    </li>
-                </ol>
-            </div>
-        </nav>
+    <nav class="breadcrumb-container">
+        <div class="container-fluid">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../dashboard/dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="./offboarding.html">Offboarding</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Employee Offboarding</li>
+            </ol>
+        </div>
+    </nav>
 
     <div class="container">
-        <h1 class="mb-4 text-center">Interview Offboarding</h1>
+        <h1 class="mb-4 text-center">Employee Offboarding</h1>
         <div class="toggle-buttons">
             <button id="toggle-create" class="btn btn-outline-primary">Add</button>
             <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
         </div>
 
         <div id="create-section" class="content-section">
-            <h3>Offboard Candidate</h3>
+            <h3>Offboard Employee</h3>
             <form id="offboard-form" class="p-3 border rounded shadow-sm">
                 <div class="mb-3">
-                    <label for="candidateId" class="form-label">Candidate ID</label>
-                    <input type="text" id="candidateId" class="form-control" placeholder="Search Candidate ID" required>
-                    <ul id="candidate-suggestions" class="list-group position-absolute"></ul>
+                    <label for="employeeId" class="form-label">Employee ID</label>
+                    <input type="text" id="employeeId" class="form-control" placeholder="Search Employee ID" required>
+                    <ul id="employee-suggestions" class="list-group position-absolute"></ul>
                 </div>
                 <div class="mb-3">
-                    <label for="interviewDate" class="form-label">Date of Interview</label>
-                    <input type="date" id="interviewDate" class="form-control" required>
+                    <label for="exitDate" class="form-label">Exit Date</label>
+                    <input type="date" id="exitDate" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="rejectionReason" class="form-label">Rejection Reason</label>
-                    <textarea id="rejectionReason" class="form-control" rows="4" required></textarea>
+                    <label for="exitReason" class="form-label">Exit Reason</label>
+                    <textarea id="exitReason" class="form-control" rows="4" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
 
         <div id="manage-section" class="content-section active">
-            <h3>Offboarded Candidates</h3>
+            <h3>Offboarded Employees</h3>
             <div class="mb-3 d-flex">
-                <input type="text" id="searchId" class="form-control me-2" placeholder="Search by Candidate ID">
+                <input type="text" id="searchId" class="form-control me-2" placeholder="Search by Employee ID">
                 <input type="date" id="searchDate" class="form-control me-2">
                 <button id="searchBtn" class="btn btn-outline-primary">Search</button>
             </div>
@@ -96,12 +82,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Candidate ID</th>
-                        <th>Date of Interview</th>
-                        <th>Rejection Reason</th>
+                        <th>Employee ID</th>
+                        <th>Exit Date</th>
+                        <th>Exit Reason</th>
                     </tr>
                 </thead>
-                <tbody id="rejected-list"></tbody>
+                <tbody id="offboarded-list"></tbody>
             </table>
         </div>
     </div>
@@ -126,19 +112,19 @@
             manageSection.classList.add('active');
             createSection.classList.remove('active');
         });
-
-        document.getElementById('candidateId').addEventListener('input', (e) => {
-            fetch(`/api/candidates?query=${e.target.value}`)
+        
+        document.getElementById('employeeId').addEventListener('input', (e) => {
+            fetch(`/api/employees?query=${e.target.value}`)
                 .then(response => response.json())
                 .then(data => {
-                    let suggestions = document.getElementById('candidate-suggestions');
+                    let suggestions = document.getElementById('employee-suggestions');
                     suggestions.innerHTML = '';
-                    data.forEach(candidate => {
+                    data.forEach(employee => {
                         let item = document.createElement('li');
-                        item.textContent = candidate.id;
+                        item.textContent = employee.id;
                         item.classList.add('list-group-item');
                         item.addEventListener('click', () => {
-                            document.getElementById('candidateId').value = candidate.id;
+                            document.getElementById('employeeId').value = employee.id;
                             suggestions.innerHTML = '';
                         });
                         suggestions.appendChild(item);
@@ -149,11 +135,11 @@
         document.getElementById('offboard-form').addEventListener('submit', (e) => {
             e.preventDefault();
             let data = {
-                candidate_id: document.getElementById('candidateId').value,
-                interview_date: document.getElementById('interviewDate').value,
-                rejection_reason: document.getElementById('rejectionReason').value
+                employee_id: document.getElementById('employeeId').value,
+                exit_date: document.getElementById('exitDate').value,
+                exit_reason: document.getElementById('exitReason').value
             };
-            fetch('/api/interview-offboarding', {
+            fetch('/api/employee-offboarding', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -162,18 +148,18 @@
             .catch(error => console.error('Error:', error));
         });
 
-        function loadRejectedCandidates(query = '') {
-            fetch(`/api/interview-offboarding${query}`)
+        function loadOffboardedEmployees(query = '') {
+            fetch(`/api/employee-offboarding${query}`)
                 .then(response => response.json())
                 .then(data => {
-                    let tableBody = document.getElementById('rejected-list');
+                    let tableBody = document.getElementById('offboarded-list');
                     tableBody.innerHTML = '';
-                    data.forEach((candidate, index) => {
+                    data.forEach((employee, index) => {
                         tableBody.innerHTML += `<tr>
                             <td>${index + 1}</td>
-                            <td>${candidate.candidate_id}</td>
-                            <td>${candidate.interview_date}</td>
-                            <td>${candidate.rejection_reason}</td>
+                            <td>${employee.employee_id}</td>
+                            <td>${employee.exit_date}</td>
+                            <td>${employee.exit_reason}</td>
                         </tr>`;
                     });
                 });
@@ -183,12 +169,12 @@
             let id = document.getElementById('searchId').value;
             let date = document.getElementById('searchDate').value;
             let query = '?';
-            if (id) query += `candidate_id=${id}&`;
+            if (id) query += `employee_id=${id}&`;
             if (date) query += `date=${date}`;
-            loadRejectedCandidates(query);
+            loadOffboardedEmployees(query);
         });
 
-        loadRejectedCandidates();
+        loadOffboardedEmployees();
     </script>
 </body>
 </html>
