@@ -7,7 +7,7 @@
 ├── .gitignore                  # Git ignore file
 │
 ├── config/                     # Configuration files
-│   ├── database.js (db.js)     # Database connection configuration
+│   ├── database.js             # Database connection configuration
 │   └── passport.js             # Authentication configuration
 │
 ├── controllers/                # Route controllers
@@ -24,12 +24,10 @@
 │   └── userController.js       # User management controller
 │
 ├── middleware/                 # Custom middleware
-│   ├── auth.js                 # Authentication middleware
-│   ├── error.js                # Error handling middleware
-│   └── validation.js           # Input validation middleware
+│   └── auth.js                 # Authentication middleware
 │
 ├── models/                     # Data models
-│   ├── User.js                 # User model
+│   └── User.js                 # User model
 │
 ├── public/                     # Static assets
 │   ├── css/                    # CSS files
@@ -39,16 +37,22 @@
 │   ├── js/                     # JavaScript files
 │   │   ├── dashboard.js        # Dashboard functionality
 │   │   ├── login.js            # Login functionality
-│   │   ├── theme-switcher.js   # Theme switching functionality
-│   │   └── recruitment/        # Recruitment module scripts
-│   │       ├── job_postings.js           # Job postings scripts
-│   │       ├── application_tracking.js   # Application tracking scripts
-│   │       ├── interview_scheduling.js   # Interview scheduling scripts
-│   │       └── onboarding.js             # Onboarding scripts
+│   │   ├── recruitment/        # Recruitment module scripts
+│   │   │   ├── job_postings.js           # Job postings scripts
+│   │   │   ├── application_tracking.js   # Application tracking scripts
+│   │   │   ├── interview_scheduling.js   # Interview scheduling scripts
+│   │   │   └── onboarding.js             # Onboarding scripts
+│   │   │
+│   │   └── employee/           # Employee module scripts
+│   │       ├── bonus.js
+│   │       ├── payslip.js
+│   │       ├── salary.js
+│   │       └── tax.js
 │   │
 │   └── images/                 # Image assets
 │       ├── logo.png            # Site logo
-│       └── avatars/            # User avatars
+│       ├── profile_icon.jpeg
+│       └── rb_21207.png
 │
 ├── routes/                     # Route definitions
 │   ├── index.js                # Main routes
@@ -64,117 +68,39 @@
 │   ├── offboarding.js          # Offboarding routes
 │   └── records.js              # Records routes
 │
-├── utils/                      # Utility functions
-│   ├── helpers.js              # General helper functions
-│   ├── validators.js           # Validation functions
-│   └── mailer.js               # Email sending functionality
-│
-└── views/                      # EJS view templates
-    ├── partials/               # Partial templates
-    │   ├── header.ejs          # Header partial
-    │   ├── footer.ejs          # Footer partial
-    │   ├── sidebar.ejs         # Sidebar navigation
-    │   └── notifications.ejs   # Notifications partial
-    │
-    ├── auth/                   # Authentication views
-    │   ├── login.ejs           # Login page
-    │   ├── register.ejs        # Registration page
-    │   └── forgot-password.ejs # Password recovery
-    │
-    ├── dashboard/              # Dashboard views
-    │   └── index.ejs           # Main dashboard
-    │
-    ├── employees/              # Employee management views
-    │   ├── list.ejs            # Employee list
-    │   ├── view.ejs            # Employee details
-    │   ├── create.ejs          # Add employee
-    │   └── edit.ejs            # Edit employee
-    │
-    ├── modules/                # Module-specific views
-    │   ├── recruitment/        # Recruitment module views
-    │   │   ├── index.ejs                 # Main recruitment page
-    │   │   ├── job_postings.ejs          # Job postings page
-    │   │   ├── application_tracking.ejs  # Application tracking page
-    │   │   ├── interview_scheduling.ejs  # Interview scheduling page
-    │   │   └── onboarding.ejs            # Onboarding page
-    │   │
-    │   ├── attendance/         # Attendance module views
-    │   │   ├── index.ejs                 # Main attendance page
-    │   │   └── reports.ejs               # Attendance reports
-    │   │
-    │   ├── payroll/            # Payroll module views
-    │   │   ├── index.ejs                 # Main payroll page
-    │   │   └── reports.ejs               # Payroll reports
-    │   │
-    │   ├── leave/              # Leave management views
-    │   │   ├── index.ejs                 # Main leave page
-    │   │   └── requests.ejs              # Leave requests
-    │   │
-    │   ├── performance/        # Performance management views
-    │   │   ├── index.ejs                 # Main performance page
-    │   │   └── reviews.ejs               # Performance reviews
-    │   │
-    │   ├── compliance/         # Compliance views
-    │   │   ├── index.ejs                 # Main compliance page
-    │   │   └── reports.ejs               # Compliance reports
-    │   │
-    │   └── offboarding/        # Offboarding views
-    │       ├── index.ejs                 # Main offboarding page
-    │       └── checklist.ejs             # Offboarding checklist
-    │
-    ├── error.ejs               # Error page
-    ├── 404.ejs                 # 404 Not Found page
-    └── profile.ejs             # User profile page
-
-
-
-
-
-
-
-
-
-
-
-
-smart-hr/
-├── config/
-│   └── db.js
-├── controllers/
-│   ├── authController.js
-│   └── dashboardController.js
-├── middleware/
-│   └── auth.js
-├── models/
-│   └── User.js
-├── public/
-│   ├── css/
-│   │   ├── style.css
-│   │   └── dashboard.css
-│   ├── js/
-│   │   ├── dashboard.js
-│   │   └── login.js
-│   └── images/
-│       ├── logo.png
-│       ├── profile_icon.jpeg
-│       └── rb_21207.png
-├── routes/
-│   ├── auth.js
-│   ├── dashboard.js
-│   └── [all module routes]
-├── views/
-│   ├── layouts/
+├── views/                      # View templates
+│   ├── layout/
 │   │   └── main.ejs
+│   │
+│   ├── modules/
+│   │   ├── compliance.ejs
+│   │   ├── leave.ejs
+│   │   ├── offboarding.ejs
+│   │   ├── performance.ejs
+│   │   ├── recruitment/
+│   │   │   ├── index.ejs
+│   │   │   ├── job_postings.ejs
+│   │   │   ├── application_tracking.ejs
+│   │   │   ├── interview_scheduling.ejs
+│   │   │   └── onboarding.ejs
+│   │   ├── payroll/
+│   │   │   ├── index.ejs
+│   │   │   ├── bonus.ejs
+│   │   │   ├── salary.ejs
+│   │   │   ├── tax.ejs
+│   │   │   └── payslip.ejs
+│   │   ├── relations.ejs
+│   │   ├── records.ejs
+│   │   └── training.ejs
+│   │
 │   ├── partials/
 │   │   ├── header.ejs
 │   │   └── footer.ejs
-│   ├── modules/
-│   │   ├── recruitment.ejs
-│   │   └── [other module templates]
+│   │
+│   ├── about.ejs
 │   ├── dashboard.ejs
-│   ├── login.ejs
-│   └── error.ejs
-├── app.js
-├── package.json
-├── .env
+│   ├── error.ejs
+│   └── login.ejs
+│
 └── README.md
+└── app.js
