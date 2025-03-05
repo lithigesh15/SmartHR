@@ -1,41 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surveys & Polls - Smart HR</title>
-
-    <!-- Bootstrap CSS -->
+    <title>Smart HR - Surveys</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="surveys_polls.css">
-
     <style>
-        .breadcrumb a {
-            text-decoration: none;
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
+        .toggle-buttons button {
+            margin: 0 10px;
         }
-
-        .card-body {
-            text-align: center;
+        .content-section {
+            display: none;
         }
-
-        .breadcrumb-container {
-            text-align: left;
-        }
-
-        .breadcrumb {
-            justify-content: left;
+        .content-section.active {
+            display: block;
         }
     </style>
 </head>
-
 <body>
     <!-- Navbar -->
     <header class="py-3 border-bottom bg-light">
@@ -48,12 +34,15 @@
 
             <!-- Right-side Profile Dropdown -->
             <div class="dropdown">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40"
+                        class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
-                </ul>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                        <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                    </ul>
             </div>
         </div>
     </header>
@@ -63,89 +52,165 @@
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="../dashboard.html">Dashboard</a>
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="./relation.html">Relations</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Surveys & Polls</li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-secondary">Surveys</span>
+                </li>
             </ol>
         </div>
     </nav>
 
-    <main class="container my-5">
-        <h1 class="text-center mb-4">Surveys & Polls</h1>
-
-        <!-- Content Section -->
-        <section class="content mb-5">
-            <p class="lead text-center">Facilitate employee engagement and gather valuable insights through structured surveys and quick polls.</p>
-
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Create Surveys</h5>
-                            <p class="card-text">Design comprehensive surveys to gather detailed employee feedback.</p>
-                            <a href="create_surveys.html" class="btn btn-primary">Create Surveys</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Conduct Polls</h5>
-                            <p class="card-text">Set up quick polls for real-time feedback and decision-making.</p>
-                            <a href="conduct_polls.html" class="btn btn-primary">Conduct Polls</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Monitor Responses</h5>
-                            <p class="card-text">Track participation and analyze survey and poll responses efficiently.</p>
-                            <a href="monitor_responses.html" class="btn btn-primary">Monitor Responses</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Generate Insights</h5>
-                            <p class="card-text">Analyze data to identify trends and make informed HR decisions.</p>
-                            <a href="generate_insights.html" class="btn btn-primary">Generate Insights</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
     <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
-      
-          <a  class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
-            <span class="fs-4 text-primary">Smart HR</span>
-          </a>
-      
-          <ul class="nav col-md-4 justify-content-end text-body-dark">
-              <li class="nav-item text-body-dark"><a href="../README.md" class="nav-link px-2 text-dark">About</a></li>
-          </ul>
-        </footer>
-      </div>
+        <h1 class="mb-4 text-center">Surveys</h1>
+        <div class="toggle-buttons">
+            <button id="toggle-create" class="btn btn-outline-primary">Create</button>
+            <button id="toggle-manage" class="btn btn-primary active">Manage</button>
+        </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Create Survey Section -->
+        <div id="create-section" class="content-section">
+            <h3>Create a New Survey</h3>
+            <form id="create-survey-form" class="p-3 border rounded shadow-sm">
+                <div class="mb-3">
+                    <label class="form-label">Survey Title</label>
+                    <input type="text" id="surveyTitle" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="surveyDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Type</label>
+                    <select id="surveyType" class="form-select" required>
+                        <option value="">Select Type</option>
+                        <option value="Employee Feedback">Employee Feedback</option>
+                        <option value="Training Evaluation">Training Evaluation</option>
+                        <option value="HR Policy Review">HR Policy Review</option>
+                        <option value="Culture & Engagement">Culture & Engagement</option>
+                        <option value="Wellness Assessment">Wellness Assessment</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Expiry Date</label>
+                    <input type="date" id="surveyExpiryDate" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
 
-    <!-- External JS -->
-    <script src="surveys_polls.js"></script>
+        <!-- Manage Surveys Section -->
+        <div id="manage-section" class="content-section active">
+            <h3>Manage Surveys</h3>
+            <div class="mb-3">
+                <label class="form-label">Filter by Status</label>
+                <select id="filter-status" class="form-select">
+                    <option value="all">All</option>
+                    <option value="Active">Active</option>
+                    <option value="Closed">Closed</option>
+                    <option value="Draft">Draft</option>
+                </select>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Survey Title</th>
+                        <th>Type</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="survey-list">
+                    <!-- Sample Data -->
+                    <tr>
+                        <td>1</td>
+                        <td>Employee Satisfaction</td>
+                        <td>Employee Feedback</td>
+                        <td>2025-04-10</td>
+                        <td>
+                            <select class="status-select">
+                                <option>Active</option>
+                                <option>Closed</option>
+                                <option selected>Draft</option>
+                            </select>
+                        </td>
+                        <td><button class="btn btn-danger btn-sm delete-survey">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const toggleCreate = document.getElementById('toggle-create');
+const toggleManage = document.getElementById('toggle-manage');
+const createSection = document.getElementById('create-section');
+const manageSection = document.getElementById('manage-section');
+
+function setActiveButton(activeBtn, inactiveBtn) {
+    activeBtn.classList.remove('btn-outline-primary');
+    activeBtn.classList.add('btn-primary');
+    inactiveBtn.classList.remove('btn-primary');
+    inactiveBtn.classList.add('btn-outline-primary');
+    
+}
+
+toggleCreate.addEventListener('click', () => {
+    createSection.classList.add('active');
+    manageSection.classList.remove('active');
+    setActiveButton(toggleCreate, toggleManage);
+});
+
+toggleManage.addEventListener('click', () => {
+    manageSection.classList.add('active');
+    createSection.classList.remove('active');
+    setActiveButton(toggleManage, toggleCreate);
+});
+
+// Ensure Manage is active by default on page load
+setActiveButton(toggleManage, toggleCreate);
+
+
+        document.getElementById('filter-status').addEventListener('change', function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#survey-list tr');
+            rows.forEach(row => {
+                let status = row.cells[4].querySelector('select').value.toLowerCase();
+                row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('survey-list').addEventListener('change', function (e) {
+            if (e.target.classList.contains('status-select')) {
+                let row = e.target.closest('tr');
+                console.log(`Updated Status for: ${row.cells[1].innerText} to ${e.target.value}`);
+                // TODO: Update status in the database using fetch API
+            }
+        });
+
+        document.getElementById('survey-list').addEventListener('click', function (e) {
+            if (e.target.classList.contains('delete-survey')) {
+                let row = e.target.closest('tr');
+                row.remove();
+                console.log(`Deleted Survey: ${row.cells[1].innerText}`);
+                // TODO: Delete from the database using fetch API
+            }
+        });
+
+        document.getElementById('create-survey-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let title = document.getElementById('surveyTitle').value;
+            let description = document.getElementById('surveyDescription').value;
+            let type = document.getElementById('surveyType').value;
+            let expiryDate = document.getElementById('surveyExpiryDate').value;
+            console.log(`New Survey: ${title}, ${type}, ${expiryDate}`);
+            // TODO: Send data to backend via fetch API
+        });
+    </script>
 </body>
-
 </html>

@@ -1,43 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Engagement Activities - Smart HR</title>
-
-    <!-- Bootstrap CSS -->
+    <title>Smart HR - Engagement Activities</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="engagement_activities.css">
-
     <style>
-        /* Center-align the content */
-        .container {
-            text-align: center;
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
-
-        /* Breadcrumb underline on hover */
-        .breadcrumb a {
-            text-decoration: none;
+        .toggle-buttons button {
+            margin: 0 10px;
         }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
+        .content-section {
+            display: none;
         }
-
-        .breadcrumb-container {
-            text-align: left;
+        .content-section.active {
+            display: block;
         }
-
-        .breadcrumb {
-            justify-content: left;
-        }
-    </style>    
+    </style>
 </head>
-
 <body>
     <!-- Navbar -->
     <header class="py-3 border-bottom bg-light">
@@ -50,12 +34,15 @@
 
             <!-- Right-side Profile Dropdown -->
             <div class="dropdown">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="../Resources/profile_icon.jpeg" alt="Profile" width="40" height="40"
+                        class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                    <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
-                </ul>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                        <li><a class="dropdown-item" href="../login/login.html">Sign out</a></li>
+                    </ul>
             </div>
         </div>
     </header>
@@ -65,89 +52,156 @@
         <div class="container-fluid">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="../dashboard.html">Dashboard</a>
+                    <a href="../dashboard/dashboard.html">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="./relation.html">Relations</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Engagement Activities</li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-secondary">Engagement Activities</span>
+                </li>
             </ol>
         </div>
     </nav>
 
-    <main class="container my-5 justify-content-center">
-        <h1 class="text-center mb-4">Engagement Activities</h1>
-
-        <!-- Content Section -->
-        <section class="content mb-5">
-            <p class="lead text-center">Foster a positive and engaging work environment through planned activities.</p>
-
-            <div class="row justify-content-center">
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Plan Activities</h5>
-                            <p class="card-text">Create and organize activities that boost employee morale.</p>
-                            <a href="plan_activities.html" class="btn btn-primary">Plan Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Participation Tracking</h5>
-                            <p class="card-text">Monitor employee participation and engagement levels.</p>
-                            <a href="participation_tracking.html" class="btn btn-primary">Track Participation</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Feedback Collection</h5>
-                            <p class="card-text">Gather feedback to improve future engagement activities.</p>
-                            <a href="feedback_collection.html" class="btn btn-primary">Collect Feedback</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mb-4">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">Activity Reports</h5>
-                            <p class="card-text">Generate detailed reports on engagement activity outcomes.</p>
-                            <a href="activity_reports.html" class="btn btn-primary">Generate Reports</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
     <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <p class="col-md-4 mb-0 text-body-dark">© 2025</p>
-      
-          <a  class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-            <img src="../Resources/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
-            <span class="fs-4 text-primary">Smart HR</span>
-          </a>
-      
-          <ul class="nav col-md-4 justify-content-end text-body-dark">
-              <li class="nav-item text-body-dark"><a href="../README.md" class="nav-link px-2 text-dark">About</a></li>
-          </ul>
-        </footer>
-      </div>
+        <h1 class="mb-4 text-center">Engagement Activities</h1>
+        <div class="toggle-buttons">
+            <button id="toggle-create" class="btn btn-outline-primary">Create</button>
+            <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
+        </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Create Section -->
+        <div id="create-section" class="content-section">
+            <h3>Create a New Engagement Activity</h3>
+            <form id="create-activity-form" class="p-3 border rounded shadow-sm">
+                <div class="mb-3">
+                    <label class="form-label">Activity Name</label>
+                    <input type="text" id="activityName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="activityDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Type</label>
+                    <select id="activityType" class="form-select" required>
+                        <option value="">Select Type</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Team Building">Team Building</option>
+                        <option value="Wellness Session">Wellness Session</option>
+                        <option value="CSR Activity">CSR Activity</option>
+                        <option value="Training Program">Training Program</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="activityDate" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
 
-    <!-- External JS -->
-    <script src="engagement_activities.js"></script>
+        <!-- Manage Section -->
+        <div id="manage-section" class="content-section active">
+            <h3>Manage Activities</h3>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Filter by Status</label>
+                <select id="filter-status" class="form-select">
+                    <option value="all">All</option>
+                    <option value="Conducted">Conducted</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Yet to be Conducted">Yet to be Conducted</option>
+                </select>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Activity Name</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="activity-list">
+                    <!-- Sample Data -->
+                    <tr>
+                        <td>1</td>
+                        <td>Leadership Workshop</td>
+                        <td>Workshop</td>
+                        <td>2025-03-10</td>
+                        <td>
+                            <select class="status-select">
+                                <option>Conducted</option>
+                                <option>Cancelled</option>
+                                <option selected>Yet to be Conducted</option>
+                            </select>
+                        </td>
+                        <td><button class="btn btn-danger btn-sm delete-activity">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const toggleCreate = document.getElementById('toggle-create');
+        const toggleManage = document.getElementById('toggle-manage');
+        const createSection = document.getElementById('create-section');
+        const manageSection = document.getElementById('manage-section');
+
+        toggleCreate.addEventListener('click', () => {
+            toggleCreate.classList.add('active');
+            toggleManage.classList.remove('active');
+            createSection.classList.add('active');
+            manageSection.classList.remove('active');
+        });
+
+        toggleManage.addEventListener('click', () => {
+            toggleManage.classList.add('active');
+            toggleCreate.classList.remove('active');
+            manageSection.classList.add('active');
+            createSection.classList.remove('active');
+        });
+
+
+        document.getElementById('filter-status').addEventListener('change', function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#activity-list tr');
+            rows.forEach(row => {
+                let status = row.cells[4].querySelector('select').value.toLowerCase();
+                row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
+            });
+        });
+
+        document.getElementById('activity-list').addEventListener('change', function (e) {
+            if (e.target.classList.contains('status-select')) {
+                let row = e.target.closest('tr');
+                console.log(`Updated Status for: ${row.cells[1].innerText} to ${e.target.value}`);
+                // TODO: Update status in the database using fetch API
+            }
+        });
+
+        document.getElementById('activity-list').addEventListener('click', function (e) {
+            if (e.target.classList.contains('delete-activity')) {
+                let row = e.target.closest('tr');
+                row.remove();
+                console.log(`Deleted Activity: ${row.cells[1].innerText}`);
+                // TODO: Delete from the database using fetch API
+            }
+        });
+
+        document.getElementById('create-activity-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let name = document.getElementById('activityName').value;
+            let description = document.getElementById('activityDescription').value;
+            let type = document.getElementById('activityType').value;
+            let date = document.getElementById('activityDate').value;
+            console.log(`New Activity: ${name}, ${type}, ${date}`);
+            // TODO: Send data to backend via fetch API
+        });
+    </script>
 </body>
-
 </html>
