@@ -127,16 +127,3 @@ CREATE TABLE Courses (
     Duration VARCHAR(50) NOT NULL,
     Created_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- Insert initial courses into the Courses table
-INSERT INTO Courses (Course_Title, Course_Description, Category, Duration) VALUES 
-('Project Management Fundamentals', 'Learn the core principles of effective project management and leadership strategies.', 'Management', 'Medium'),
-('Agile Methodology & Scrum', 'Master agile development techniques and become a certified Scrum professional.', 'Technical', 'Short'),
-('Advanced Communication Skills', 'Develop powerful communication and interpersonal skills for professional success.', 'Soft Skills', 'Short'),
-('Data Analysis with Python', 'Learn data analysis, visualization, and machine learning using Python and popular libraries.', 'Technical', 'Long'),
-('Leadership Development Program', 'Comprehensive program to enhance leadership, strategic thinking, and team management skills.', 'Management', 'Medium'),
-('Emotional Intelligence in Workplace', 'Master emotional intelligence techniques to improve workplace relationships and personal effectiveness.', 'Soft Skills', 'Short'),
-('Cloud Computing Essentials', 'Comprehensive introduction to cloud computing technologies and best practices.', 'Technical', 'Medium'),
-('Financial Management for Managers', 'Strategic financial planning and budgeting for effective organizational leadership.', 'Management', 'Long'),
-('Digital Marketing Strategies', 'Advanced digital marketing techniques for modern business growth.', 'Soft Skills', 'Medium'),
-('Cybersecurity Fundamentals', 'Comprehensive overview of cybersecurity principles and practical defense strategies.', 'Technical', 'Long');

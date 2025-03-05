@@ -77,15 +77,15 @@
             <% payslips.forEach((payslip, index) => { %>
               <tr>
                 <td><%= index + 1 %></td>
-                <td><%= payslip.employeeId %></td>
-                <td><%= payslip.employeeName %></td>
-                <td><%= payslip.basicSalary %></td>
-                <td><%= payslip.allowance %></td>
-                <td><%= payslip.bonus %></td>
-                <td><%= payslip.incentive %></td>
-                <td><%= payslip.pfDeduction %></td>
-                <td><%= payslip.taxDeduction %></td>
-                <td><%= payslip.netSalary %></td>
+                <td><%= payslip.Employee_ID %></td>
+                <td><%= payslip.Employee_Name %></td>
+                <td><%= Number(payslip.Basic_Pay).toFixed(2) %></td>
+                <td><%= Number(payslip.Allowances).toFixed(2) %></td>
+                <td><%= Number(payslip.Total_Bonus).toFixed(2) %></td>
+                <td>0.00</td>
+                <td><%= Number(payslip.PF_Deductions).toFixed(2) %></td>
+                <td><%= Number(payslip.Tax_Deductions).toFixed(2) %></td>
+                <td><%= Number(payslip.Net_Salary).toFixed(2) %></td>
               </tr>
             <% }); %>
           <% } else { %>
@@ -103,72 +103,6 @@
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // This will run when the page loads
-  fetchPayslipData();
-  
-  // Add event listeners to buttons
-  document.getElementById('generatePayslip').addEventListener('click', function() {
-    alert('Generating payslips for all employees...');
-    // Here you would implement the actual generation functionality
-  });
-  
-  document.getElementById('exportPayslip').addEventListener('click', function() {
-    alert('Exporting payslips to PDF...');
-    // Here you would implement the actual export functionality
-  });
-});
-
-function fetchPayslipData() {
-  // Fetch payslip data from the server if not already provided
-  const tableBody = document.getElementById('paySlipTable');
-  
-  // If the table is empty (no data from server-side rendering)
-  if (tableBody.querySelectorAll('tr').length === 0 || 
-      tableBody.querySelector('tr td').colSpan === 10) {
-    
-    fetch('/payroll/api/payslip-data')
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-          tableBody.innerHTML = `
-            <tr>
-              <td colspan="10" class="text-center">No payslip data available</td>
-            </tr>
-          `;
-          return;
-        }
-        
-        let html = '';
-        data.forEach((payslip, index) => {
-          html += `
-            <tr>
-              <td>${index + 1}</td>
-              <td>${payslip.employeeId}</td>
-              <td>${payslip.employeeName}</td>
-              <td>${payslip.basicSalary}</td>
-              <td>${payslip.allowance}</td>
-              <td>${payslip.bonus}</td>
-              <td>${payslip.incentive}</td>
-              <td>${payslip.pfDeduction}</td>
-              <td>${payslip.taxDeduction}</td>
-              <td>${payslip.netSalary}</td>
-            </tr>
-          `;
-        });
-        tableBody.innerHTML = html;
-      })
-      .catch(error => {
-        console.error('Error fetching payslip data:', error);
-        tableBody.innerHTML = `
-          <tr>
-            <td colspan="10" class="text-center text-danger">Error loading payslip data</td>
-          </tr>
-        `;
-      });
-  }
-}
-</script>
+<script src="/js/payslip.js"></script>
 
 <%- include('../../partials/footer') %>
