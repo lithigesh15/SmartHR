@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const payrollController = require('../controllers/payrollController');
 
-// 📌 Main Payroll Dashboard
+// 📌 Payroll Dashboard
 router.get('/', authMiddleware.isAuthenticated, payrollController.showPayrollHome);
 
 // 📌 Salary Management
@@ -15,6 +15,12 @@ router.post('/api/update-payslip', authMiddleware.isAuthenticated, payrollContro
 // 📌 Pay Slip Management
 router.get('/payslip', authMiddleware.isAuthenticated, payrollController.showPaySlipPage);
 
-// Note: Removed some routes that were not implemented in the current controller
+// 📌 Bonus Update (✅ FIXED: Added this route to load the page)
+router.get('/bonus', authMiddleware.isAuthenticated, payrollController.showBonusPage);
+
+// 📌 Update Bonus in Payroll Table (✅ FIXED: Matches frontend request)
+router.post('/api/update-bonus', authMiddleware.isAuthenticated, payrollController.updateBonus);
+
+router.get('/tax', authMiddleware.isAuthenticated, payrollController.showTaxPage);
 
 module.exports = router;

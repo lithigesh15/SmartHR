@@ -22,25 +22,31 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
-  
-  .content-section {
-    display: none;
-  }
-  
-  .content-section.active {
-    display: block;
-  }
-  
-  .toggle-buttons {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
+
   .breadcrumb {
     margin-bottom: 20px;
     padding: 10px 15px;
     background-color: #f8f9fa;
     border-radius: 4px;
+  }
+
+  .message {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 </style>
 
@@ -49,179 +55,36 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/payroll">Payroll</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Bonuses & Incentives</li>
+    <li class="breadcrumb-item active" aria-current="page">Update Bonus</li>
   </ol>
 </nav>
 
-<h1 class="mb-4 text-center">Bonuses & Incentives</h1>
+<h1 class="mb-4 text-center">Update Employee Bonus</h1>
 
 <div class="container">
-  <div class="toggle-buttons">
-    <button id="toggle-add" class="btn btn-outline-primary">Add Bonus</button>
-    <button id="toggle-manage" class="btn btn-outline-primary active">Manage Bonuses</button>
-  </div>
-  
-  <!-- Add Bonus Section -->
-  <div id="add-section" class="content-section">
-    <h3>Add New Bonus/Incentive</h3>
-    <form id="bonus-form" class="card p-4">
+  <div class="card p-4">
+    <h3 class="mb-3">Update Bonus</h3>
+
+    <!-- Success/Error Message -->
+    <div id="message-box" class="message" aria-live="polite"></div>
+
+    <form id="bonus-form">
       <div class="row">
         <div class="col-md-6 mb-3">
           <label for="employeeId" class="form-label">Employee ID</label>
-          <select id="employeeId" class="form-select" required>
-            <option value="" selected>Select employee</option>
-            <option value="EMP001">EMP001 - John Doe</option>
-            <option value="EMP002">EMP002 - Jane Smith</option>
-            <option value="EMP003">EMP003 - Robert Johnson</option>
-          </select>
+          <input type="text" id="employeeId" class="form-control" required placeholder="Enter Employee ID">
         </div>
         <div class="col-md-6 mb-3">
-          <label for="bonusType" class="form-label">Bonus Type</label>
-          <select id="bonusType" class="form-select" required>
-            <option value="" selected>Select bonus type</option>
-            <option value="performance">Performance Bonus</option>
-            <option value="annual">Annual Bonus</option>
-            <option value="festival">Festival Bonus</option>
-            <option value="incentive">Sales Incentive</option>
-          </select>
+          <label for="bonusAmount" class="form-label">Bonus Amount</label>
+          <input type="number" id="bonusAmount" class="form-control" required placeholder="Enter Bonus Amount">
         </div>
       </div>
-      
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="amount" class="form-label">Amount</label>
-          <input type="number" id="amount" class="form-control" required>
-        </div>
-        <div class="col-md-6 mb-3">
-          <label for="effectiveDate" class="form-label">Effective Date</label>
-          <input type="date" id="effectiveDate" class="form-control" required>
-        </div>
-      </div>
-      
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea id="description" class="form-control" rows="3" placeholder="Enter description or reason for the bonus"></textarea>
-      </div>
-      
-      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <button type="submit" class="btn btn-primary">Update Bonus</button>
     </form>
-  </div>
-  
-  <!-- Manage Bonuses Section -->
-  <div id="manage-section" class="content-section active">
-    <h3>Bonus & Incentive Records</h3>
-    <div class="card p-4">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Employee ID</th>
-              <th>Employee Name</th>
-              <th>Bonus Type</th>
-              <th>Amount</th>
-              <th>Date Added</th>
-              <th>Effective Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="bonus-list">
-            <% if(locals.bonuses && bonuses.length > 0) { %>
-              <% bonuses.forEach((bonus, index) => { %>
-                <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= bonus.employeeId %></td>
-                  <td><%= bonus.employeeName %></td>
-                  <td><%= bonus.bonusType %></td>
-                  <td><%= bonus.amount %></td>
-                  <td><%= bonus.dateAdded %></td>
-                  <td><%= bonus.effectiveDate %></td>
-                  <td>
-                    <button class="btn btn-sm btn-primary edit-bonus" data-id="<%= bonus.id %>">Edit</button>
-                    <button class="btn btn-sm btn-danger delete-bonus" data-id="<%= bonus.id %>">Delete</button>
-                  </td>
-                </tr>
-              <% }); %>
-            <% } else { %>
-              <tr>
-                <td colspan="8" class="text-center">No bonus records found</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Get toggle buttons
-  const addToggle = document.getElementById('toggle-add');
-  const manageToggle = document.getElementById('toggle-manage');
-  
-  // Get sections
-  const addSection = document.getElementById('add-section');
-  const manageSection = document.getElementById('manage-section');
-  
-  // Toggle function
-  addToggle.addEventListener('click', function() {
-    addToggle.classList.add('active');
-    manageToggle.classList.remove('active');
-    addSection.classList.add('active');
-    manageSection.classList.remove('active');
-  });
-  
-  manageToggle.addEventListener('click', function() {
-    manageToggle.classList.add('active');
-    addToggle.classList.remove('active');
-    manageSection.classList.add('active');
-    addSection.classList.remove('active');
-  });
-  
-  // Handle the bonus form submission
-  const bonusForm = document.getElementById('bonus-form');
-  if (bonusForm) {
-    bonusForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const bonusData = {
-        employeeId: document.getElementById('employeeId').value,
-        bonusType: document.getElementById('bonusType').value,
-        amount: document.getElementById('amount').value,
-        effectiveDate: document.getElementById('effectiveDate').value,
-        description: document.getElementById('description').value
-      };
-      
-      // Here you would implement the actual form submission
-      alert('Bonus/Incentive added successfully!');
-      // Reset form
-      this.reset();
-    });
-  }
-  
-  // Handle delete button clicks
-  const deleteButtons = document.querySelectorAll('.delete-bonus');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      if (confirm('Are you sure you want to delete this bonus record?')) {
-        const bonusId = this.getAttribute('data-id');
-        // Here you would implement the actual delete functionality
-        alert('Bonus record deleted successfully!');
-      }
-    });
-  });
-  
-  // Handle edit button clicks
-  const editButtons = document.querySelectorAll('.edit-bonus');
-  editButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const bonusId = this.getAttribute('data-id');
-      // Here you would implement the edit functionality
-      alert('Edit bonus record with ID: ' + bonusId);
-    });
-  });
-});
-</script>
+<script src="/js/payroll/bonus.js"></script>
 
 <%- include('../../partials/footer') %>

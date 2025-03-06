@@ -155,40 +155,30 @@ exports.updatePayslip = async (req, res) => {
         const medicalAmount = parseFloat(medical) || 0;
         const pfDeduction = (basicSalary * (pf || 0)) / 100;
         const taxDeduction = (basicSalary * (tax || 0)) / 100;
+        const allowances = hraAmount + medicalAmount;
 
-        await db.query(`
-            INSERT INTO Payroll (
-                Employee_ID, 
-                Basic_Pay, 
-                Allowances, 
-                PF_Deductions, 
-                Tax_Deductions, 
-                Total_Bonus, 
-                Pay_Date
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                Basic_Pay = ?, 
-                Allowances = ?, 
-                PF_Deductions = ?, 
-                Tax_Deductions = ?, 
-                Total_Bonus = ?, 
-                Pay_Date = ?
-        `, [
-            employeeId, 
-            basicSalary, 
-            hraAmount + medicalAmount, 
-            pfDeduction, 
-            taxDeduction, 
-            0, 
-            currentDate,
-            // Update values
-            basicSalary, 
-            hraAmount + medicalAmount, 
-            pfDeduction, 
-            taxDeduction, 
-            0, 
-            currentDate
-        ]);
+        // Check if the employee already has a payroll record
+        const [existingRecord] = await db.query(
+            `SELECT Payroll_ID FROM Payroll WHERE Employee_ID = ?`, 
+            [employeeId]
+        );
+
+        if (existingRecord.length > 0) {
+            // Update existing payroll entry
+            await db.query(
+                `UPDATE Payroll
+                SET Basic_Pay = ?, Allowances = ?, PF_Deductions = ?, Tax_Deductions = ?, Total_Bonus = ?, Pay_Date = ?
+                WHERE Employee_ID = ?`,
+                [basicSalary, allowances, pfDeduction, taxDeduction, 0, currentDate, employeeId]
+            );
+        } else {
+            // Insert new payroll entry
+            await db.query(
+                `INSERT INTO Payroll (Employee_ID, Basic_Pay, Allowances, PF_Deductions, Tax_Deductions, Total_Bonus, Pay_Date)
+                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [employeeId, basicSalary, allowances, pfDeduction, taxDeduction, 0, currentDate]
+            );
+        }
 
         res.json({ success: true, message: 'Payslip updated successfully' });
     } catch (error) {
@@ -221,7 +211,6 @@ exports.showPaySlipPage = async (req, res) => {
                 Applicant a ON e.Applicant_ID = a.Applicant_ID
             JOIN 
                 Department d ON e.Department_ID = d.Department_ID
-            ORDER BY p.Pay_Date DESC
         `);
         
         res.render('modules/payroll/payslip', {
@@ -263,4 +252,54 @@ exports.getPayslipData = async (req, res) => {
         console.error('Error fetching payslip data:', error);
         res.status(500).json({ message: 'Failed to load payslip data' });
     }
+};
+
+
+// 📌 Show Bonus Page (✅ Ensured it renders correctly)
+exports.showBonusPage = (req, res) => {
+    res.render('modules/payroll/bonus', {
+        title: 'Update Bonus - Smart HR',
+        user: req.session.user
+    });
+};
+
+// 📌 Update Bonus in Payroll Table
+exports.updateBonus = async (req, res) => {
+    try {
+        const { employeeId, bonusAmount } = req.body;
+
+        if (!employeeId || isNaN(bonusAmount) || bonusAmount <= 0) {
+            return res.status(400).json({ success: false, message: 'Invalid input data' });
+        }
+
+        // Check if the employee has a payroll record
+        const [existingPayroll] = await db.query(
+            `SELECT Payroll_ID FROM Payroll WHERE Employee_ID = ?`, 
+            [employeeId]
+        );
+
+        if (existingPayroll.length > 0) {
+            // Update existing payroll record
+            await db.query(
+                `UPDATE Payroll SET Total_Bonus = ? WHERE Employee_ID = ?`,
+                [bonusAmount, employeeId]
+            );
+            console.log("success");
+            return res.json({ success: true, message: 'Bonus updated successfully' });
+        } else {
+            console.log("failiure");
+            return res.status(404).json({ success: false, message: 'No payroll record found for this employee' });
+        }
+    } catch (error) {
+        console.error('❌ Error updating bonus:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+// 📌 Show Tax Calculator Page
+exports.showTaxPage = (req, res) => {
+    res.render('modules/payroll/tax', {
+        title: 'Tax Calculator - Smart HR',
+        user: req.session.user
+    });
 };

@@ -1,98 +1,59 @@
-// public/js/payroll/tax.js
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Tax page loaded');
-    
-    // Attach event listener to form submission
-    const taxForm = document.getElementById('taxForm');
-    taxForm.addEventListener('submit', function(e) {
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('✅ Tax Calculator Page Loaded');
+
+    document.getElementById('tax-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        calculateTax();
-    });
-    
-    // Add tax bracket suggestions
-    const annualSalaryInput = document.getElementById('annualSalary');
-    annualSalaryInput.addEventListener('blur', function() {
-        const salary = parseFloat(this.value) || 0;
-        const taxRateInput = document.getElementById('taxRate');
-        
-        // Suggest tax rate based on salary brackets
-        if (salary <= 300000) {
-            taxRateInput.value = 0;
-        } else if (salary <= 600000) {
-            taxRateInput.value = 5;
-        } else if (salary <= 900000) {
-            taxRateInput.value = 10;
-        } else if (salary <= 1200000) {
-            taxRateInput.value = 15;
-        } else if (salary <= 1500000) {
-            taxRateInput.value = 20;
-        } else {
-            taxRateInput.value = 30;
+
+        const salary = parseFloat(document.getElementById('annualSalary').value) || 0;
+        const taxRegime = document.getElementById('taxRegime').value;
+
+        if (salary <= 0 || !taxRegime) {
+            alert('Please enter a valid salary and select a tax regime.');
+            return;
         }
+
+        // Calculate tax based on the selected regime
+        const taxAmount = calculateTax(salary, taxRegime);
+
+        // Display the calculated tax
+        document.getElementById('totalTax').innerText = taxAmount.toFixed(2);
+        document.getElementById('taxResult').style.display = 'block';
     });
 });
 
-function calculateTax() {
-    const annualSalary = parseFloat(document.getElementById('annualSalary').value) || 0;
-    const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
-    
-    if (annualSalary <= 0) {
-        alert('Please enter a valid annual salary');
-        return;
+/**
+ * Function to calculate tax based on Indian tax slabs (Old vs New Regime)
+ */
+function calculateTax(salary, regime) {
+    let tax = 0;
+
+    if (regime === 'old') {
+        // ✅ Old Regime Tax Slabs (FY 2024-25 & 2025-26)
+        if (salary <= 250000) tax = 0;
+        else if (salary <= 500000) tax = (salary - 250000) * 0.05;
+        else if (salary <= 1000000) tax = 12500 + (salary - 500000) * 0.2;
+        else tax = 12500 + 100000 + (salary - 1000000) * 0.3;
+
+        // ✅ Apply Standard Deduction (₹50,000)
+        salary -= 50000;
+
+        // ✅ Apply Rebate Under 87A (For Income Up to ₹5L)
+        if (salary <= 500000) tax = 0;
+    } else if (regime === 'new') {
+        // ✅ New Regime Tax Slabs (Post Budget 2025)
+        if (salary <= 300000) tax = 0;
+        else if (salary <= 700000) tax = (salary - 300000) * 0.05;
+        else if (salary <= 1000000) tax = 20000 + (salary - 700000) * 0.1;
+        else if (salary <= 1200000) tax = 50000 + (salary - 1000000) * 0.15;
+        else if (salary <= 1500000) tax = 80000 + (salary - 1200000) * 0.2;
+        else tax = 140000 + (salary - 1500000) * 0.3;
+
+        // ✅ Apply Standard Deduction (₹75,000)
+        salary -= 75000;
+
+        // ✅ Apply Rebate Under 87A (For Income Up to ₹7L)
+        if (salary <= 700000) tax = 0;
     }
 
-    // Show loading state
-    document.getElementById('netTax').value = 'Calculating...';
-    
-    // Make API call to calculate tax
-    fetch('/payroll/api/calculate-tax', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            annualSalary,
-            taxRate
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('netTax').value = data.netTax;
-            
-            // Display tax breakdown if available
-            if (data.taxDetails) {
-                let breakdownHTML = '<div class="mt-4"><h5>Tax Breakdown</h5><table class="table table-sm">';
-                breakdownHTML += '<thead><tr><th>Income Range</th><th>Rate</th><th>Tax Amount</th></tr></thead><tbody>';
-                
-                data.taxDetails.forEach(detail => {
-                    breakdownHTML += `<tr>
-                        <td>${detail.range}</td>
-                        <td>${detail.rate}%</td>
-                        <td>₹${detail.amount.toFixed(2)}</td>
-                    </tr>`;
-                });
-                
-                breakdownHTML += '</tbody></table></div>';
-                
-                // Check if breakdown container exists, create if not
-                let breakdownContainer = document.getElementById('taxBreakdown');
-                if (!breakdownContainer) {
-                    breakdownContainer = document.createElement('div');
-                    breakdownContainer.id = 'taxBreakdown';
-                    document.getElementById('taxForm').after(breakdownContainer);
-                }
-                
-                breakdownContainer.innerHTML = breakdownHTML;
-            }
-        } else {
-            alert('Error: ' + data.message);
-            document.getElementById('netTax').value = '';
-        }
-    })
-    .catch(error => {
-        console.error('Error calculating tax:', error);
-        alert('Failed to calculate tax. Please try again.');
-        document.getElementById('netTax').value = '';
-    });
+    return tax;
 }

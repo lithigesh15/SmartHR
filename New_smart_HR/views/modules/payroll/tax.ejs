@@ -22,25 +22,31 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
-  
-  .content-section {
-    display: none;
-  }
-  
-  .content-section.active {
-    display: block;
-  }
-  
-  .toggle-buttons {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
+
   .breadcrumb {
     margin-bottom: 20px;
     padding: 10px 15px;
     background-color: #f8f9fa;
     border-radius: 4px;
+  }
+
+  .message {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 </style>
 
@@ -49,398 +55,46 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="/payroll">Payroll</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Tax Management</li>
+    <li class="breadcrumb-item active" aria-current="page">Tax Calculator</li>
   </ol>
 </nav>
 
-<h1 class="mb-4 text-center">Tax Management</h1>
+<h1 class="mb-4 text-center">Income Tax Calculator</h1>
 
 <div class="container">
-  <div class="toggle-buttons">
-    <button id="toggle-settings" class="btn btn-outline-primary active">Tax Settings</button>
-    <button id="toggle-calculator" class="btn btn-outline-primary">Tax Calculator</button>
-    <button id="toggle-reports" class="btn btn-outline-primary">Tax Reports</button>
-  </div>
-  
-  <!-- Tax Settings Section -->
-  <div id="settings-section" class="content-section active">
-    <h3>Tax Bracket Settings</h3>
-    <div class="card p-4">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Income Range</th>
-              <th>Tax Rate (%)</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="tax-brackets">
-            <% if(locals.taxBrackets && taxBrackets.length > 0) { %>
-              <% taxBrackets.forEach((bracket, index) => { %>
-                <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= bracket.incomeRange %></td>
-                  <td><%= bracket.taxRate %></td>
-                  <td><%= bracket.description %></td>
-                  <td>
-                    <button class="btn btn-sm btn-primary edit-bracket" data-id="<%= bracket.id %>">Edit</button>
-                    <button class="btn btn-sm btn-danger delete-bracket" data-id="<%= bracket.id %>">Delete</button>
-                  </td>
-                </tr>
-              <% }); %>
-            <% } else { %>
-              <tr>
-                <td>1</td>
-                <td>$0 - $50,000</td>
-                <td>10</td>
-                <td>Low income bracket</td>
-                <td>
-                  <button class="btn btn-sm btn-primary edit-bracket" data-id="1">Edit</button>
-                  <button class="btn btn-sm btn-danger delete-bracket" data-id="1">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>$50,001 - $100,000</td>
-                <td>15</td>
-                <td>Middle income bracket</td>
-                <td>
-                  <button class="btn btn-sm btn-primary edit-bracket" data-id="2">Edit</button>
-                  <button class="btn btn-sm btn-danger delete-bracket" data-id="2">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>$100,001+</td>
-                <td>25</td>
-                <td>High income bracket</td>
-                <td>
-                  <button class="btn btn-sm btn-primary edit-bracket" data-id="3">Edit</button>
-                  <button class="btn btn-sm btn-danger delete-bracket" data-id="3">Delete</button>
-                </td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-      <div class="mt-3">
-        <button class="btn btn-success" id="add-bracket">Add Tax Bracket</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Tax Calculator Section -->
-  <div id="calculator-section" class="content-section">
-    <h3>Employee Tax Calculator</h3>
-    <div class="card p-4">
-      <form id="tax-calculator-form">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="emp-id" class="form-label">Employee ID</label>
-            <input type="text" id="emp-id" class="form-control" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="emp-name" class="form-label">Employee Name</label>
-            <input type="text" id="emp-name" class="form-control" readonly>
-          </div>
+  <div class="card p-4">
+    <h3 class="mb-3">Calculate Your Tax</h3>
+
+    <!-- Success/Error Message -->
+    <div id="message-box" class="message" aria-live="polite"></div>
+
+    <form id="tax-form">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="annualSalary" class="form-label">Annual Salary (₹)</label>
+          <input type="number" id="annualSalary" class="form-control" required placeholder="Enter your annual salary">
         </div>
-        
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="department" class="form-label">Department</label>
-            <input type="text" id="department" class="form-control" readonly>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="tax-year" class="form-label">Tax Year</label>
-            <select id="tax-year" class="form-select" required>
-              <option value="" selected>Select tax year</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <label for="gross-income" class="form-label">Gross Annual Income</label>
-            <input type="number" id="gross-income" class="form-control" required>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="deductions" class="form-label">Total Deductions</label>
-            <input type="number" id="deductions" class="form-control">
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="taxable-income" class="form-label">Taxable Income</label>
-            <input type="text" id="taxable-income" class="form-control" readonly>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <label for="tax-amount" class="form-label">Calculated Tax</label>
-            <input type="text" id="tax-amount" class="form-control" readonly>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="tax-rate" class="form-label">Effective Tax Rate</label>
-            <input type="text" id="tax-rate" class="form-control" readonly>
-          </div>
-          <div class="col-md-4 mb-3">
-            <label for="after-tax" class="form-label">After-Tax Income</label>
-            <input type="text" id="after-tax" class="form-control" readonly>
-          </div>
-        </div>
-        
-        <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">Calculate</button>
-          <button type="button" class="btn btn-success" id="save-calculation">Save Calculation</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <!-- Tax Reports Section -->
-  <div id="reports-section" class="content-section">
-    <h3>Tax Report</h3>
-    <div class="card p-4">
-      <div class="row mb-4">
-        <div class="col-md-4">
-          <label for="report-year" class="form-label">Select Year</label>
-          <select id="report-year" class="form-select">
-            <option value="2023">2023</option>
-            <option value="2024" selected>2024</option>
-            <option value="2025">2025</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="report-month" class="form-label">Select Month</label>
-          <select id="report-month" class="form-select">
-            <option value="">All Months</option>
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="report-department" class="form-label">Department</label>
-          <select id="report-department" class="form-select">
-            <option value="">All Departments</option>
-            <option value="IT">IT</option>
-            <option value="HR">HR</option>
-            <option value="Finance">Finance</option>
+        <div class="col-md-6 mb-3">
+          <label for="taxRegime" class="form-label">Select Tax Regime</label>
+          <select id="taxRegime" class="form-select" required>
+            <option value="" selected>Select tax regime</option>
+            <option value="old">Old Regime (With Exemptions)</option>
+            <option value="new">New Regime (No Exemptions)</option>
           </select>
         </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Employee ID</th>
-              <th>Employee Name</th>
-              <th>Department</th>
-              <th>Gross Income</th>
-              <th>Tax Deducted</th>
-              <th>Tax Rate</th>
-            </tr>
-          </thead>
-          <tbody id="tax-reports">
-            <% if(locals.taxReports && taxReports.length > 0) { %>
-              <% taxReports.forEach((report, index) => { %>
-                <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= report.employeeId %></td>
-                  <td><%= report.employeeName %></td>
-                  <td><%= report.department %></td>
-                  <td>$<%= report.grossIncome.toLocaleString() %></td>
-                  <td>$<%= report.taxDeducted.toLocaleString() %></td>
-                  <td><%= report.taxRate %>%</td>
-                </tr>
-              <% }); %>
-            <% } else { %>
-              <tr>
-                <td>1</td>
-                <td>EMP001</td>
-                <td>John Doe</td>
-                <td>IT</td>
-                <td>$75,000</td>
-                <td>$8,750</td>
-                <td>11.7%</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>EMP002</td>
-                <td>Jane Smith</td>
-                <td>HR</td>
-                <td>$65,000</td>
-                <td>$7,250</td>
-                <td>11.2%</td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      </div>
-      <div class="mt-3">
-        <button class="btn btn-primary" id="generate-report">Generate Report</button>
-        <button class="btn btn-success ms-2" id="export-report">Export to Excel</button>
-      </div>
+
+      <button type="submit" class="btn btn-primary">Calculate Tax</button>
+    </form>
+
+    <!-- Display Tax Calculation -->
+    <div id="taxResult" class="mt-4" style="display: none;">
+      <h4>Tax Calculation Result</h4>
+      <p><strong>Total Tax Payable:</strong> ₹<span id="totalTax">0</span></p>
     </div>
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Get toggle buttons
-  const settingsToggle = document.getElementById('toggle-settings');
-  const calculatorToggle = document.getElementById('toggle-calculator');
-  const reportsToggle = document.getElementById('toggle-reports');
-  
-  // Get sections
-  const settingsSection = document.getElementById('settings-section');
-  const calculatorSection = document.getElementById('calculator-section');
-  const reportsSection = document.getElementById('reports-section');
-  
-  // Toggle functions
-  settingsToggle.addEventListener('click', function() {
-    settingsToggle.classList.add('active');
-    calculatorToggle.classList.remove('active');
-    reportsToggle.classList.remove('active');
-    settingsSection.classList.add('active');
-    calculatorSection.classList.remove('active');
-    reportsSection.classList.remove('active');
-  });
-  
-  calculatorToggle.addEventListener('click', function() {
-    calculatorToggle.classList.add('active');
-    settingsToggle.classList.remove('active');
-    reportsToggle.classList.remove('active');
-    calculatorSection.classList.add('active');
-    settingsSection.classList.remove('active');
-    reportsSection.classList.remove('active');
-  });
-  
-  reportsToggle.addEventListener('click', function() {
-    reportsToggle.classList.add('active');
-    settingsToggle.classList.remove('active');
-    calculatorToggle.classList.remove('active');
-    reportsSection.classList.add('active');
-    settingsSection.classList.remove('active');
-    calculatorSection.classList.remove('active');
-  });
-  
-  // Tax bracket management
-  document.getElementById('add-bracket').addEventListener('click', function() {
-    alert('Add new tax bracket form will open here');
-  });
-  
-  // Edit and Delete buttons event listeners
-  const editButtons = document.querySelectorAll('.edit-bracket');
-  editButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const bracketId = this.getAttribute('data-id');
-      alert('Edit tax bracket with ID: ' + bracketId);
-      // Here you would implement the edit functionality
-    });
-  });
-  
-  const deleteButtons = document.querySelectorAll('.delete-bracket');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      if (confirm('Are you sure you want to delete this tax bracket?')) {
-        const bracketId = this.getAttribute('data-id');
-        alert('Delete tax bracket with ID: ' + bracketId);
-        // Here you would implement the delete functionality
-      }
-    });
-  });
-  
-  // Tax calculator form handling
-  const taxForm = document.getElementById('tax-calculator-form');
-  if (taxForm) {
-    taxForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      calculateTax();
-    });
-  }
-  
-  // Update taxable income when inputs change
-  const grossIncome = document.getElementById('gross-income');
-  const deductions = document.getElementById('deductions');
-  
-  if (grossIncome && deductions) {
-    [grossIncome, deductions].forEach(el => {
-      el.addEventListener('input', function() {
-        updateTaxableIncome();
-      });
-    });
-  }
-  
-  // Auto-fetch employee details when ID is entered
-  document.getElementById('emp-id').addEventListener('blur', function() {
-    const employeeId = this.value;
-    if (employeeId) {
-      // Simulate fetching employee data
-      setTimeout(() => {
-        document.getElementById('emp-name').value = 'John Doe';
-        document.getElementById('department').value = 'IT Department';
-        document.getElementById('gross-income').value = '75000';
-      }, 500);
-    }
-  });
-  
-  // Tax report actions
-  document.getElementById('generate-report').addEventListener('click', function() {
-    alert('Generating tax report based on selected filters...');
-  });
-  
-  document.getElementById('export-report').addEventListener('click', function() {
-    alert('Exporting tax report to Excel...');
-  });
-  
-  document.getElementById('save-calculation').addEventListener('click', function() {
-    alert('Tax calculation saved successfully!');
-  });
-});
-
-function updateTaxableIncome() {
-  const grossIncomeVal = parseFloat(document.getElementById('gross-income').value) || 0;
-  const deductionsVal = parseFloat(document.getElementById('deductions').value) || 0;
-  const taxableIncome = Math.max(0, grossIncomeVal - deductionsVal);
-  
-  document.getElementById('taxable-income').value = taxableIncome.toFixed(2);
-}
-
-function calculateTax() {
-  // Get values from form
-  const grossIncome = parseFloat(document.getElementById('gross-income').value) || 0;
-  const deductions = parseFloat(document.getElementById('deductions').value) || 0;
-  const taxableIncome = parseFloat(document.getElementById('taxable-income').value) || 0;
-  
-  // Apply simplified tax calculation
-  let taxAmount = 0;
-  
-  if (taxableIncome <= 50000) {
-    taxAmount = taxableIncome * 0.10; // 10% for income up to 50k
-  } else if (taxableIncome <= 100000) {
-    taxAmount = 5000 + (taxableIncome - 50000) * 0.15; // 15% for income between 50k-100k
-  } else {
-    taxAmount = 5000 + 7500 + (taxableIncome - 100000) * 0.25; // 25% for income above 100k
-  }
-  
-  // Calculate effective tax rate
-  const effectiveTaxRate = ((taxAmount / grossIncome) * 100).toFixed(2);
-  
-  // Calculate after-tax income
-  const afterTaxIncome = (grossIncome - taxAmount).toFixed(2);
-  
-  // Update form
-  document.getElementById('tax-amount').value = taxAmount.toFixed(2);
-  document.getElementById('tax-rate').value = effectiveTaxRate + '%';
-  document.getElementById('after-tax').value = afterTaxIncome;
-}
-</script>
+<script src="/js/payroll/tax.js"></script>
 
 <%- include('../../partials/footer') %>
