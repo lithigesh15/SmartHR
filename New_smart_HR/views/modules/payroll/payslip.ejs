@@ -66,7 +66,6 @@
             <th>Basic Salary</th>
             <th>Allowance</th>
             <th>Bonus</th>
-            <th>Incentive</th>
             <th>PF Deductions</th>
             <th>Tax Deduction</th>
             <th>Net Salary</th>
@@ -82,7 +81,6 @@
                 <td><%= Number(payslip.Basic_Pay).toFixed(2) %></td>
                 <td><%= Number(payslip.Allowances).toFixed(2) %></td>
                 <td><%= Number(payslip.Total_Bonus).toFixed(2) %></td>
-                <td>0.00</td>
                 <td><%= Number(payslip.PF_Deductions).toFixed(2) %></td>
                 <td><%= Number(payslip.Tax_Deductions).toFixed(2) %></td>
                 <td><%= Number(payslip.Net_Salary).toFixed(2) %></td>
@@ -90,7 +88,7 @@
             <% }); %>
           <% } else { %>
             <tr>
-              <td colspan="10" class="text-center">No payslip data available</td>
+              <td colspan="9" class="text-center">No payslip data available</td>
             </tr>
           <% } %>
         </tbody>
