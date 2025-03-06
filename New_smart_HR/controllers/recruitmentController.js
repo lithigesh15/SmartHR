@@ -42,16 +42,7 @@ exports.createJobPosting = async (req, res) => {
   }
 };
 
-exports.deleteJobPosting = async (req, res) => {
-  try {
-    const jobId = req.params.id;
-    await db.query('DELETE FROM Job_Posting WHERE Job_ID = ?', [jobId]);
-    res.status(200).json({ message: 'Job posting deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting job posting:', error);
-    res.status(500).json({ message: 'Failed to delete job posting' });
-  }
-};
+
 
 // Application Tracking
 exports.getApplicationTracking = async (req, res) => {
@@ -369,5 +360,65 @@ exports.onboardEmployee = async (req, res) => {
   } catch (error) {
     console.error('Error onboarding employee:', error);
     res.status(500).json({ message: 'Failed to onboard employee' });
+  }
+};
+
+// Update Job Posting
+exports.updateJobPosting = async (req, res) => {
+  try {
+      const { job_id, job_title, description, qualification, type } = req.body;
+
+      await db.query(
+          `UPDATE Job_Posting 
+          SET Job_Title = ?, Job_Description = ?, Qualifications = ?, Job_Type = ? 
+          WHERE Job_ID = ?`,
+          [job_title, description, qualification, type, job_id]
+      );
+
+      res.status(200).json({ success: true, message: 'Job posting updated successfully' });
+  } catch (error) {
+      console.error('Error updating job posting:', error);
+      res.status(500).json({ success: false, message: 'Failed to update job posting' });
+  }
+};
+
+// Delete Job Posting
+exports.deleteJobPosting = async (req, res) => {
+  try {
+      const jobId = req.params.id;
+
+      // Check if there are applicants linked to the job posting
+      const [applicants] = await db.query('SELECT * FROM Applicant WHERE Applied_Job_ID = ?', [jobId]);
+
+      if (applicants.length > 0) {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Cannot delete job posting. Applicants are linked to this job.' 
+          });
+      }
+
+      // If no applicants are found, proceed with deletion
+      await db.query('DELETE FROM Job_Posting WHERE Job_ID = ?', [jobId]);
+      res.status(200).json({ success: true, message: 'Job posting deleted successfully.' });
+
+  } catch (error) {
+      console.error('Error deleting job posting:', error);
+      res.status(500).json({ success: false, message: 'Failed to delete job posting.' });
+  }
+};
+
+exports.getJobById = async (req, res) => {
+  try {
+      const jobId = req.params.id;
+      const [job] = await db.query('SELECT * FROM Job_Posting WHERE Job_ID = ?', [jobId]);
+
+      if (job.length > 0) {
+          res.json(job[0]); // Send the job details as JSON
+      } else {
+          res.status(404).json({ message: 'Job not found' });
+      }
+  } catch (error) {
+      console.error('Error fetching job details:', error);
+      res.status(500).json({ message: 'Failed to fetch job details' });
   }
 };

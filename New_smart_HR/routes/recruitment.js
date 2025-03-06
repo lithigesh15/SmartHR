@@ -7,9 +7,15 @@ const recruitmentController = require('../controllers/recruitmentController');
 // Main recruitment dashboard
 router.get('/', authMiddleware.isAuthenticated, recruitmentController.getRecruitmentDashboard);
 
+
 // Job Postings
 router.get('/job-postings', authMiddleware.isAuthenticated, recruitmentController.getJobPostings);
 router.post('/job-postings', authMiddleware.isAuthenticated, recruitmentController.createJobPosting);
+router.put('/job-postings/:id', authMiddleware.isAuthenticated, recruitmentController.updateJobPosting);
+router.delete('/job-postings/:id', authMiddleware.isAuthenticated, recruitmentController.deleteJobPosting);
+router.get('/job-postings/:id', authMiddleware.isAuthenticated, recruitmentController.getJobById);
+
+
 
 // Application Tracking
 router.get('/application-tracking', authMiddleware.isAuthenticated, recruitmentController.getApplicationTracking);

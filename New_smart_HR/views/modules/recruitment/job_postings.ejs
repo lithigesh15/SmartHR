@@ -1,20 +1,19 @@
-<!-- views/modules/recruitment/job_postings.ejs -->
 <%- include('../../partials/header') %>
 
 <style>
   .content-section {
     display: none;
   }
-  
+
   .content-section.active {
     display: block;
   }
-  
+
   .toggle-buttons {
     margin-bottom: 20px;
     text-align: center;
   }
-  
+
   .breadcrumb {
     margin-bottom: 20px;
     padding: 10px 15px;
@@ -39,11 +38,12 @@
         <button id="toggle-create" class="btn btn-outline-primary">Create</button>
         <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
     </div>
-    
+
     <!-- Create Section -->
     <div id="create-section" class="content-section">
-        <h3>Create a New Job Posting</h3>
+        <h3>Create or Edit Job Posting</h3>
         <form id="create-job-form" class="p-3 border rounded shadow-sm">
+            <input type="hidden" id="jobId">
             <div class="mb-3">
                 <label for="jobTitle" class="form-label">Job Title</label>
                 <input type="text" id="jobTitle" class="form-control" placeholder="Enter job title" required>
@@ -66,10 +66,10 @@
                     <option value="contract">Contract</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
-    
+
     <!-- Manage Section -->
     <div id="manage-section" class="content-section active">
         <h3>Posted Job Postings</h3>
@@ -86,15 +86,15 @@
                 </tr>
             </thead>
             <tbody id="job-list">
-                <% if(jobPostings && jobPostings.length > 0) { %>
+                <% if (jobPostings && jobPostings.length > 0) { %>
                     <% jobPostings.forEach((job, index) => { %>
                         <tr>
                             <td><%= index + 1 %></td>
                             <td><%= job.Job_Title %></td>
-                            <td><%= job.Job_Description ? job.Job_Description.substring(0, 50) + '...' : '' %></td>
+                            <td><%= job.Job_Description.substring(0, 50) + '...' %></td>
                             <td><%= job.Qualifications %></td>
                             <td><%= job.Job_Type %></td>
-                            <td><%= job.Posted_Date ? new Date(job.Posted_Date).toLocaleDateString() : '' %></td>
+                            <td><%= new Date(job.Posted_Date).toLocaleDateString() %></td>
                             <td>
                                 <button class="btn btn-sm btn-primary edit-job" data-id="<%= job.Job_ID %>">Edit</button>
                                 <button class="btn btn-sm btn-danger delete-job" data-id="<%= job.Job_ID %>">Delete</button>
@@ -102,9 +102,7 @@
                         </tr>
                     <% }); %>
                 <% } else { %>
-                    <tr>
-                        <td colspan="7" class="text-center">No job postings found</td>
-                    </tr>
+                    <tr><td colspan="7" class="text-center">No job postings found</td></tr>
                 <% } %>
             </tbody>
         </table>
@@ -112,95 +110,121 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get toggle buttons
-    const createToggle = document.getElementById('toggle-create');
-    const manageToggle = document.getElementById('toggle-manage');
-    
-    // Get sections
-    const createSection = document.getElementById('create-section');
-    const manageSection = document.getElementById('manage-section');
-    
-    // Toggle function
-    createToggle.addEventListener('click', function() {
-        createToggle.classList.add('active');
-        manageToggle.classList.remove('active');
-        createSection.classList.add('active');
-        manageSection.classList.remove('active');
-    });
-    
-    manageToggle.addEventListener('click', function() {
-        manageToggle.classList.add('active');
-        createToggle.classList.remove('active');
-        manageSection.classList.add('active');
-        createSection.classList.remove('active');
-    });
-    
-    // Handle the create job form submission
-    const createJobForm = document.getElementById('create-job-form');
-    if (createJobForm) {
-        createJobForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const jobData = {
-                job_title: document.getElementById('jobTitle').value,
-                description: document.getElementById('jobDescription').value,
-                qualification: document.getElementById('jobQualification').value,
-                type: document.getElementById('jobType').value
-            };
-            
-            try {
-                const response = await fetch('/recruitment/job-postings', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(jobData)
-                });
-                
-                if (response.ok) {
-                    alert('Job posting created successfully!');
-                    // Reload the page to see the new job posting
-                    window.location.reload();
-                } else {
-                    const data = await response.json();
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                alert('Failed to create job posting');
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get toggle buttons
+        const createToggle = document.getElementById('toggle-create');
+        const manageToggle = document.getElementById('toggle-manage');
+
+        // Get sections
+        const createSection = document.getElementById('create-section');
+        const manageSection = document.getElementById('manage-section');
+
+        // Toggle function
+        createToggle.addEventListener('click', function() {
+            createToggle.classList.add('active');
+            manageToggle.classList.remove('active');
+            createSection.classList.add('active');
+            manageSection.classList.remove('active');
+            document.getElementById('create-job-form').reset();
+            document.getElementById('jobId').value = ""; // Reset jobId when switching
         });
-    }
-    
-    // Handle delete button clicks
-    const deleteButtons = document.querySelectorAll('.delete-job');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', async function() {
-            if (confirm('Are you sure you want to delete this job posting?')) {
-                const jobId = this.getAttribute('data-id');
-                
+
+        manageToggle.addEventListener('click', function() {
+            manageToggle.classList.add('active');
+            createToggle.classList.remove('active');
+            manageSection.classList.add('active');
+            createSection.classList.remove('active');
+        });
+
+        // Handle the create job form submission
+        const createJobForm = document.getElementById('create-job-form');
+        if (createJobForm) {
+            createJobForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const jobId = document.getElementById('jobId').value;
+                const jobData = {
+                    job_title: document.getElementById('jobTitle').value,
+                    description: document.getElementById('jobDescription').value,
+                    qualification: document.getElementById('jobQualification').value,
+                    type: document.getElementById('jobType').value
+                };
+
                 try {
-                    const response = await fetch(`/recruitment/job-postings/${jobId}`, {
-                        method: 'DELETE'
-                    });
-                    
-                    if (response.ok) {
-                        alert('Job posting deleted successfully!');
-                        // Reload the page to update the table
-                        window.location.reload();
+                    let response;
+                    if (jobId) {
+                        // Update job
+                        response = await fetch(`/recruitment/job-postings/${jobId}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(jobData)
+                        });
                     } else {
-                        const data = await response.json();
-                        alert(`Error: ${data.message}`);
+                        // Create new job
+                        response = await fetch('/recruitment/job-postings', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(jobData)
+                        });
+                    }
+
+                    const data = await response.json();
+                    alert(data.message);
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to process job posting');
+                }
+            });
+        }
+
+        // Handle edit button clicks
+        document.querySelectorAll('.edit-job').forEach(button => {
+            button.addEventListener('click', async function() {
+                const jobId = this.getAttribute('data-id');
+
+                try {
+                    const response = await fetch(`/recruitment/job-postings/${jobId}`);
+                    const job = await response.json();
+
+                    if (job) {
+                        document.getElementById('jobId').value = jobId;
+                        document.getElementById('jobTitle').value = job.Job_Title;
+                        document.getElementById('jobDescription').value = job.Job_Description;
+                        document.getElementById('jobQualification').value = job.Qualifications;
+                        document.getElementById('jobType').value = job.Job_Type;
+
+                        createToggle.click(); // Switch to the create section
                     }
                 } catch (error) {
-                    console.error('Error deleting job posting:', error);
-                    alert('Failed to delete job posting');
+                    console.error('Error fetching job details:', error);
+                    alert('Failed to fetch job details');
                 }
-            }
+            });
+        });
+
+        // Handle delete button clicks
+        document.querySelectorAll('.delete-job').forEach(button => {
+            button.addEventListener('click', async function() {
+                if (confirm('Are you sure you want to delete this job posting?')) {
+                    const jobId = this.getAttribute('data-id');
+
+                    try {
+                        const response = await fetch(`/recruitment/job-postings/${jobId}`, {
+                            method: 'DELETE'
+                        });
+
+                        const data = await response.json();
+                        alert(data.message);
+                        window.location.reload();
+                    } catch (error) {
+                        console.error('Error deleting job posting:', error);
+                        alert('Failed to delete job posting');
+                    }
+                }
+            });
         });
     });
-});
 </script>
 
 <%- include('../../partials/footer') %>

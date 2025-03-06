@@ -111,7 +111,6 @@
                                     <td><%= applicant.Interview_Date || 'N/A' %></td>
                                     <td><%= applicant.Interviewer || 'N/A' %></td>
                                     <td>
-                                        <a href="/recruitment/applicants/<%= applicant.Applicant_ID %>" class="btn btn-sm btn-info">View</a>
                                         <a href="/recruitment/interview-scheduling?applicantId=<%= applicant.Applicant_ID %>" class="btn btn-sm btn-primary" <%= applicant.Interview_Scheduled_Status == 1 ? 'disabled' : '' %>>
                                             <%= applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Schedule Interview' %>
                                         </a>
