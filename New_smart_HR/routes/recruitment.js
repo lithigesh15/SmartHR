@@ -21,10 +21,14 @@ router.get('/job-postings/:id', authMiddleware.isAuthenticated, recruitmentContr
 router.get('/application-tracking', authMiddleware.isAuthenticated, recruitmentController.getApplicationTracking);
 router.get('/api/applicants', authMiddleware.isAuthenticated, recruitmentController.searchApplicants);
 
+
 // Interview Scheduling
 router.get('/interview-scheduling', authMiddleware.isAuthenticated, recruitmentController.getInterviewScheduling);
-router.post('/api/interviews', authMiddleware.isAuthenticated, recruitmentController.scheduleInterview);
-router.get('/api/interviews', authMiddleware.isAuthenticated, recruitmentController.searchInterviews);
+router.post('/interview-scheduling', authMiddleware.isAuthenticated, recruitmentController.scheduleInterview);
+router.get('/interviews/search', authMiddleware.isAuthenticated, recruitmentController.searchInterviews);
+
+
+
 
 // Onboarding
 router.get('/onboarding', authMiddleware.isAuthenticated, recruitmentController.getOnboarding);

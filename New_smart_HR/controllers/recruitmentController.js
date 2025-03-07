@@ -79,44 +79,44 @@ exports.getApplicationTracking = async (req, res) => {
 
 exports.searchApplicants = async (req, res) => {
   try {
-    const { searchCriteria, searchInput } = req.query;
-    let sqlQuery = `
-      SELECT 
-        Applicant_ID, 
-        Applied_Job_ID, 
-        Name, 
-        Email, 
-        Experience, 
-        Interview_Scheduled_Status,
-        Interview_Date,
-        Interviewer
-      FROM Applicant WHERE 1=1
-    `;
-    let params = [];
-    
-    if (searchCriteria === 'name' && searchInput) {
-      sqlQuery += ' AND Name LIKE ?';
-      params.push(`%${searchInput}%`);
-    } else if (searchCriteria === 'email' && searchInput) {
-      sqlQuery += ' AND Email LIKE ?';
-      params.push(`%${searchInput}%`);
-    } else if (searchCriteria === 'experience' && searchInput) {
-      sqlQuery += ' AND Experience LIKE ?';
-      params.push(`%${searchInput}%`);
-    } else if (searchCriteria === 'interviewStatus' && searchInput) {
-      // Convert text to binary for interview status
-      const statusValue = searchInput.toLowerCase().includes('scheduled') ? 1 : 0;
-      sqlQuery += ' AND Interview_Scheduled_Status = ?';
-      params.push(statusValue);
-    }
-    
-    const [applicants] = await db.query(sqlQuery, params);
-    res.json(applicants);
+      const { searchCriteria, searchInput } = req.query;
+      let sqlQuery = `
+          SELECT 
+              Applicant_ID, 
+              Applied_Job_ID, 
+              Name, 
+              Email, 
+              Experience, 
+              Interview_Scheduled_Status,
+              Interview_Date,
+              Interviewer
+          FROM Applicant WHERE 1=1
+      `;
+      let params = [];
+
+      if (searchCriteria === 'name' && searchInput) {
+          sqlQuery += ' AND Name LIKE ?';
+          params.push(`%${searchInput}%`);
+      } else if (searchCriteria === 'email' && searchInput) {
+          sqlQuery += ' AND Email LIKE ?';
+          params.push(`%${searchInput}%`);
+      } else if (searchCriteria === 'experience' && searchInput) {
+          sqlQuery += ' AND CAST(Experience AS CHAR) LIKE ?';
+          params.push(`%${searchInput}%`);
+      } else if (searchCriteria === 'interviewStatus' && searchInput) {
+          const statusValue = searchInput.toLowerCase().includes('scheduled') ? 1 : 0;
+          sqlQuery += ' AND Interview_Scheduled_Status = ?';
+          params.push(statusValue);
+      }
+
+      const [applicants] = await db.query(sqlQuery, params);
+      res.json(applicants);
   } catch (error) {
-    console.error('Error searching applicants:', error);
-    res.status(500).json({ message: 'Error searching applicants' });
+      console.error('Error searching applicants:', error);
+      res.status(500).json({ message: 'Error searching applicants' });
   }
 };
+
 
 // Get applicant details
 exports.getApplicantDetails = async (req, res) => {
@@ -161,51 +161,72 @@ exports.getApplicantDetails = async (req, res) => {
   }
 };
 
-// Interview Scheduling
+
+// Fetch Interview Scheduling Page (Only show Not Scheduled Applicants)
 exports.getInterviewScheduling = async (req, res) => {
-  try {
-    // Get applicantId from query parameters if provided
-    const { applicantId } = req.query;
-    
-    const [departments] = await db.query('SELECT * FROM Department');
-    res.render('modules/recruitment/interview_scheduling', {
-      title: 'Interview Scheduling - Smart HR',
-      user: req.session.user,
-      departments,
-      applicantId // Pass applicantId to the view
-    });
-  } catch (error) {
-    console.error('Error loading interview scheduling:', error);
-    res.status(500).render('error', {
-      title: 'Error',
-      message: 'Failed to load interview scheduling',
-      error: {}
-    });
-  }
+    try {
+        const applicantId = req.query.applicantId || ''; // Capture applicant ID if redirected from Application Tracking
+
+        // Fetch only applicants who have not been scheduled yet
+        const [scheduledInterviews] = await db.query(`
+            SELECT A.Applicant_ID, A.Name, J.Job_Title, A.Interview_Date, A.Interviewer, A.Interview_Scheduled_Status
+            FROM Applicant A
+            JOIN Job_Posting J ON A.Applied_Job_ID = J.Job_ID
+            WHERE A.Interview_Scheduled_Status = 0
+            ORDER BY A.Name ASC
+        `);
+
+        res.render('modules/recruitment/interview_scheduling', {
+            title: 'Interview Scheduling - Smart HR',
+            user: req.session.user,
+            scheduledInterviews: scheduledInterviews || [],
+            applicantId // Pass applicantId to EJS for auto-filling
+        });
+    } catch (error) {
+        console.error('Error fetching interview data:', error);
+        res.status(500).render('error', { title: 'Error', message: 'Failed to load interview data', error: {} });
+    }
 };
 
-// Schedule interview
+// Schedule Interview (Fix Date Format)
 exports.scheduleInterview = async (req, res) => {
-  try {
-    const { applicantId, interviewDate, interviewer } = req.body;
-    
-    // Update the applicant with interview details
-    await db.query(`
-      UPDATE Applicant 
-      SET 
-        Interview_Scheduled_Status = 1,
-        Interview_Date = ?,
-        Interviewer = ?
-      WHERE 
-        Applicant_ID = ?
-    `, [interviewDate, interviewer, applicantId]);
-    
-    res.json({ success: true, message: 'Interview scheduled successfully' });
-  } catch (error) {
-    console.error('Error scheduling interview:', error);
-    res.status(500).json({ success: false, message: 'Failed to schedule interview' });
-  }
+    try {
+        const { applicantId, interviewDate, interviewer } = req.body;
+
+        if (!applicantId || !interviewDate || !interviewer) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+
+        // Convert interviewDate format from "YYYY-MM-DDTHH:MM" to "YYYY-MM-DD HH:MM:SS"
+        const formattedInterviewDate = interviewDate.replace('T', ' ') + ':00';
+
+        // Ensure interview date is in the future
+        const interviewDateTime = new Date(formattedInterviewDate);
+        if (interviewDateTime <= new Date()) {
+            return res.status(400).json({ success: false, message: 'Interview date must be in the future' });
+        }
+
+        // Check if applicant exists
+        const [applicant] = await db.query('SELECT * FROM Applicant WHERE Applicant_ID = ?', [applicantId]);
+        if (applicant.length === 0) {
+            return res.status(404).json({ success: false, message: 'Applicant not found' });
+        }
+
+        // Schedule interview
+        await db.query(`
+            UPDATE Applicant 
+            SET Interview_Scheduled_Status = 1, Interview_Date = ?, Interviewer = ?
+            WHERE Applicant_ID = ?
+        `, [formattedInterviewDate, interviewer, applicantId]);
+
+        res.json({ success: true, message: 'Interview scheduled successfully' });
+    } catch (error) {
+        console.error('Error scheduling interview:', error);
+        res.status(500).json({ success: false, message: 'Failed to schedule interview' });
+    }
 };
+
+
 
 // Search interviews - Modified to work without direct Department_ID in Job_Posting
 exports.searchInterviews = async (req, res) => {
@@ -297,70 +318,63 @@ function getDepartmentNameForJob(jobTitle) {
   return 'General';
 }
 
-// Onboarding
+// Fetch Onboarding Page
 exports.getOnboarding = async (req, res) => {
-  try {
-    // Fetch departments
-    const [departments] = await db.query('SELECT * FROM Department');
-    
-    // Fetch recent onboardings for display
-    const [recentOnboardings] = await db.query(`
-      SELECT 
-        e.Employee_ID,
-        a.Name,
-        a.Email,
-        d.Department_Name,
-        e.Hired_Salary,
-        e.Joining_Date
-      FROM 
-        Employee e
-      JOIN 
-        Applicant a ON e.Applicant_ID = a.Applicant_ID
-      JOIN 
-        Department d ON e.Department_ID = d.Department_ID
-      ORDER BY 
-        e.Joining_Date DESC
-      LIMIT 10
-    `);
-    
-    res.render('modules/recruitment/onboarding', {
-      title: 'Onboarding - Smart HR',
-      user: req.session.user,
-      departments,
-      recentOnboardings
-    });
-  } catch (error) {
-    console.error('Error loading onboarding:', error);
-    res.status(500).render('error', {
-      title: 'Error',
-      message: 'Failed to load onboarding',
-      error: {}
-    });
-  }
+    try {
+        // Fetch recent onboardings with applicant name & status
+        const [recentOnboardings] = await db.query(`
+            SELECT E.Employee_ID, A.Applicant_ID, A.Name, E.Joining_Date,
+                   CASE 
+                        WHEN E.Employee_ID IS NOT NULL THEN 'Completed'
+                        ELSE 'Pending'
+                   END AS Onboarding_Status
+            FROM Applicant A
+            LEFT JOIN Employee E ON A.Applicant_ID = E.Applicant_ID
+        `);
+
+        res.render('modules/recruitment/onboarding', {
+            title: 'Employee Onboarding - Smart HR',
+            user: req.session.user,
+            recentOnboardings
+        });
+    } catch (error) {
+        console.error('Error fetching onboarding data:', error);
+        res.status(500).render('error', { title: 'Error', message: 'Failed to load onboarding data', error: {} });
+    }
 };
 
+// Complete Onboarding
 exports.onboardEmployee = async (req, res) => {
-  try {
-    const { applicantID, department, salary } = req.body;
-    
-    // First, get the applicant details
-    const [applicants] = await db.query('SELECT * FROM Applicant WHERE Applicant_ID = ?', [applicantID]);
-    
-    if (!applicants || applicants.length === 0) {
-      return res.status(404).json({ message: 'Applicant not found' });
+    try {
+        const { applicantID } = req.body;
+
+        if (!applicantID) {
+            return res.status(400).json({ message: 'Applicant ID is required' });
+        }
+
+        // Check if the applicant exists
+        const [applicant] = await db.query('SELECT * FROM Applicant WHERE Applicant_ID = ?', [applicantID]);
+        if (applicant.length === 0) {
+            return res.status(404).json({ message: 'Applicant not found' });
+        }
+
+        // Check if the applicant is already onboarded
+        const [existingEmployee] = await db.query('SELECT * FROM Employee WHERE Applicant_ID = ?', [applicantID]);
+        if (existingEmployee.length > 0) {
+            return res.status(400).json({ message: 'Applicant is already onboarded' });
+        }
+
+        // Insert into Employee table
+        await db.query(
+            'INSERT INTO Employee (Applicant_ID, Joining_Date) VALUES (?, CURDATE())',
+            [applicantID]
+        );
+
+        res.status(201).json({ message: 'Onboarding completed successfully' });
+    } catch (error) {
+        console.error('Error onboarding employee:', error);
+        res.status(500).json({ message: 'Failed to complete onboarding' });
     }
-    
-    // Insert into Employee table
-    await db.query(
-      'INSERT INTO Employee (Applicant_ID, Department_ID, Hired_Salary, Joining_Date) VALUES (?, ?, ?, CURDATE())',
-      [applicantID, department, salary]
-    );
-    
-    res.status(200).json({ message: 'Employee onboarded successfully' });
-  } catch (error) {
-    console.error('Error onboarding employee:', error);
-    res.status(500).json({ message: 'Failed to onboard employee' });
-  }
 };
 
 // Update Job Posting
