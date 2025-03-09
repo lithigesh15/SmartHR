@@ -20,7 +20,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
       message.classList.remove("d-none");
       setTimeout(() => {
         window.location.href = "/dashboard";
-      }, 1000);
+      }, 500);
     } else {
       message.className = "alert alert-danger";
       message.textContent = data.message || "Incorrect username or password.";
