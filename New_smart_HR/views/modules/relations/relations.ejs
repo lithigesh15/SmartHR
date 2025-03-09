@@ -1,0 +1,122 @@
+<%- include('../../partials/header') %>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Relations</li>
+    </ol>
+</nav>
+
+<h1 class="mb-4 text-center">Employee Relations</h1>
+
+<!-- Relations Layout -->
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="conflict-management">
+                <h4>Conflict Management</h4>
+                <p>Manage workplace conflicts and foster collaboration.</p>
+                <a href="/relations/conflict-management" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="engagement-activities">
+                <h4>Engagement Activities</h4>
+                <p>Promote employee engagement with interactive activities.</p>
+                <a href="/relations/engagement-activities" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4"></div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded" id="surveys">
+                <h4>Surveys</h4>
+                <p>Gather employee feedback through surveys.</p>
+                <a href="/relations/surveys" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<!-- Embedded CSS -->
+<style>
+    /* Navbar styles */
+    header {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header a, header a:hover, header a:focus {
+        color: white;
+        text-decoration: none;
+    }
+
+    header img {
+        border: 2px solid white;
+    }
+
+    /* Breadcrumb styles */
+    .breadcrumb {
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0.75rem 1rem;
+        border-radius: 0;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .breadcrumb a {
+        text-decoration: none;
+        color: #0d6efd;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb .text-secondary {
+        font-weight: 500;
+    }
+
+    /* General Styles */
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Box Styling */
+    .box {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+    }
+
+    .box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Button Styling */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+
+<!-- Embedded JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("Relations page loaded successfully.");
+    });
+</script>

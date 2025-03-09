@@ -1,0 +1,176 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    .toggle-buttons { display: flex; justify-content: center; margin-bottom: 20px; }
+    .toggle-buttons button { margin: 0 10px; }
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/relations">Relations</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Engagement Activities</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <h1 class="mb-4 text-center">Engagement Activities</h1>
+    <div class="toggle-buttons d-flex justify-content-center mb-3">
+        <button id="toggle-create" class="btn btn-outline-primary">Create</button>
+        <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
+    </div>
+
+    <!-- Create Section -->
+    <div id="create-section" class="content-section">
+        <h3>Create a New Engagement Activity</h3>
+        <form id="create-activity-form" class="p-3 border rounded shadow-sm">
+            <div class="mb-3">
+                <label class="form-label">Activity Name</label>
+                <input type="text" id="activityName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea id="activityDescription" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Type</label>
+                <select id="activityType" class="form-select" required>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Team Building">Team Building</option>
+                    <option value="Wellness Session">Wellness Session</option>
+                    <option value="CSR Activity">CSR Activity</option>
+                    <option value="Training Program">Training Program</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date</label>
+                <input type="date" id="activityDate" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Manage Section -->
+    <div id="manage-section" class="content-section active">
+        <h3>Manage Activities</h3>
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Filter by Status</label>
+            <select id="filter-status" class="form-select">
+                <option value="all">All</option>
+                <option value="Conducted">Conducted</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Yet to be Conducted">Yet to be Conducted</option>
+            </select>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Activity Name</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="activity-list">
+                <% activities.forEach(activity => { %>
+                <tr data-activity-id="<%= activity.Activity_ID %>">
+                    <td><%= activity.Activity_ID %></td>
+                    <td><%= activity.Activity_Name %></td>
+                    <td><%= activity.Activity_Type %></td>
+                    <td><%= activity.Activity_Date %></td>
+                    <td>
+                        <select class="status-select" data-activity-id="<%= activity.Activity_ID %>" onchange="updateStatus(this)">
+                            <option value="Conducted" <%= activity.Status === 'Conducted' ? 'selected' : '' %>>Conducted</option>
+                            <option value="Cancelled" <%= activity.Status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                            <option value="Yet to be Conducted" <%= activity.Status === 'Yet to be Conducted' ? 'selected' : '' %>>Yet to be Conducted</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-activity" data-activity-id="<%= activity.Activity_ID %>">Delete</button>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script>
+    // Toggle between Create and Manage Sections
+    document.getElementById('toggle-create').addEventListener('click', () => {
+        document.getElementById('create-section').classList.add('active');
+        document.getElementById('manage-section').classList.remove('active');
+    });
+
+    document.getElementById('toggle-manage').addEventListener('click', () => {
+        document.getElementById('manage-section').classList.add('active');
+        document.getElementById('create-section').classList.remove('active');
+    });
+
+    // Create New Activity
+    document.getElementById('create-activity-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const data = {
+            activityName: document.getElementById('activityName').value,
+            description: document.getElementById('activityDescription').value,
+            activityType: document.getElementById('activityType').value,
+            activityDate: document.getElementById('activityDate').value
+        };
+
+        const response = await fetch('/relations/engagement-activities', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) location.reload();
+        else console.error("Error creating activity.");
+    });
+
+    // Update Status
+    async function updateStatus(selectElement) {
+        const activityID = selectElement.dataset.activityId;
+        const newStatus = selectElement.value;
+
+        const response = await fetch(`/relations/engagement-activities/${activityID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ newStatus })
+        });
+
+        if (!response.ok) console.error("Error updating status.");
+    }
+
+    // Delete Activity with Auto Refresh
+    document.getElementById('activity-list').addEventListener('click', async function (e) {
+        if (e.target.classList.contains('delete-activity')) {
+            const activityID = e.target.dataset.activityId;
+            const response = await fetch(`/relations/engagement-activities/${activityID}`, { method: 'DELETE' });
+
+            if (response.ok) {
+                location.reload();  // ✅ Refresh page to show updated list
+            } else {
+                console.error("Error deleting activity.");
+            }
+        }
+    });
+
+    // Filter Activities by Status
+    document.getElementById('filter-status').addEventListener('change', function () {
+        let filter = this.value;
+        let rows = document.querySelectorAll('#activity-list tr');
+
+        rows.forEach(row => {
+            let status = row.querySelector('.status-select').value;
+            row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
+        });
+    });
+</script>

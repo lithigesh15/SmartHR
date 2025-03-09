@@ -118,6 +118,7 @@ CREATE TABLE Exit_Management (
     FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
 );
 
+-- New tables
 -- Create Courses Table
 CREATE TABLE Courses (
     Course_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -126,4 +127,40 @@ CREATE TABLE Courses (
     Category VARCHAR(100) NOT NULL,
     Duration VARCHAR(50) NOT NULL,
     Created_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Conflict_Management (
+    Conflict_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Conflict_Type VARCHAR(255) NOT NULL,
+    Status ENUM('Resolved', 'Ongoing', 'Pending') DEFAULT 'Pending',
+    Reported_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE Conflict_Employees (
+    Conflict_Employee_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Conflict_ID INT,
+    Employee_ID INT,
+    FOREIGN KEY (Conflict_ID) REFERENCES Conflict_Management(Conflict_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE Engagement_Activities (
+    Activity_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Activity_Name VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    Activity_Type ENUM('Workshop', 'Team Building', 'Wellness Session', 'CSR Activity', 'Training Program') NOT NULL,
+    Activity_Date DATE NOT NULL,
+    Status ENUM('Conducted', 'Cancelled', 'Yet to be Conducted') DEFAULT 'Yet to be Conducted',
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Surveys (
+    Survey_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Survey_Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    Survey_Type ENUM('Employee Feedback', 'Training Evaluation', 'HR Policy Review', 'Culture & Engagement', 'Wellness Assessment') NOT NULL,
+    Expiry_Date DATE NOT NULL,
+    Status ENUM('Active', 'Closed', 'Draft') DEFAULT 'Draft',
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

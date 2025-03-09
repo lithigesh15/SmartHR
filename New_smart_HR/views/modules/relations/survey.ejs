@@ -1,0 +1,176 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    .toggle-buttons { display: flex; justify-content: center; margin-bottom: 20px; }
+    .toggle-buttons button { margin: 0 10px; }
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/relations">Relations</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Surveys</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <h1 class="mb-4 text-center">Surveys</h1>
+    <div class="toggle-buttons d-flex justify-content-center mb-3">
+        <button id="toggle-create" class="btn btn-outline-primary">Create</button>
+        <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
+    </div>
+
+    <!-- Create Survey Section -->
+    <div id="create-section" class="content-section">
+        <h3>Create a New Survey</h3>
+        <form id="create-survey-form" class="p-3 border rounded shadow-sm">
+            <div class="mb-3">
+                <label class="form-label">Survey Title</label>
+                <input type="text" id="surveyTitle" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea id="surveyDescription" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Type</label>
+                <select id="surveyType" class="form-select" required>
+                    <option value="Employee Feedback">Employee Feedback</option>
+                    <option value="Training Evaluation">Training Evaluation</option>
+                    <option value="HR Policy Review">HR Policy Review</option>
+                    <option value="Culture & Engagement">Culture & Engagement</option>
+                    <option value="Wellness Assessment">Wellness Assessment</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" id="surveyExpiryDate" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Manage Surveys Section -->
+    <div id="manage-section" class="content-section active">
+        <h3>Manage Surveys</h3>
+        <div class="mb-3">
+            <label class="form-label">Filter by Status</label>
+            <select id="filter-status" class="form-select">
+                <option value="all">All</option>
+                <option value="Active">Active</option>
+                <option value="Closed">Closed</option>
+                <option value="Draft">Draft</option>
+            </select>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Survey Title</th>
+                    <th>Type</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="survey-list">
+                <% surveys.forEach(survey => { %>
+                <tr data-survey-id="<%= survey.Survey_ID %>">
+                    <td><%= survey.Survey_ID %></td>
+                    <td><%= survey.Survey_Title %></td>
+                    <td><%= survey.Survey_Type %></td>
+                    <td><%= survey.Expiry_Date %></td>
+                    <td>
+                        <select class="status-select" data-survey-id="<%= survey.Survey_ID %>" onchange="updateStatus(this)">
+                            <option value="Active" <%= survey.Status === 'Active' ? 'selected' : '' %>>Active</option>
+                            <option value="Closed" <%= survey.Status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                            <option value="Draft" <%= survey.Status === 'Draft' ? 'selected' : '' %>>Draft</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-survey" data-survey-id="<%= survey.Survey_ID %>">Delete</button>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script>
+    // Toggle between Create and Manage Sections
+    document.getElementById('toggle-create').addEventListener('click', () => {
+        document.getElementById('create-section').classList.add('active');
+        document.getElementById('manage-section').classList.remove('active');
+    });
+
+    document.getElementById('toggle-manage').addEventListener('click', () => {
+        document.getElementById('manage-section').classList.add('active');
+        document.getElementById('create-section').classList.remove('active');
+    });
+
+    // Create New Survey
+    document.getElementById('create-survey-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const data = {
+            surveyTitle: document.getElementById('surveyTitle').value,
+            description: document.getElementById('surveyDescription').value,
+            surveyType: document.getElementById('surveyType').value,
+            expiryDate: document.getElementById('surveyExpiryDate').value
+        };
+
+        const response = await fetch('/relations/surveys', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) location.reload();
+        else console.error("Error creating survey.");
+    });
+
+    // Update Status
+    async function updateStatus(selectElement) {
+        const surveyID = selectElement.dataset.surveyId;
+        const newStatus = selectElement.value;
+
+        const response = await fetch(`/relations/surveys/${surveyID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ newStatus })
+        });
+
+        if (!response.ok) console.error("Error updating status.");
+    }
+
+    // Delete Survey with Auto Refresh
+    document.getElementById('survey-list').addEventListener('click', async function (e) {
+        if (e.target.classList.contains('delete-survey')) {
+            const surveyID = e.target.dataset.surveyId;
+            const response = await fetch(`/relations/surveys/${surveyID}`, { method: 'DELETE' });
+
+            if (response.ok) {
+                location.reload();  // ✅ Refresh page to show updated list
+            } else {
+                console.error("Error deleting survey.");
+            }
+        }
+    });
+
+    // Filter Surveys by Status
+    document.getElementById('filter-status').addEventListener('change', function () {
+        let filter = this.value;
+        let rows = document.querySelectorAll('#survey-list tr');
+
+        rows.forEach(row => {
+            let status = row.querySelector('.status-select').value;
+            row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
+        });
+    });
+</script>

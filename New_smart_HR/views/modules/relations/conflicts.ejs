@@ -1,0 +1,89 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    body { font-family: Arial, sans-serif; }
+    .container { margin-top: 30px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+    th { background-color: #f8f9fa; }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/relations">Relations</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Conflict Management</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <h2 class="text-center">Conflict Management</h2>
+    
+    <label for="statusFilter" class="form-label">Filter by Action:</label>
+    <select id="statusFilter" class="form-select w-25 mb-3" onchange="filterTable()">
+        <option value="All">All</option>
+        <option value="Resolved">Resolved</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Pending">Pending</option>
+    </select>
+
+    <!-- Conflict Table -->
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Conflict ID</th>
+                    <th>Employee IDs</th>
+                    <th>Type of Conflict</th>
+                    <th>Action Status</th>
+                </tr>
+            </thead>
+            <tbody id="conflictTable">
+                <% conflicts.forEach(conflict => { %>
+                <tr>
+                    <td><%= conflict.Conflict_ID %></td>
+                    <td><%= conflict.Employee_IDs %></td>
+                    <td><%= conflict.Conflict_Type %></td>
+                    <td>
+                        <select class="form-select action-status" data-conflict-id="<%= conflict.Conflict_ID %>" onchange="updateStatus(this)">
+                            <option value="Resolved" <%= conflict.Status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+                            <option value="Ongoing" <%= conflict.Status === 'Ongoing' ? 'selected' : '' %>>Ongoing</option>
+                            <option value="Pending" <%= conflict.Status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                        </select>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<!-- Embedded JavaScript -->
+<script>
+    function filterTable() {
+        let selectedStatus = document.getElementById("statusFilter").value;
+        let tableRows = document.querySelectorAll("#conflictTable tr");
+
+        tableRows.forEach(row => {
+            let status = row.querySelector(".action-status").value;
+            row.style.display = (selectedStatus === "All" || status === selectedStatus) ? "" : "none";
+        });
+    }
+
+    function updateStatus(selectElement) {
+        let conflictID = selectElement.dataset.conflictId;
+        let newStatus = selectElement.value;
+
+        fetch('/relations/conflict-management/update-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ conflictID, newStatus })
+        }).then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error("Error:", error));
+    }
+</script>
