@@ -164,3 +164,22 @@ CREATE TABLE Surveys (
     Status ENUM('Active', 'Closed', 'Draft') DEFAULT 'Draft',
     Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE Performance (
+    Performance_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Employee_ID INT NOT NULL,
+    KPIs TEXT NOT NULL,
+    Review_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Appraisal INT CHECK (Appraisal BETWEEN 1 AND 5),
+    Comments TEXT NOT NULL,
+    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE Goals (
+    Goal_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    Deadline DATE NOT NULL,
+    Status ENUM('Not Started', 'In Progress', 'Completed') NOT NULL,
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

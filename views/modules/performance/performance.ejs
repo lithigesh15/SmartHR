@@ -1,0 +1,78 @@
+<%- include('../../partials/header') %>
+
+<style>
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-radius: 10px;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .breadcrumb {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Performance</li>
+  </ol>
+</nav>
+
+<h1 class="mb-4 text-center">Performance Management</h1>
+
+<!-- Performance Dashboard -->
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Create Goal</h4>
+          <p class="card-text">Establish clear objectives to align employee efforts with organizational goals.</p>
+          <a href="/performance/goals" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Goal Tracking</h4>
+          <p class="card-text">Track and manage employee progress towards achieving set goals.</p>
+          <a href="/performance/goals/tracking" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Appraisal System</h4>
+          <p class="card-text">Evaluate employee performance to provide feedback and recognition.</p>
+          <a href="/performance/appraisal" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-body text-center p-4">
+          <h4 class="card-title">Appraisal Manager</h4>
+          <p class="card-text">Manage previously recorded appraisals efficiently.</p>
+          <a href="/performance/appraisal_tracking" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>

@@ -1,0 +1,108 @@
+<%- include('../../partials/header') %>
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  h1 {
+    color: #007bff;
+  }
+
+  .card {
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb-container">
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="/performance">Performance</a></li>
+      <li class="breadcrumb-item active text-secondary" aria-current="page">Appraisal</li>
+    </ol>
+  </div>
+</nav>
+
+<h1 class="text-center mb-4">Employee Appraisal</h1>
+
+<!-- Appraisal Form -->
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card shadow p-4 rounded">
+        <h4 class="text-center">Appraisal Form</h4>
+        <form id="appraisal-form">
+          <div class="mb-3">
+            <label for="employeeId" class="form-label">Employee ID</label>
+            <input type="number" class="form-control" id="employeeId" required>
+          </div>
+          <div class="mb-3">
+            <label for="kpi" class="form-label">Key Performance Indicators (KPIs)</label>
+            <input type="text" class="form-control" id="kpi" required>
+          </div>
+          <div class="mb-3">
+            <label for="rating" class="form-label">Performance Rating (1-5)</label>
+            <input type="number" class="form-control" id="rating" min="1" max="5" required>
+          </div>
+          <div class="mb-3">
+            <label for="comments" class="form-label">Comments</label>
+            <textarea class="form-control" id="comments" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Submit Appraisal</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script>
+document.getElementById('appraisal-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const employeeId = document.getElementById('employeeId').value;
+    const kpi = document.getElementById('kpi').value;
+    const rating = document.getElementById('rating').value;
+    const comments = document.getElementById('comments').value;
+
+    if (!employeeId || !kpi || rating < 1 || rating > 5 || !comments) {
+        alert('Please fill all fields with valid data!');
+        return;
+    }
+
+    try {
+        const response = await fetch('/performance/appraisal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ employeeId, kpi, rating, comments })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Appraisal submitted successfully!');
+            document.getElementById('appraisal-form').reset();
+        } else {
+            alert(data.message || 'Failed to submit appraisal.');
+        }
+    } catch (error) {
+        console.error('Error submitting appraisal:', error);
+        alert('Server error. Please try again.');
+    }
+});
+</script>

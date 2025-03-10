@@ -1,0 +1,198 @@
+<%- include('../../partials/header') %>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        flex: 1;
+        max-width: 900px;
+        margin-top: 30px;
+    }
+
+    /* Centering the Search Bar */
+    .search-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-container input {
+        font-size: 1.2rem;
+        padding: 12px;
+        width: 80%;
+        max-width: 500px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        transition: 0.3s ease;
+        text-align: center;
+    }
+
+    .search-container input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .search-container button {
+        font-size: 1.2rem;
+        padding: 10px 25px;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .search-container button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* Employee Details Box */
+    .info-card {
+        background: #e9ecef;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Enhancements */
+    .table-container {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0px 10px; /* Adds spacing between rows */
+    }
+
+    .table th {
+        background-color: #e0e0e0; /* Grey column headers */
+        color: black;
+        font-size: 1rem;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .table td {
+        padding: 12px;
+        background: white;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .table tbody tr {
+        margin-bottom: 15px; /* Adds spacing between rows */
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    footer {
+        background: #fff;
+        padding: 15px 0;
+        text-align: center;
+        margin-top: auto;
+        border-top: 1px solid #ddd;
+    }
+</style>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb-container">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Employee Records</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 class="text-center">Employee Record Search</h2>
+    
+    <div class="search-container">
+        <label for="employeeId" class="form-label"><strong>Enter Employee ID:</strong></label>
+        <input type="number" id="employeeId" class="form-control" placeholder="Enter Employee ID (Starting from 1)">
+        <button id="searchBtn" class="btn">Search</button>
+    </div>
+    
+    <div id="employeeDetails" class="mt-4"></div>
+</div>
+
+<footer>
+    <p>© 2025 Smart HR</p>
+</footer>
+
+<script>
+document.getElementById('searchBtn').addEventListener('click', async function () {
+    let empId = document.getElementById('employeeId').value.trim();
+    
+    if (!empId) {
+        document.getElementById('employeeDetails').innerHTML = `<p class='error-message'>Please enter an Employee ID.</p>`;
+        return;
+    }
+
+    try {
+        const response = await fetch(`/records/employee/${empId}`);
+        const data = await response.json();
+
+        if (data.success) {
+            let emp = data.employee;
+            let formattedDate = new Date(emp.Joining_Date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+
+            let tableHTML = `
+                <div class="info-card">
+                    <h4>${emp.Name}</h4>
+                    <p><strong>Email:</strong> ${emp.Email} | <strong>Phone:</strong> ${emp.Phone || 'N/A'}</p>
+                </div>
+                <div class="table-container">
+                    <table class="table">
+                        <tbody>
+                            <tr><th>Department</th><td>${emp.Department_Name}</td></tr>
+                            <tr><th>Job Role</th><td>${emp.Job_Title}</td></tr>
+                            <tr><th>Joining Date</th><td>${formattedDate}</td></tr>
+                            <tr><th>Salary</th><td>$${emp.Hired_Salary}</td></tr>
+                            <tr><th>Performance Score</th><td>${emp.Appraisal || 'N/A'}</td></tr>
+                            <tr><th>Last Training Attended</th><td>${emp.Last_Training || 'N/A'}</td></tr>
+                            <tr><th>Total Trainings Completed</th><td>${emp.Total_Trainings || 0}</td></tr>
+                            <tr><th>Leave Balance</th><td>${emp.Leave_Balance || 'N/A'}</td></tr>
+                            <tr><th>Exit Status</th><td>${emp.Exit_Status || 'Active'}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            document.getElementById('employeeDetails').innerHTML = tableHTML;
+        } else {
+            document.getElementById('employeeDetails').innerHTML = `<p class='error-message'>${data.message}</p>`;
+        }
+    } catch (error) {
+        console.error('Error fetching employee details:', error);
+        document.getElementById('employeeDetails').innerHTML = `<p class='error-message'>Failed to fetch employee details.</p>`;
+    }
+});
+</script>
+
+<%- include('../../partials/footer') %>

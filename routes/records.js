@@ -1,14 +1,12 @@
-
-// routes/records.js
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
+const recordsController = require('../controllers/recordsController');
 
-router.get('/', authMiddleware.isAuthenticated, (req, res) => {
-  res.render('modules/records', {
-    title: 'Employee Records - Smart HR',
-    user: req.session.user
-  });
-});
+// Employee Records Page
+router.get('/', authMiddleware.isAuthenticated, recordsController.showEmployeeRecordsPage);
+
+// Fetch Employee Details API
+router.get('/employee/:employeeId', authMiddleware.isAuthenticated, recordsController.getEmployeeDetails);
 
 module.exports = router;
