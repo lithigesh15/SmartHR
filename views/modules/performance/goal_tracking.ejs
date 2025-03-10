@@ -29,6 +29,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px;
+  }
+
+  .goal-status {
+    width: 150px;
   }
 
   button {
@@ -63,8 +68,12 @@
                 <p class="mb-0"><%= goal.Description %></p>
                 <small>Deadline: <%= goal.Deadline %></small>
               </div>
-              <div>
-                <!-- <button class="btn btn-success btn-sm edit-btn" data-id="<%= goal.Goal_ID %>">Edit</button> -->
+              <div class="d-flex gap-2">
+                <select class="form-select goal-status" data-id="<%= goal.Goal_ID %>">
+                  <option value="Not Started" <%= goal.Status === 'Not Started' ? 'selected' : '' %>>Not Started</option>
+                  <option value="In Progress" <%= goal.Status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                  <option value="Completed" <%= goal.Status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                </select>
                 <button class="btn btn-danger btn-sm delete-btn" data-id="<%= goal.Goal_ID %>">Delete</button>
               </div>
             </li>
@@ -75,91 +84,34 @@
   </div>
 </div>
 
-<!-- Goal Update Modal -->
-<div class="modal fade" id="updateGoalModal" tabindex="-1" aria-labelledby="updateGoalModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateGoalModalLabel">Update Goal</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="update-goal-form">
-          <input type="hidden" id="goal-id">
-          <div class="mb-3">
-            <label for="update-goal-title" class="form-label">Goal Title</label>
-            <input type="text" class="form-control" id="update-goal-title" required>
-          </div>
-          <div class="mb-3">
-            <label for="update-goal-description" class="form-label">Description</label>
-            <textarea class="form-control" id="update-goal-description" rows="3" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="update-goal-deadline" class="form-label">Deadline</label>
-            <input type="date" class="form-control" id="update-goal-deadline" required>
-          </div>
-          <div class="mb-3">
-            <label for="update-goal-status" class="form-label">Status</label>
-            <select class="form-select" id="update-goal-status">
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Update Goal</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
 <%- include('../../partials/footer') %>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const goalList = document.getElementById("goal-list");
-    const updateGoalForm = document.getElementById("update-goal-form");
+    const goalStatusElements = document.querySelectorAll(".goal-status");
 
-    // Edit Goal
-    document.querySelectorAll(".edit-btn").forEach(button => {
-        button.addEventListener("click", function () {
+    // Update goal status
+    goalStatusElements.forEach(select => {
+        select.addEventListener("change", function () {
             const goalId = this.getAttribute("data-id");
+            const newStatus = this.value;
 
-            fetch(`/performance/goals/${goalId}`)
-                .then(response => response.json())
-                .then(goal => {
-                    document.getElementById("goal-id").value = goal.Goal_ID;
-                    document.getElementById("update-goal-title").value = goal.Title;
-                    document.getElementById("update-goal-description").value = goal.Description;
-                    document.getElementById("update-goal-deadline").value = goal.Deadline;
-                    document.getElementById("update-goal-status").value = goal.Status;
-
-                    const updateModal = new bootstrap.Modal(document.getElementById("updateGoalModal"));
-                    updateModal.show();
-                })
-                .catch(error => console.error("Error fetching goal:", error));
-        });
-    });
-
-    // Update Goal
-    updateGoalForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const goalId = document.getElementById("goal-id").value;
-
-        fetch(`/performance/goals/${goalId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                title: document.getElementById("update-goal-title").value,
-                description: document.getElementById("update-goal-description").value,
-                deadline: document.getElementById("update-goal-deadline").value,
-                status: document.getElementById("update-goal-status").value
+            fetch(`/performance/goals/status`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ goalId, status: newStatus })
             })
-        })
-        .then(response => response.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Error updating goal:", error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Goal status updated successfully!");
+                    location.reload();
+                } else {
+                    alert("Error updating goal status.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
     });
 
     // Delete Goal
@@ -169,8 +121,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             fetch(`/performance/goals/${goalId}`, { method: "DELETE" })
                 .then(response => response.json())
-                .then(() => location.reload())
-                .catch(error => console.error("Error deleting goal:", error));
+                .then(data => {
+                    if (data.success) {
+                        alert("Goal deleted successfully!");
+                        location.reload();
+                    } else {
+                        alert("Error deleting goal.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
         });
     });
 });
