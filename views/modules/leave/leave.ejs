@@ -27,26 +27,52 @@
     background-color: rgba(0, 123, 255, 0.05);
   }
 
-  /* Buttons */
+  /* Approve and Reject Buttons */
   .action-buttons {
     display: flex;
     gap: 8px;
     justify-content: center;
   }
 
-  .btn-save {
-    background-color: #007bff;
-    color: white;
+  .approve, .reject {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 6px 12px;
     border: none;
     border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
-  .btn-save:hover {
-    background-color: #0056b3;
+  .approve {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .approve:hover {
+    background-color: #218838;
     transform: scale(1.1);
+  }
+
+  .reject {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .reject:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+  }
+
+  .approve i, .reject i {
+    margin-right: 5px;
+  }
+
+  .processed {
+    font-weight: bold;
+    color: gray;
   }
 </style>
 
@@ -54,83 +80,59 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Compliance Notifications</li>
+    <li class="breadcrumb-item"><a href="/leave">Leave Management</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Leave Requests</li>
   </ol>
 </nav>
 
-<h1 class="mb-4 text-center">Compliance Notifications</h1>
+<h1 class="mb-4 text-center">Pending Leave Requests</h1>
 
 <div class="container">
-  <!-- Compliance Notifications -->
+  <!-- Leave Requests -->
   <div class="card p-4 mb-4">
-    <h3>Pending Compliance Notifications</h3>
+    <h3>Pending Leave Requests</h3>
     <div class="table-responsive mt-3">
       <table class="table table-striped">
         <thead>
           <tr>
             <th>#</th>
-            <th>Department</th>
-            <th>Compliance Issue</th>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+            <th>Leave Start Date</th>
+            <th>Leave End Date</th>
+            <th>Reason</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <% if (notifications && notifications.length > 0) { %>
-            <% notifications.forEach((notification, index) => { %>
+          <% if (leaveRequests && leaveRequests.length > 0) { %>
+            <% leaveRequests.forEach((request, index) => { %>
               <tr>
                 <td><%= index + 1 %></td>
-                <td><%= notification.Department_Name %></td>
-                <td><%= notification.Compliance_Issue %></td>
+                <td><%= request.Employee_ID %></td>
+                <td><%= request.Employee_Name %></td>
+                <td><%= new Date(request.Start_Date).toISOString().split('T')[0] %></td>
+                <td><%= new Date(request.End_Date).toISOString().split('T')[0] %></td>
+                <td><%= request.Reason %></td>
+                <td><%= request.Permission_Status %></td>
                 <td class="action-buttons">
-                  <button class="btn-save" onclick="saveToTracking(<%= notification.Notification_ID %>)">
-                    <i class="fas fa-check-circle"></i> Save to Tracking
-                  </button>
+                  <% if (request.Permission_Status === 'Pending') { %>
+                    <button class="approve" onclick="handleApprove(<%= request.Leave_ID %>)">
+                      <i class="fas fa-check-circle"></i> Approve
+                    </button>
+                    <button class="reject" onclick="handleReject(<%= request.Leave_ID %>)">
+                      <i class="fas fa-times-circle"></i> Reject
+                    </button>
+                  <% } else { %>
+                    <span class="processed">Processed</span>
+                  <% } %>
                 </td>
               </tr>
             <% }); %>
           <% } else { %>
             <tr>
-              <td colspan="4" class="text-center">No pending compliance notifications</td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Compliance Tracking Table -->
-  <div class="card p-4">
-    <h3>Compliance Tracking</h3>
-    <div class="table-responsive mt-3">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Department</th>
-            <th>Compliance Issue</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if (tracking && tracking.length > 0) { %>
-            <% tracking.forEach((track, index) => { %>
-              <tr>
-                <td><%= index + 1 %></td>
-                <td><%= track.Department_Name %></td>
-                <td><%= track.Compliance_Issue %></td>
-                <td>
-                  <select onchange="updateTrackingStatus(<%= track.Tracking_ID %>, this.value)" id="tracking-status-<%= track.Tracking_ID %>">
-                    <option value="Pending" <%= track.Status === 'Pending' ? 'selected' : '' %>>Pending</option>
-                    <option value="In Progress" <%= track.Status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
-                    <option value="Resolved" <%= track.Status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
-                    <option value="Escalated" <%= track.Status === 'Escalated' ? 'selected' : '' %>>Escalated</option>
-                  </select>
-                </td>                
-              </tr>
-            <% }); %>
-          <% } else { %>
-            <tr>
-              <td colspan="4" class="text-center">No tracked compliance issues</td>
+              <td colspan="8" class="text-center">No pending leave requests</td>
             </tr>
           <% } %>
         </tbody>
@@ -140,56 +142,43 @@
 </div>
 
 <script>
-  async function saveToTracking(notificationId) {
-      try {
-          const response = await fetch(`/compliance/save-to-tracking`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ notificationId })
-          });
-  
-          const result = await response.json();
-          if (!response.ok) {
-              throw new Error(result.message || "Failed to save notification.");
-          }
-  
-          alert(result.message);
-          window.location.reload(); // Reload page to reflect changes
-      } catch (error) {
-          console.error("Error saving notification:", error);
-          alert(error.message);
-      }
-  }
+async function handleApprove(leaveId) {
+    try {
+        const response = await fetch(`/leave/requests/approve/${leaveId}`, { method: "POST" });
+        const result = response.headers.get("content-type")?.includes("application/json")
+            ? await response.json()
+            : { message: "Unexpected response format" };
 
-  async function updateTrackingStatus(trackingId, newStatus) {
-      try {
-          console.log(`Updating Tracking_ID ${trackingId} to Status: ${newStatus}`);
+        if (!response.ok) {
+            throw new Error(result.message || "Failed to approve leave request.");
+        }
 
-          const response = await fetch(`notification/update`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ trackingId, newStatus })
-          });
+        alert(result.message);
+        location.reload();
+    } catch (error) {
+        console.error("Approval Error:", error);
+        alert(error.message);
+    }
+}
 
-          const result = await response.json();
+async function handleReject(leaveId) {
+    try {
+        const response = await fetch(`/leave/requests/reject/${leaveId}`, { method: "POST" });
+        const result = response.headers.get("content-type")?.includes("application/json")
+            ? await response.json()
+            : { message: "Unexpected response format" };
 
-          if (!response.ok) {
-              throw new Error(result.message || "Failed to update status.");
-          }
+        if (!response.ok) {
+            throw new Error(result.message || "Failed to reject leave request.");
+        }
 
-          alert(result.message);
-
-          // Update status in UI without reloading
-          const statusCell = document.querySelector(`#tracking-status-${trackingId}`);
-          if (statusCell) {
-              statusCell.innerText = result.updatedStatus;
-          }
-      } catch (error) {
-          console.error("Error updating status:", error);
-          alert(error.message);
-      }
-  }
-
+        alert(result.message);
+        location.reload();
+    } catch (error) {
+        console.error("Rejection Error:", error);
+        alert(error.message);
+    }
+}
 
 </script>
 
