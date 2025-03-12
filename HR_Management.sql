@@ -183,3 +183,4 @@ CREATE TABLE Goals (
     Status ENUM('Not Started', 'In Progress', 'Completed') NOT NULL,
     Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+

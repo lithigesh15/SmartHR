@@ -1,16 +1,48 @@
-/**
- * Dashboard controller
- * Handles dashboard-related functionality
- */
+const db = require('../config/db');
 
-// Display the dashboard page
 exports.getDashboard = async (req, res) => {
     try {
-        // You can fetch any user-specific data here
-        // For now, we'll just render the dashboard
+        // Fetch employee relations cases (conflict management count)
+        const [relationsResult] = await db.query(`SELECT COUNT(*) AS count FROM Conflict_Management`);
+        const relationsCases = relationsResult[0]?.count || 0;
+
+        // Fetch total employees
+        const [employeeResult] = await db.query(`SELECT COUNT(*) AS count FROM Employee`);
+        const totalEmployees = employeeResult[0]?.count || 0;
+
+        // Fetch leave requests (pending and total)
+        const [leaveResult] = await db.query(`
+            SELECT 
+                COUNT(*) AS totalLeaves, 
+                SUM(CASE WHEN Permission_Status = 'Pending' THEN 1 ELSE 0 END) AS pendingLeaves
+            FROM Leave_Request
+        `);
+        const totalLeaves = leaveResult[0]?.totalLeaves || 0;
+        const pendingLeaves = leaveResult[0]?.pendingLeaves || 0;
+
+        // Fetch performance goals (completed vs total)
+        const [goalsResult] = await db.query(`
+            SELECT 
+                COUNT(*) AS totalGoals, 
+                SUM(CASE WHEN Status = 'Completed' THEN 1 ELSE 0 END) AS completedGoals
+            FROM Goals
+        `);
+        const totalGoals = goalsResult[0]?.totalGoals || 0;
+        const completedGoals = goalsResult[0]?.completedGoals || 0;
+
+        const stats = {
+            relations: relationsCases,
+            totalEmployees: totalEmployees,
+            totalLeaves: totalLeaves,
+            pendingLeaves: pendingLeaves,
+            totalGoals: totalGoals,
+            completedGoals: completedGoals
+        };
+
         res.render('dashboard', {
-            user: req.user, // Pass authenticated user data to the view
-            title: 'Dashboard - Smart HR'
+            title: 'Dashboard - Smart HR',
+            user: req.session.user,
+            stats: stats
         });
     } catch (error) {
         console.error('Dashboard error:', error);
@@ -18,24 +50,5 @@ exports.getDashboard = async (req, res) => {
             message: 'Error loading dashboard', 
             error: process.env.NODE_ENV === 'development' ? error : {} 
         });
-    }
-};
-
-// Future methods for dashboard data can be added here
-exports.getDashboardStats = async (req, res) => {
-    // This would fetch real-time statistics for the dashboard
-    // For now, returns dummy data
-    try {
-        const stats = {
-            attendance: { value: "92/99", change: "+2.1%" },
-            projects: { value: "90/94", change: "-2.1%" },
-            clients: { value: "69/86", change: "-11.2%" },
-            tasks: { value: "25/28", change: "+11.2%" }
-        };
-        
-        res.json(stats);
-    } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-        res.status(500).json({ error: 'Failed to fetch dashboard statistics' });
     }
 };
