@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-// 📌 Get Compliance Dashboard
+// Get Compliance Dashboard
 exports.getCompliancePage = (req, res) => {
     res.render('modules/compliance/compliance', {
         title: 'Compliance - Smart HR',
@@ -8,7 +8,7 @@ exports.getCompliancePage = (req, res) => {
     });
 };
 
-// 📌 Get Policy Repository
+// Get Policy Repository
 exports.getPolicyPage = async (req, res) => {
     try {
         const [policies] = await db.query(`SELECT * FROM Compliance_Policies ORDER BY Policy_ID`);
@@ -24,7 +24,7 @@ exports.getPolicyPage = async (req, res) => {
     }
 };
 
-// 📌 Create a New Policy
+// Create a New Policy
 exports.createPolicy = async (req, res) => {
     try {
         const { policyTitle, description, effectiveDate } = req.body;
@@ -55,7 +55,7 @@ exports.createPolicy = async (req, res) => {
     }
 };
 
-// 📌 Delete a Policy
+// Delete a Policy
 exports.deletePolicy = async (req, res) => {
     try {
         const { id } = req.params;
@@ -67,9 +67,9 @@ exports.deletePolicy = async (req, res) => {
     }
 };
 
-// 📌 Get Compliance Notifications & Tracking Page
 exports.getNotificationsPage = async (req, res) => {
     try {
+        // Fetch active compliance notifications
         const [notifications] = await db.query(`
             SELECT n.Notification_ID, n.Department_ID, n.Compliance_Issue, d.Department_Name
             FROM Compliance_Notifications n
@@ -77,15 +77,21 @@ exports.getNotificationsPage = async (req, res) => {
             ORDER BY n.Created_At DESC
         `);
 
+        // Fetch compliance tracking records (without Notification_ID)
         const [tracking] = await db.query(`
-            SELECT t.Tracking_ID, t.Notification_ID, n.Compliance_Issue, t.Status
+            SELECT 
+                t.Tracking_ID, 
+                t.Department_ID, 
+                d.Department_Name, 
+                t.Compliance_Issue, 
+                t.Status
             FROM Compliance_Tracking t
-            JOIN Compliance_Notifications n ON t.Notification_ID = n.Notification_ID
+            JOIN Department d ON t.Department_ID = d.Department_ID
             ORDER BY t.Updated_At DESC
         `);
 
-        console.log("✅ Notifications:", notifications);
-        console.log("✅ Tracking:", tracking);
+        //console.log("Notifications:", notifications);
+        //console.log("Tracking:", tracking);
 
         res.render('modules/compliance/notification', {
             title: 'Compliance Notifications - Smart HR',
@@ -94,76 +100,97 @@ exports.getNotificationsPage = async (req, res) => {
             tracking: tracking || []
         });
     } catch (error) {
-        console.error('❌ Error fetching notifications:', error);
-        res.status(500).render('error', { message: 'Failed to load compliance notifications' });
+        console.error('Error fetching notifications:', error);
+        res.status(500).render('error', { title: 'Error', message: 'Failed to load compliance notifications' });
     }
 };
+
 
 exports.saveNotificationToTracking = async (req, res) => {
     try {
         const { notificationId } = req.body;
 
-        console.log(`🔹 Received request to save Notification_ID: ${notificationId}`);
+        //console.log(`Received request to save Notification_ID: ${notificationId}`);
 
-        // 1️⃣ Ensure `notificationId` is valid
         if (!notificationId) {
-            console.error('❌ Notification ID is missing or invalid.');
+            console.error('Notification ID is missing or invalid.');
             return res.status(400).json({ success: false, message: 'Invalid notification ID' });
         }
 
-        // 2️⃣ Check if the notification exists in Compliance_Notifications
+        // Fetch notification details before deleting
         const [existingNotification] = await db.query(
             `SELECT * FROM Compliance_Notifications WHERE Notification_ID = ?`,
             [notificationId]
         );
 
         if (existingNotification.length === 0) {
-            console.error('❌ Notification not found in Compliance_Notifications');
+            console.error('Notification not found.');
             return res.status(404).json({ success: false, message: 'Notification not found' });
         }
 
-        console.log(`✅ Found Notification: ${JSON.stringify(existingNotification[0])}`);
+        const { Compliance_Issue, Department_ID } = existingNotification[0];
 
-        // 3️⃣ Insert the notification into Compliance_Tracking
-        const insertQuery = `
-            INSERT INTO Compliance_Tracking (Notification_ID, Status, Updated_At)
-            VALUES (?, 'Pending', NOW())
-        `;
-        const [insertResult] = await db.query(insertQuery, [notificationId]);
+        //console.log(`Found Notification: ${JSON.stringify(existingNotification[0])}`);
 
-        if (!insertResult.affectedRows) {
-            console.error('❌ Failed to insert into Compliance_Tracking');
-            return res.status(500).json({ success: false, message: 'Failed to insert into tracking' });
+        // Start transaction
+        await db.query('START TRANSACTION');
+
+        try {
+            // Insert into Compliance_Tracking without Notification_ID
+            const insertQuery = `
+                INSERT INTO Compliance_Tracking (Compliance_Issue, Department_ID, Status, Updated_At)
+                VALUES (?, ?, 'Pending', NOW())
+            `;
+            const [insertResult] = await db.query(insertQuery, [Compliance_Issue, Department_ID]);
+
+            if (!insertResult.affectedRows) {
+                throw new Error('Failed to insert into Compliance_Tracking');
+            }
+
+            //console.log(`Inserted into Compliance_Tracking with Tracking_ID: ${insertResult.insertId}`);
+
+            // Delete the notification from Compliance_Notifications
+            const deleteQuery = `DELETE FROM Compliance_Notifications WHERE Notification_ID = ?`;
+            const [deleteResult] = await db.query(deleteQuery, [notificationId]);
+
+            if (!deleteResult.affectedRows) {
+                throw new Error('Failed to delete from Compliance_Notifications');
+            }
+
+            //console.log(`Deleted from Compliance_Notifications with Notification_ID: ${notificationId}`);
+
+            // Commit transaction
+            await db.query('COMMIT');
+
+            // Redirect to Tracking page after saving
+            return res.json({ success: true, message: 'Notification saved to tracking', redirect: '/compliance/tracking' });
+        } catch (transactionError) {
+            await db.query('ROLLBACK');
+            console.error('Transaction error:', transactionError);
+            return res.status(500).json({ success: false, message: 'Failed to save notification' });
         }
-
-        console.log(`✅ Inserted into Compliance_Tracking with Tracking_ID: ${insertResult.insertId}`);
-
-        // 4️⃣ Delete the notification from Compliance_Notifications
-        const deleteQuery = `DELETE FROM Compliance_Notifications WHERE Notification_ID = ?`;
-        const [deleteResult] = await db.query(deleteQuery, [notificationId]);
-
-        if (!deleteResult.affectedRows) {
-            console.error('❌ Failed to delete from Compliance_Notifications');
-            return res.status(500).json({ success: false, message: 'Failed to delete notification' });
-        }
-
-        console.log(`✅ Deleted from Compliance_Notifications with Notification_ID: ${notificationId}`);
-
-        // ✅ Redirect to tracking page
-        res.json({ success: true, redirect: '/compliance/notification#tracking-section' });
     } catch (error) {
-        console.error('❌ Error saving notification to tracking:', error);
+        console.error('Error saving notification to tracking:', error);
         res.status(500).json({ success: false, message: 'Failed to save notification' });
     }
 };
 
-
-// 📌 Remove Notification (✅ Fixed Logic)
+// Delete Notification (Prevents Deleting Tracked Notifications)
 exports.deleteNotification = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Check if notification exists before deleting
+        // Check if the notification is tracked
+        const [trackingCheck] = await db.query(
+            `SELECT * FROM Compliance_Tracking WHERE Notification_ID = ?`,
+            [id]
+        );
+
+        if (trackingCheck.length > 0) {
+            return res.status(400).json({ success: false, message: 'Cannot delete a notification that is being tracked' });
+        }
+
+        // Check if the notification exists before deleting
         const [existingNotification] = await db.query(
             `SELECT * FROM Compliance_Notifications WHERE Notification_ID = ?`,
             [id]
@@ -181,14 +208,65 @@ exports.deleteNotification = async (req, res) => {
     }
 };
 
-// 📌 Update Tracking Status
 exports.updateTrackingStatus = async (req, res) => {
     try {
         const { trackingId, newStatus } = req.body;
-        await db.query(`UPDATE Compliance_Tracking SET Status = ? WHERE Tracking_ID = ?`, [newStatus, trackingId]);
-        res.json({ success: true });
+
+        console.log(`Updating Tracking_ID ${trackingId} to Status: ${newStatus}`);
+
+        // Validate input
+        if (!trackingId || isNaN(trackingId)) {
+            return res.status(400).json({ success: false, message: 'Invalid tracking ID' });
+        }
+
+        // Validate status
+        const validStatuses = ['Pending', 'In Progress', 'Resolved', 'Escalated'];
+        if (!validStatuses.includes(newStatus)) {
+            return res.status(400).json({ success: false, message: 'Invalid status' });
+        }
+
+        // Ensure tracking record exists
+        const [trackingCheck] = await db.query(`SELECT * FROM Compliance_Tracking WHERE Tracking_ID = ?`, [trackingId]);
+        if (trackingCheck.length === 0) {
+            return res.status(404).json({ success: false, message: 'Tracking record not found' });
+        }
+
+        // Perform the update with transaction
+        await db.query('START TRANSACTION');
+
+        try {
+            const [updateResult] = await db.query(
+                `UPDATE Compliance_Tracking SET Status = ?, Updated_At = NOW() WHERE Tracking_ID = ?`,
+                [newStatus, trackingId]
+            );
+
+            if (updateResult.affectedRows === 0) {
+                throw new Error('No rows affected - Update failed');
+            }
+
+            console.log(`Tracking ID ${trackingId} successfully updated to status: ${newStatus}`);
+
+            // Commit transaction
+            await db.query('COMMIT');
+
+            // Fetch the updated status to send back to UI
+            const [updatedRecord] = await db.query(
+                `SELECT Status FROM Compliance_Tracking WHERE Tracking_ID = ?`,
+                [trackingId]
+            );
+
+            res.json({
+                success: true,
+                message: 'Tracking status updated successfully',
+                updatedStatus: updatedRecord[0].Status
+            });
+        } catch (transactionError) {
+            await db.query('ROLLBACK');
+            console.error('Transaction error:', transactionError);
+            return res.status(500).json({ success: false, message: 'Failed to update tracking status' });
+        }
     } catch (error) {
         console.error('Error updating tracking status:', error);
-        res.status(500).json({ success: false, message: 'Failed to update status' });
+        res.status(500).json({ success: false, message: 'Failed to update tracking status' });
     }
 };

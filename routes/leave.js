@@ -9,4 +9,6 @@ router.get('/', authMiddleware.isAuthenticated, leaveController.showLeavePage);
 router.post('/requests/approve/:id', authMiddleware.isAuthenticated, leaveController.approveLeave);
 router.post('/requests/reject/:id', authMiddleware.isAuthenticated, leaveController.rejectLeave);
 
+
+
 module.exports = router;

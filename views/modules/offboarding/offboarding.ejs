@@ -1,0 +1,159 @@
+<%- include('../../partials/header') %>
+
+<style>
+    html, body { height: 100%; margin: 0; display: flex; flex-direction: column; }
+    .container { flex: 1; }
+    .toggle-buttons { display: flex; justify-content: center; margin-bottom: 20px; }
+    .toggle-buttons button { margin: 0 10px; }
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+</style>
+
+<!-- Breadcrumbs -->
+<nav aria-label="breadcrumb">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Offboarding</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mb-4 text-center">Employee Offboarding</h1>
+    
+    <div class="toggle-buttons">
+        <button id="toggle-create" class="btn btn-outline-primary">Add</button>
+        <button id="toggle-manage" class="btn btn-outline-primary active">Manage</button>
+    </div>
+
+    <!-- Create Section -->
+    <div id="create-section" class="content-section">
+        <h3>Offboard Employee</h3>
+        <form id="offboard-form" class="p-3 border rounded shadow-sm">
+            <div class="mb-3">
+                <label for="employeeId" class="form-label">Employee ID</label>
+                <input type="text" id="employeeId" class="form-control" placeholder="Enter Employee ID" required>
+            </div>
+            <div class="mb-3">
+                <label for="resignationDate" class="form-label">Resignation Date</label>
+                <input type="date" id="resignationDate" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="exitReason" class="form-label">Exit Reason</label>
+                <textarea id="exitReason" class="form-control" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Manage Section -->
+    <div id="manage-section" class="content-section active">
+        <h3>Offboarded Employees</h3>
+        <div class="mb-3 d-flex">
+            <input type="text" id="searchId" class="form-control me-2" placeholder="Search by Employee ID">
+            <input type="date" id="searchDate" class="form-control me-2">
+            <button id="searchBtn" class="btn btn-outline-primary">Search</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Employee ID</th>
+                    <th>Resignation Date</th>
+                    <th>Exit Reason</th>
+                </tr>
+            </thead>
+            <tbody id="offboarded-list">
+                <% if (offboardedEmployees.length > 0) { %>
+                    <% offboardedEmployees.forEach((employee, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= employee.Employee_ID %></td>
+                            <td>
+                                <% if (employee.Resignation_Date) { %>
+                                    <%= new Date(employee.Resignation_Date).toISOString().split('T')[0] %>
+                                <% } else { %>
+                                    N/A
+                                <% } %>
+                            </td>
+                            <td><%= employee.Exit_Reason %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4" class="text-center">No offboarded employees</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Toggle between Create and Manage sections
+    document.getElementById('toggle-create').addEventListener('click', () => {
+        document.getElementById('create-section').classList.add('active');
+        document.getElementById('manage-section').classList.remove('active');
+    });
+
+    document.getElementById('toggle-manage').addEventListener('click', () => {
+        document.getElementById('manage-section').classList.add('active');
+        document.getElementById('create-section').classList.remove('active');
+    });
+
+
+    document.getElementById('offboard-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get input values
+        const employeeId = document.getElementById('employeeId').value.trim();
+        const resignationDate = document.getElementById('resignationDate').value;
+        const exitReason = document.getElementById('exitReason').value.trim();
+
+        // Validate inputs
+        if (!employeeId || !resignationDate || !exitReason) {
+            alert("All fields are required!");
+            return;
+        }
+
+        // Prepare data object
+        const data = {
+            employee_id: employeeId,
+            resignation_date: resignationDate,
+            exit_reason: exitReason
+        };
+
+        try {
+            // Send POST request
+            const response = await fetch('/offboarding/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Failed to offboard employee.");
+            }
+
+            alert(result.message);
+            location.reload();
+        } catch (error) {
+            console.error("Error offboarding employee:", error);
+            alert("Error: " + error.message);
+        }
+    });
+
+
+
+    // Search functionality
+    document.getElementById('searchBtn').addEventListener('click', () => {
+        let id = document.getElementById('searchId').value;
+        let date = document.getElementById('searchDate').value;
+        window.location.href = `/offboarding?employee_id=${id}&date=${date}`;
+    });
+</script>
+
+<%- include('../../partials/footer') %>
