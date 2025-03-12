@@ -1,0 +1,198 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .toggle-buttons { 
+        display: flex; 
+        justify-content: center; 
+        margin-bottom: 20px; 
+    }
+
+    .toggle-buttons button { 
+        margin: 0 10px; 
+    }
+
+    .content-section { 
+        display: none; 
+    }
+
+    .content-section.active { 
+        display: block; 
+    }
+
+    .form-container {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #b52b3a;
+    }
+</style>
+
+<!-- Breadcrumbs -->
+<nav class="breadcrumb-container">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/compliance">Compliance</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Policy Repository</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mb-4 text-center">Policy Repository</h1>
+
+    <!-- Toggle Buttons -->
+    <div class="toggle-buttons">
+        <button id="toggle-existing" class="btn btn-primary">Existing Policies</button>
+        <button id="toggle-create" class="btn btn-outline-primary">Add Policy</button>
+    </div>
+
+    <!-- Existing Policies Section (Open by Default) -->
+    <div id="existing-policies" class="content-section active">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Policy Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="policy-table">
+                <% if (policies.length > 0) { %>
+                    <% policies.forEach(policy => { %>
+                    <tr data-policy-id="<%= policy.Policy_ID %>">
+                        <td><%= policy.Policy_ID %></td>
+                        <td><%= policy.Policy_Title %></td>
+                        <td><%= policy.Description %></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-policy">Delete</button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4" class="text-center">No policies found</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Policy Section -->
+    <div id="add-policy" class="content-section">
+        <div class="form-container">
+            <h3 class="text-center">Add a New Policy</h3>
+            <form id="policy-form">
+                <div class="mb-3">
+                    <label class="form-label">Policy Name</label>
+                    <input type="text" id="policyTitle" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="policyDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Effective Date</label>
+                    <input type="date" id="policyEffectiveDate" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Add Policy</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const existingSection = document.getElementById("existing-policies");
+        const addSection = document.getElementById("add-policy");
+        const toggleExisting = document.getElementById("toggle-existing");
+        const toggleCreate = document.getElementById("toggle-create");
+        const policyForm = document.getElementById("policy-form");
+        const policyTable = document.getElementById("policy-table");
+
+        // ✅ Open "Existing Policies" by default
+        existingSection.classList.add("active");
+        addSection.classList.remove("active");
+
+        toggleExisting.addEventListener("click", function () {
+            existingSection.classList.add("active");
+            addSection.classList.remove("active");
+            toggleExisting.classList.add("btn-primary");
+            toggleExisting.classList.remove("btn-outline-primary");
+            toggleCreate.classList.add("btn-outline-primary");
+            toggleCreate.classList.remove("btn-primary");
+        });
+
+        toggleCreate.addEventListener("click", function () {
+            addSection.classList.add("active");
+            existingSection.classList.remove("active");
+            toggleCreate.classList.add("btn-primary");
+            toggleCreate.classList.remove("btn-outline-primary");
+            toggleExisting.classList.add("btn-outline-primary");
+            toggleExisting.classList.remove("btn-primary");
+        });
+
+        // ✅ Add Policy - Sends to Backend & Redirects
+        policyForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const policyTitle = document.getElementById("policyTitle").value.trim();
+            const policyDescription = document.getElementById("policyDescription").value.trim();
+            const policyEffectiveDate = document.getElementById("policyEffectiveDate").value;
+
+            fetch("/compliance/policy", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ policyTitle, description: policyDescription, effectiveDate: policyEffectiveDate })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Policy added successfully!");
+                    window.location.href = data.redirect; // ✅ Redirect to existing policies
+                } else {
+                    alert(data.message); // ✅ Show duplicate error message
+                }
+            })
+            .catch(error => console.error("Error adding policy:", error));
+        });
+
+        // ✅ Delete Policy - Sends to Backend & Refreshes
+        policyTable.addEventListener("click", function (e) {
+            if (e.target.classList.contains("delete-policy")) {
+                const row = e.target.closest("tr");
+                const policyId = row.getAttribute("data-policy-id");
+
+                fetch(`/compliance/policy/${policyId}`, { method: "DELETE" })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        row.remove();
+                    } else {
+                        alert("Failed to delete policy.");
+                    }
+                })
+                .catch(error => console.error("Error deleting policy:", error));
+            }
+        });
+    });
+</script>

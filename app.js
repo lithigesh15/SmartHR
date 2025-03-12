@@ -7,6 +7,7 @@ const cors = require('cors');
 const db = require('./config/db'); // Ensure database connection is established
 
 
+
 // Load environment variables
 dotenv.config();
 

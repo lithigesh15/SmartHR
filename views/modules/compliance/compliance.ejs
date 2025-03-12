@@ -1,0 +1,84 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .container {
+        flex: 1;
+    }
+
+    footer {
+        background-color: #f8f9fa;
+        padding: 1rem 0;
+        margin-top: auto;
+    }
+
+    .box {
+        background-color: #ffffff;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .box:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .breadcrumb-container {
+        background-color: #f8f9fa;
+        padding: 1rem 0;
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb-container">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span class="text-secondary">Compliance</span></li>
+        </ol>
+    </div>
+</nav>
+
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Compliance</h1>
+    <div class="row text-center">
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded">
+                <h4>Policy Repository</h4>
+                <p>Access and manage all organizational policies in one place.</p>
+                <a href="/compliance/policy" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="box shadow p-4 rounded">
+                <h4>Notifications and Tracking</h4>
+                <p>Stay updated with important compliance alerts.</p>
+                <a href="/compliance/notification" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.box .btn-primary').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = this.getAttribute('href');
+            });
+        });
+    });
+</script>

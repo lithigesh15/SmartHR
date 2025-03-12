@@ -1,0 +1,142 @@
+<%- include('../../partials/header') %>
+
+<!-- Embedded CSS -->
+<style>
+    .table-container { width: 80%; margin: 0 auto; }
+    .btn-sm { font-size: 0.875rem; }
+</style>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb-container">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/compliance">Compliance</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Compliance Tracking</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="container my-4 text-center">
+    <h1>Compliance Tracking</h1>
+    <div class="d-flex justify-content-center mb-4">
+        <button id="notifications-btn" class="btn btn-primary me-2">Notifications</button>
+        <button id="tracking-btn" class="btn btn-outline-primary">Tracking</button>
+    </div>
+</div>
+
+<!-- Notifications Section -->
+<div class="table-container" id="notifications-section">
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Department</th>
+                <th>Compliance Issue</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="notifications-body">
+            <% notifications.forEach(notification => { %>
+            <tr data-notification-id="<%= notification.Notification_ID %>">
+                <td><%= notification.Department_Name %></td>
+                <td><%= notification.Compliance_Issue %></td>
+                <td>
+                    <button class="btn btn-success btn-sm save-btn">Save</button>
+                    <button class="btn btn-danger btn-sm remove-btn">Remove</button>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Tracking Section -->
+<div class="table-container" id="tracking-section" style="display: none;">
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Compliance Issue</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tracking-body">
+            <% tracking.forEach(track => { %>
+            <tr>
+                <td><%= track.Compliance_Issue %></td>
+                <td>
+                    <select class="form-select status-dropdown" data-tracking-id="<%= track.Tracking_ID %>">
+                        <option value="Pending" <%= track.Status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="In Progress" <%= track.Status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                        <option value="Resolved" <%= track.Status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+                        <option value="Escalated" <%= track.Status === 'Escalated' ? 'selected' : '' %>>Escalated</option>
+                    </select>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const notificationsBtn = document.getElementById("notifications-btn");
+        const trackingBtn = document.getElementById("tracking-btn");
+        const notificationsSection = document.getElementById("notifications-section");
+        const trackingSection = document.getElementById("tracking-section");
+
+        notificationsBtn.addEventListener("click", function () {
+            notificationsSection.style.display = "block";
+            trackingSection.style.display = "none";
+        });
+
+        trackingBtn.addEventListener("click", function () {
+            trackingSection.style.display = "block";
+            notificationsSection.style.display = "none";
+        });
+
+        // ✅ Save Button Logic (Move Notification to Tracking)
+        document.querySelectorAll(".save-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                let notificationId = this.closest("tr").dataset.notificationId;
+                console.log(`🔹 Save button clicked for Notification_ID: ${notificationId}`);
+
+                fetch("/compliance/notification/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ notificationId: parseInt(notificationId) }) // Ensure ID is sent as a number
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("✅ Notification saved successfully. Redirecting...");
+                        window.location.href = "/compliance/notification#tracking-section"; // ✅ Redirect to tracking page
+                    } else {
+                        console.error("❌ Failed to save notification:", data.message);
+                        alert("Failed to save notification.");
+                    }
+                })
+                .catch(error => console.error("❌ Error:", error));
+            });
+        });
+
+        // ✅ Remove Button Logic (Delete Notification)
+        document.querySelectorAll(".remove-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                let notificationId = this.closest("tr").dataset.notificationId;
+                fetch(`/compliance/notification/${notificationId}`, {
+                    method: "DELETE"
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          location.reload(); // ✅ Refresh page after deletion
+                      } else {
+                          alert("Failed to remove notification.");
+                      }
+                  })
+                  .catch(error => console.error("Error:", error));
+            });
+        });
+    });
+</script>
+
+<%- include('../../partials/footer') %>
