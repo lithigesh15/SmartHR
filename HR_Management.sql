@@ -184,3 +184,27 @@ CREATE TABLE Goals (
     Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE Compliance_Policies (
+    Policy_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Policy_Title VARCHAR(255) NOT NULL UNIQUE,
+    Description TEXT NOT NULL,
+    Effective_Date DATE NOT NULL,
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Compliance_Notifications (
+    Notification_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Department_ID INT NOT NULL,
+    Compliance_Issue VARCHAR(255) NOT NULL,
+    Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Handled BOOLEAN DEFAULT FALSE, -- New column to mark if notification is processed
+    FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE Compliance_Tracking (
+    Tracking_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Notification_ID INT,
+    Status ENUM('Pending', 'In Progress', 'Resolved', 'Escalated') DEFAULT 'Pending',
+    Updated_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (Notification_ID) REFERENCES Compliance_Notifications(Notification_ID) ON DELETE SET NULL
+);
