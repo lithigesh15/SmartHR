@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | Amrita Vishwa Vidyapeetham</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Library for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #0dcaf0;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --blue-color: #0d6efd;
+            --smart-hr-blue: #2196f3;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 15px;
+            color: white;
+            position: relative;
+            background: rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInDown 1s ease-out;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: both;
+            margin-top: 5px;
+            font-weight: 300;
+        }
+        
+        .brand-logo-container {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        
+        .brand-logo {
+            height: 60px;
+            width: auto;
+        }
+        
+        .default-logo {
+            height: 60px;
+            width: 60px;
+        }
+        
+        .brand-text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 700;
+            background: #0f5bcd;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .smart-hr-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            animation: fadeIn 1.5s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-line {
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            margin: 10px auto;
+            border-radius: 2px;
+            animation: growWidth 1.5s ease-out;
+        }
+        
+        .header-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .header-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            animation: floatAnimation 8s infinite ease-in-out;
+        }
+        
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            left: -70px;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .circle-3 {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            right: -30px;
+            animation-delay: 4s;
+        }
+        
+        @keyframes floatAnimation {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes growWidth {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+        
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .card-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-card:hover .card-img img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-content h3 {
+            margin: 0;
+            color: var(--blue-color);
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .roll-number {
+            color: var(--blue-color);
+            opacity: 0.8;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        
+        .department {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin: 5px 0;
+        }
+        
+        .university {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-style: italic;
+            margin: 3px 0 10px;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            background: rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        
+        /* Particles background */
+        .particles-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 0.9rem;
+            }
+            
+            .brand-logo {
+                height: 40px;
+            }
+            
+            .default-logo {
+                height: 40px;
+                width: 40px;
+            }
+            
+            .brand-name {
+                font-size: 1.5rem;
+            }
+            
+            .team-container {
+                padding: 10px;
+            }
+            
+            .team-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern and Futuristic Header -->
+    <header class="header">
+        <div class="header-backdrop">
+            <div class="header-circle circle-1"></div>
+            <div class="header-circle circle-2"></div>
+            <div class="header-circle circle-3"></div>
+        </div>
+        
+        <!-- Smart HR Logo and Text -->
+        <div class="smart-hr-logo">
+            <div class="brand-logo-container">
+                <img src="/images/logo.png" alt="Smart HR Logo" class="brand-logo" onerror="this.onerror=null; this.src='/images/default-logo.svg'; this.classList.add('default-logo')">
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">Smart HR</span>
+            </div>
+        </div>
+        
+        <h1 data-aos="fade-down">Meet Our Team</h1>
+        <div class="header-line"></div>
+        <p data-aos="fade-up" data-aos-delay="300">Talented Minds Behind The Innovation</p>
+    </header>
+   
+    <!-- Animated particles background -->
+    <div class="particles-container" id="particles-js"></div>
+
+    <!-- Team Section -->
+    <section class="team-container">
+        <!-- Team Member 1 -->
+        <div class="team-card" data-aos="flip-left" data-aos-delay="100">
+            <div class="card-img">
+                <img src="/images/lithigesh.jpg" alt="Lithiegsh P G">
+            </div>
+            <div class="card-content">
+                <h3>Lithiegsh P G</h3>
+                <p class="roll-number">CB..EN.U4CCE23025</p>
+                <p class="department">Computer and Communication Engineering</p>
+                <p class="university">Amrita School of Engineering, Coimbatore</p>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/lithigesh" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/lithigesh15" class="social-icon" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://mail.google.com/mail/?view=cm&to=lithigesh@gmail.com" target="_blank" class="social-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card" data-aos="flip-left" data-aos-delay="200">
+            <div class="card-img">
+                <img src="/images/sriharish.jpg" alt="Sri Harish V J">
+            </div>
+            <div class="card-content">
+                <h3>Sri Harish V J</h3>
+                <p class="roll-number">CB..EN.U4CCE23051</p>
+                <p class="department">Computer and Communication Engineering</p>
+                <p class="university">Amrita School of Engineering, Coimbatore</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card" data-aos="flip-left" data-aos-delay="300">
+            <div class="card-img">
+                <img src="/images/sanjay.jpg" alt="Sanjay V J">
+            </div>
+            <div class="card-content">
+                <h3>Sanjay V J</h3>
+                <p class="roll-number">CB..EN.U4CCE23053</p>
+                <p class="department">Computer and Communication Engineering</p>
+                <p class="university">Amrita School of Engineering, Coimbatore</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animation library
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Configure particles.js
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#0d6efd"  // Changed to the requested color
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#0d6efd",  // Changed to the requested color
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>

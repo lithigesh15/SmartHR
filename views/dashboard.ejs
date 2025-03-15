@@ -18,15 +18,15 @@
       }
       
       .card.total-employees:hover {
-          border-bottom: 4px solid #198754;
+          border-bottom: 4px solid #0d6efd;
       }
       
       .card.leave-requests:hover {
-          border-bottom: 4px solid #ffc107;
+          border-bottom: 4px solid #0d6efd;
       }
       
       .card.performance-goals:hover {
-          border-bottom: 4px solid #0dcaf0;
+          border-bottom: 4px solid #0d6efd;
       }
       
       .card-value {
@@ -105,7 +105,7 @@
       <div class="card shadow-sm h-100 border-0 rounded-3 overflow-hidden total-employees">
           <div class="card-body p-4 d-flex flex-column justify-content-between">
               <div>
-                  <h5 class="card-title fw-bold mb-3 text-success">Total Employees</h5>
+                  <h5 class="card-title fw-bold mb-3 text-primary">Total Employees</h5>
                   <p class="display-5 fw-bold mb-0 text-dark card-value"><%= stats?.totalEmployees ?? 0 %></p>
               </div>
               <div class="mt-3 pt-3 border-top border-light card-info">
@@ -120,7 +120,7 @@
       <div class="card shadow-sm h-100 border-0 rounded-3 overflow-hidden leave-requests">
           <div class="card-body p-4 d-flex flex-column justify-content-between">
               <div>
-                  <h5 class="card-title fw-bold mb-3 text-warning">Leave Requests</h5>
+                  <h5 class="card-title fw-bold mb-3 text-primary">Leave Requests</h5>
                   <p class="display-5 fw-bold mb-0 text-dark card-value"><%= stats?.pendingLeaves ?? 0 %> <span class="fs-6 fw-normal">Pending</span></p>
               </div>
               <div class="mt-3 pt-3 border-top border-light card-info">
@@ -135,7 +135,7 @@
       <div class="card shadow-sm h-100 border-0 rounded-3 overflow-hidden performance-goals">
           <div class="card-body p-4 d-flex flex-column justify-content-between">
               <div>
-                  <h5 class="card-title fw-bold mb-3 text-info">Performance Goals</h5>
+                  <h5 class="card-title fw-bold mb-3 text-primary">Performance Goals</h5>
                   <p class="display-5 fw-bold mb-0 text-dark card-value"><%= stats?.completedGoals ?? 0 %> <span class="fs-6 fw-normal">of <%= stats?.totalGoals ?? 0 %> Complete</span></p>
               </div>
               <div class="mt-3 pt-3 border-top border-light card-info">

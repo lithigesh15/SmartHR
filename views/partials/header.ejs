@@ -1,45 +1,258 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%= title %></title>
     <link rel="icon" href="/images/logo.png" type="image/x-icon">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- External CSS -->
     <link rel="stylesheet" href="/css/style.css">
-    <% if (title.includes('Dashboard')) { %>
-    <link rel="stylesheet" href="/css/dashboard.css">
-    <link rel="stylesheet" href="/css/recruitment.css">
-    <% } %>
+    <style>
+        /* Modern Header Styles */
+        .app-header {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            padding: 15px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Logo styling */
+        .brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .brand img {
+            width: 42px;
+            height: auto;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+        }
+        
+        .brand-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 12px;
+        }
+        
+        /* User profile area */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .profile-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 50px;
+            padding: 6px 8px 6px 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-container:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #333;
+            margin-right: 15px;
+        }
+        
+        .signout-btn {
+            background-color: #f1f3f5;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            transition: all 0.2s ease;
+        }
+        
+        .signout-btn:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        /* Dropdown menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            padding: 15px;
+            display: none;
+            z-index: 1001;
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f3f5;
+        }
+        
+        .dropdown-item i {
+            margin-right: 12px;
+            color: #0d6efd;
+            width: 18px;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e9ecef;
+            margin: 10px 0;
+        }
+        
+        .signout-item {
+            color: #dc3545;
+        }
+        
+        .signout-item i {
+            color: #dc3545;
+        }
+        
+        /* Animation for dropdown */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .show-dropdown {
+            display: block;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .app-header {
+                padding: 12px 15px;
+            }
+            
+            .brand-name {
+                font-size: 1.3rem;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .profile-container {
+                padding: 6px;
+            }
+        }
+    </style>
 </head>
-
-<body>
-    <!-- Navbar -->
-    <header class="py-3 border-bottom bg-light">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+<body class="bg-light">
+    <!-- Enhanced Header -->
+    <header class="app-header">
+        <div class="header-container">
             <!-- Logo -->
-            <a href="/dashboard" class="d-flex align-items-center text-decoration-none">
-                <img src="/images/logo.png" alt="Logo" class="me-2" style="width: 40px; height: auto;">
-                <span class="fs-4 text-primary">Smart HR</span>
+            <a href="/dashboard" class="brand">
+                <img src="/images/logo.png" alt="Smart HR Logo">
+                <span class="brand-name">Smart HR</span>
             </a>
-
+            
+            <!-- User Profile Area -->
+            <div class="user-profile">
+                <div class="profile-container" id="profileToggle">
+                    <div class="avatar">
+                        <%= user ? user.username.charAt(0).toUpperCase() : 'G' %>
+                    </div>
+                    <span class="user-name"><%= user ? user.username : 'Guest' %></span>
+                    <button class="signout-btn" id="menuToggle" aria-label="Menu">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
                 
-
-                <!-- Right-side Profile Dropdown -->
-                <div class="dropdown">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/images/profile_icon.jpeg" alt="Profile" width="40" height="40" class="rounded-circle">
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu" id="userDropdown">
+                    <a href="/profile" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        Profile
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
-                    </ul>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="dropdown-item signout-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sign Out
+                    </a>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Content goes here -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle dropdown menu
+        document.getElementById('profileToggle').addEventListener('click', function() {
+            document.getElementById('userDropdown').classList.toggle('show-dropdown');
+        });
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(event) {
+            if (!event.target.closest('.user-profile')) {
+                document.getElementById('userDropdown').classList.remove('show-dropdown');
+            }
+        });
+    </script>
+</body>
+</html>

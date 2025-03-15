@@ -24,6 +24,7 @@ const complianceRoutes = require('./routes/compliance');
 const leaveRoutes = require('./routes/leave');
 const offboardingRoutes = require('./routes/offboarding');
 const aboutRoutes = require('./routes/about');
+const teamRoutes = require('./routes/team');
 
 // Initialize app
 const app = express();
@@ -61,6 +62,7 @@ app.use('/compliance', complianceRoutes);
 app.use('/leave', leaveRoutes);
 app.use('/offboarding', offboardingRoutes);
 app.use('/about', aboutRoutes); 
+app.use('/team', teamRoutes); 
 
 // Error handler for 404
 app.use((req, res, next) => {
