@@ -95,20 +95,6 @@ CREATE TABLE Training (
     FOREIGN KEY (Skill_ID) REFERENCES Skill(Skill_ID)
 );
 
--- Employee_Training Table
-CREATE TABLE Employee_Training (
-    Employee_Training_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Employee_ID INT,
-    Training_ID INT,
-    Completion_Status BOOLEAN,
-    Completion_Date DATE,
-    Score DECIMAL(5, 2),
-    Progress TEXT,
-    Feedback TEXT,
-    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID),
-    FOREIGN KEY (Training_ID) REFERENCES Training(Training_ID)
-);
-
 -- Exit_Management Table
 CREATE TABLE Exit_Management (
     Exit_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -119,16 +105,6 @@ CREATE TABLE Exit_Management (
 );
 
 -- New tables
--- Create Courses Table
-CREATE TABLE Courses (
-    Course_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Course_Title VARCHAR(255) NOT NULL,
-    Course_Description TEXT NOT NULL,
-    Category VARCHAR(100) NOT NULL,
-    Duration VARCHAR(50) NOT NULL,
-    Created_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE Conflict_Management (
     Conflict_ID INT PRIMARY KEY AUTO_INCREMENT,
     Conflict_Type VARCHAR(255) NOT NULL,
@@ -207,4 +183,29 @@ CREATE TABLE Compliance_Tracking (
     Status ENUM('Pending', 'In Progress', 'Resolved', 'Escalated') DEFAULT 'Pending',
     Updated_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (Notification_ID) REFERENCES Compliance_Notifications(Notification_ID) ON DELETE SET NULL
+);
+
+CREATE TABLE Courses (
+    Course_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Course_Title VARCHAR(255) NOT NULL,
+    Course_Description TEXT NOT NULL,
+    Instructor VARCHAR(255) NOT NULL,  -- Added Instructor Column
+    Category VARCHAR(100) NOT NULL,
+    Duration VARCHAR(50) NOT NULL,
+    Created_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Employee_Training Table (Tracks employee enrollment & progress)
+CREATE TABLE Employee_Training (
+    Employee_Training_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Employee_ID INT NOT NULL,
+    Course_ID INT NOT NULL,
+    Completion_Status ENUM('Not Started', 'In Progress', 'Completed') DEFAULT 'Not Started',
+    Completion_Date DATE NULL,
+    Score DECIMAL(5,2) NULL,
+    Progress VARCHAR(50) DEFAULT '0%',
+    Feedback TEXT NULL,
+    Enrolled_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Course_ID) REFERENCES Courses(Course_ID) ON DELETE CASCADE
 );

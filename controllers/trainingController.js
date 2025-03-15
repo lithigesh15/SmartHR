@@ -1,104 +1,53 @@
 const db = require('../config/db');
 
 exports.getTrainingPrograms = async (req, res) => {
-  try {
-    // Use the promise pool to query courses
-    const [courses] = await db.query('SELECT * FROM Courses');
-    
-    res.render('modules/training/index', {
-      title: 'Training Programs - Smart HR',
-      user: req.session.user,
-      courses: courses
-    });
-  } catch (error) {
-    console.error('Error loading training programs:', error);
-    res.status(500).render('error', {
-      title: 'Error',
-      message: 'Failed to load training programs',
-      error: error
-    });
-  }
+    try {
+        const [courses] = await db.query('SELECT * FROM Courses');
+        res.render('modules/training/training', { 
+            title: 'Training Courses - Smart HR',
+            user: req.session.user,  
+            courses 
+        });
+    } catch (error) {
+        console.error('Error fetching training courses:', error);
+        res.status(500).json({ success: false, message: 'Failed to load training courses' });
+    }
 };
 
 exports.addCourse = async (req, res) => {
-  try {
-    const { courseTitle, courseDescription, courseCategory, courseDuration } = req.body;
-    
-    const query = 'INSERT INTO Courses (Course_Title, Course_Description, Category, Duration) VALUES (?, ?, ?, ?)';
-    const values = [courseTitle, courseDescription, courseCategory, courseDuration];
-    
-    const [result] = await db.query(query, values);
-    
-    res.json({
-      success: true,
-      courseId: result.insertId,
-      message: 'Course added successfully'
-    });
-  } catch (error) {
-    console.error('Error adding course:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to add course'
-    });
-  }
+    try {
+        const { title, description, instructor, category, duration } = req.body;
+
+        if (!title || !description || !instructor || !category || !duration) {
+            return res.status(400).json({ success: false, message: 'All fields are required.' });
+        }
+
+        const query = `INSERT INTO Courses (Course_Title, Course_Description, Instructor, Category, Duration) VALUES (?, ?, ?, ?, ?)`;
+        await db.query(query, [title, description, instructor, category, duration]);
+
+        res.json({ success: true, message: 'Course added successfully' });
+    } catch (error) {
+        console.error('Error adding course:', error);
+        res.status(500).json({ success: false, message: 'Failed to add course' });
+    }
 };
 
-exports.enrollCourse = async (req, res) => {
-  try {
-    const { employeeId, courseId } = req.body;
-    
-    // First, check if employee exists
-    const [employeeCheck] = await db.query('SELECT * FROM Employee WHERE Employee_ID = ?', [employeeId]);
-    
-    if (employeeCheck.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Employee not found'
-      });
+exports.deleteCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+
+        // Check if course exists
+        const [course] = await db.query('SELECT * FROM Courses WHERE Course_ID = ?', [courseId]);
+        if (course.length === 0) {
+            return res.status(404).json({ success: false, message: 'Course not found' });
+        }
+
+        // Delete the course
+        await db.query('DELETE FROM Courses WHERE Course_ID = ?', [courseId]);
+
+        res.json({ success: true, message: 'Course deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting course:', error);
+        res.status(500).json({ success: false, message: 'Failed to delete course' });
     }
-    
-    // Check if course exists
-    const [courseCheck] = await db.query('SELECT * FROM Courses WHERE Course_ID = ?', [courseId]);
-    
-    if (courseCheck.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Course not found'
-      });
-    }
-    
-    // Check if employee is already enrolled
-    const [enrollmentCheck] = await db.query(
-      'SELECT * FROM Employee_Training WHERE Employee_ID = ? AND Training_ID = ?', 
-      [employeeId, courseId]
-    );
-    
-    if (enrollmentCheck.length > 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Employee is already enrolled in this course'
-      });
-    }
-    
-    // Insert into Employee_Training
-    const query = `
-      INSERT INTO Employee_Training 
-      (Employee_ID, Training_ID, Completion_Status) 
-      VALUES (?, ?, false)
-    `;
-    
-    const [result] = await db.query(query, [employeeId, courseId]);
-    
-    res.json({
-      success: true,
-      message: 'Successfully enrolled in the course'
-    });
-  } catch (error) {
-    console.error('Error enrolling in course:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to enroll in course',
-      error: error.message
-    });
-  }
 };
