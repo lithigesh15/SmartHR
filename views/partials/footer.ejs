@@ -2,20 +2,18 @@
     <div class="container">
         <footer class="enhanced-footer">
             <div class="footer-main">
-
-
+                <!-- Left Section: Brand and Logo -->
                 <a href="/dashboard" class="brand">
                     <div class="brand-logo-container">
-                        <img src="/images/logo.png" alt="Smart HR Logo" class="brand-logo" onerror="this.onerror=null; this.src='/images/default-logo.svg'; this.classList.add('default-logo')">
+                        <img src="/images/logo.png" alt="Smart HR Logo" class="brand-logo" 
+                             onerror="this.onerror=null; this.src='/images/default-logo.svg'; this.classList.add('default-logo')">
                     </div>
                     <div class="brand-text">
                         <span class="brand-name">Smart HR</span>
                     </div>
                 </a>
-                
 
-                                
-                <!-- Middle Section: Navigation Links - Enhanced Layout -->
+                <!-- Middle Section: Navigation Links -->
                 <div class="footer-nav-container">
                     <div class="footer-nav">
                         <h5 class="explore-title">Explore</h5>
@@ -26,28 +24,26 @@
                     </div>
                 </div>
 
-
-                
-                <!-- Right Section: Social Media Links -->
+                <!-- Right Section: Social Media Links & Newsletter -->
                 <div class="footer-social">
                     <h5>Connect With Us</h5>
                     <div class="social-icons">
                         <a href="https://www.linkedin.com" class="social-icon" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://www.Facebook.com" class="social-icon" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        <a href="https://www.facebook.com" class="social-icon" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="https://www.Instagram.com" class="social-icon" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <a href="https://www.instagram.com" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                     <div class="newsletter-signup">
                         <h6>Stay Updated</h6>
                         <div class="subscribe-form">
-                            <input type="email" placeholder="Your email" aria-label="Email for newsletter">
-                            <button type="submit" aria-label="Subscribe">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            <input type="email" id="newsletter-email" placeholder="Your email" aria-label="Email for newsletter">
+                            <button type="submit" id="subscribe-btn" aria-label="Subscribe">
+                                <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
                     </div>
@@ -76,207 +72,77 @@
     </div>
 </div>
 
+<!-- Footer Styles -->
 <style>
-    /* Enhanced Footer Styles */
     .footer-wrapper {
         background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
         padding: 60px 0 30px;
         margin-top: 60px;
         border-top: 1px solid rgba(0, 0, 0, 0.05);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
-    
+
     .container {
-        width: 100%;
-        max-width: 1400px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
     }
-    
-    .enhanced-footer {
-        margin: 0 auto;
-    }
-    
-    /* Main Footer Section */
+
     .footer-main {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        align-items: flex-start;
         gap: 30px;
         margin-bottom: 50px;
     }
-    
-    /* Brand Section */
-    .footer-brand {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        flex: 1;
-        min-width: 250px;
-        max-width: 300px;
-    }
-    
-    .logo-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        margin-right: 15px;
-        background-color: rgba(13, 110, 253, 0.05);
-        border-radius: 12px;
-        padding: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
-    
-    .footer-logo {
-        width: 40px;
+
+    .brand-logo-container img {
+        width: 50px;
         height: auto;
     }
-    
-    .default-logo {
-        width: 40px;
-        height: 40px;
-        background-color: #0d6efd;
-        border-radius: 8px;
-        position: relative;
-    }
-    
-    .default-logo::after {
-        content: 'HR';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-    }
-    
-    .brand-info {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .brand-name {
+
+    .brand-text .brand-name {
         font-size: 1.5rem;
         font-weight: 700;
         background: linear-gradient(135deg, #0d6efd, #0dcaf0);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        letter-spacing: -0.5px;
     }
-    
-    .brand-tagline {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin-top: 4px;
-        letter-spacing: 0.2px;
-    }
-    
-    /* Footer Navigation - Improved Layout */
-    .footer-nav-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 40px;
-        flex: 2;
-        justify-content: center;
-    }
-    
-    .footer-nav {
-        min-width: 160px;
-    }
-    
-    .footer-nav h5 {
+
+    .footer-nav h5, .footer-social h5 {
         font-size: 1.1rem;
         font-weight: 600;
         color: #343a40;
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         position: relative;
     }
-    
-    .footer-nav h5::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -8px;
-        width: 40px;
-        height: 3px;
-        background: linear-gradient(to right, #0d6efd, #0dcaf0);
-        border-radius: 3px;
-    }
-    
-    .nav-links {
+
+    .footer-nav ul {
         list-style: none;
         padding: 0;
-        margin: 0;
     }
-    
-    .nav-links li {
-        margin-bottom: 14px;
+
+    .footer-nav ul li {
+        margin-bottom: 8px;
     }
-    
-    .nav-links li a {
+
+    .footer-nav ul li a {
         color: #495057;
         text-decoration: none;
         transition: all 0.25s ease;
-        display: inline-block;
-        font-size: 1rem;
-        font-weight: 500;
-        padding: 3px 0;
     }
-    
-    .nav-links li a:hover {
+
+    .footer-nav ul li a:hover {
         color: #0d6efd;
         transform: translateX(5px);
     }
-    
-    .nav-links li a::after {
-        content: '→';
-        opacity: 0;
-        margin-left: 5px;
-        transition: all 0.25s ease;
-    }
-    
-    .nav-links li a:hover::after {
-        opacity: 1;
-        margin-left: 8px;
-    }
-    
-    /* Social Media Section - New Addition */
-    .footer-social {
-        flex: 1;
-        min-width: 250px;
-        max-width: 300px;
-    }
-    
-    .footer-social h5 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #343a40;
-        margin-bottom: 20px;
-        position: relative;
-    }
-    
-    .footer-social h5::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -8px;
-        width: 40px;
-        height: 3px;
-        background: linear-gradient(to right, #0d6efd, #0dcaf0);
-        border-radius: 3px;
-    }
-    
+
     .social-icons {
         display: flex;
         gap: 15px;
-        margin-bottom: 25px;
     }
-    
+
     .social-icon {
         display: flex;
         align-items: center;
@@ -286,29 +152,21 @@
         background-color: rgba(13, 110, 253, 0.1);
         color: #0d6efd;
         border-radius: 50%;
+        font-size: 1.2rem;
         transition: all 0.3s ease;
     }
-    
+
     .social-icon:hover {
         background-color: #0d6efd;
         color: white;
         transform: translateY(-3px);
-        box-shadow: 0 5px 10px rgba(13, 110, 253, 0.2);
     }
-    
-    /* Newsletter Signup - New Addition */
-    .newsletter-signup h6 {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 12px;
-    }
-    
+
     .subscribe-form {
         display: flex;
         height: 44px;
     }
-    
+
     .subscribe-form input {
         flex: 1;
         padding: 8px 15px;
@@ -316,16 +174,9 @@
         border-right: none;
         border-radius: 8px 0 0 8px;
         font-size: 0.9rem;
-        color: #495057;
         outline: none;
-        transition: all 0.2s ease;
     }
-    
-    .subscribe-form input:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-    
+
     .subscribe-form button {
         width: 46px;
         background-color: #0d6efd;
@@ -336,31 +187,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
-    }
-    
-    .subscribe-form button:hover {
-        background-color: #0b5ed7;
-    }
-    
-    /* Footer Bottom Section - Improved */
-    .footer-bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding-top: 25px;
-        border-top: 1px solid rgba(0, 0, 0, 0.07);
-    }
-    
-    .copyright {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin: 0;
+        font-size: 1.2rem;
     }
 
-    /* Footer Bottom Section - Improved */
     .footer-bottom {
         display: flex;
         justify-content: space-between;
@@ -370,226 +199,42 @@
         padding-top: 25px;
         border-top: 1px solid rgba(0, 0, 0, 0.07);
     }
-    
+
     .copyright {
         font-size: 0.9rem;
         color: #6c757d;
-        margin: 0;
     }
-    
-    .footer-bottom-right {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-    }
-    
+
     .footer-links {
         display: flex;
         gap: 20px;
     }
-    
+
     .footer-links a {
         font-size: 0.9rem;
         color: #6c757d;
         text-decoration: none;
         transition: color 0.2s ease;
     }
-    
+
     .footer-links a:hover {
         color: #0d6efd;
     }
-    
-    .language-selector select {
-        padding: 8px 15px;
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        color: #495057;
-        background-color: white;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
-    
-    .language-selector select:hover {
-        border-color: #0d6efd;
-    }
-    
-    /* ...existing code... */
 
-/* Responsive styles */
-@media (max-width: 1200px) {
-    .footer-main {
-        gap: 20px;
-    }
-    
-    .footer-brand, .footer-social {
-        min-width: 220px;
-    }
-}
-
-@media (max-width: 992px) {
-    .footer-main {
-        flex-wrap: wrap;
-    }
-    
-    .footer-brand {
-        flex-basis: 100%;
-        max-width: 100%;
-        margin-bottom: 30px;
-    }
-    
-    .footer-nav-container {
-        flex: 1;
-        justify-content: flex-start;
-    }
-    
-    .footer-social {
-        flex-basis: 100%;
-        max-width: 100%;
-        margin-top: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .footer-main {
-        flex-direction: column;
-        gap: 40px;
-    }
-    
-    .footer-brand {
-        margin-bottom: 0;
-    }
-    
-    .footer-nav-container {
-        flex-direction: column;
-        gap: 30px;
-        width: 100%;
-    }
-    
-    .footer-nav {
-        width: 100%;
-    }
-    
-    .footer-bottom-right {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 576px) {
-    .footer-wrapper {
-        padding: 40px 0 20px;
-    }
-    
-    .footer-brand {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .logo-container {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    
-    .footer-nav h5, .footer-social h5 {
-        text-align: center;
-    }
-    
-    .footer-nav h5::after, .footer-social h5::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .nav-links {
-        text-align: center;
-    }
-    
-    .social-icons {
-        justify-content: center;
-    }
-    
-    .newsletter-signup {
-        text-align: center;
-    }
-    
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .footer-bottom-right {
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-    
-    .footer-links {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    /* Explore Section - UI Improvements */
-    .explore-title {
-        text-align: center;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #343a40;
-        margin-bottom: 12px;
-        position: relative;
-    }
-
-    .explore-title::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        bottom: -5px;
-        width: 50px;
-        height: 3px;
-        background: linear-gradient(to right, #0d6efd, #0dcaf0);
-        border-radius: 3px;
-        transform: translateX(-50%);
-    }
-
-    .explore-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        list-style: none;
-        padding: 0;
-        margin-top: 10px;
-    }
-
-    .explore-links li {
-        display: inline-block;
-    }
-
-    .explore-links a {
-        color: #495057;
-        text-decoration: none;
-        font-size: 1rem;
-        font-weight: 500;
-        padding: 8px 12px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-    }
-
-    .explore-links a:hover {
-        background-color: #0d6efd;
-        color: white;
-        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
-    }
-
-    /* Responsive Adjustments */
+    /* Responsive Styles */
     @media (max-width: 768px) {
-        .explore-links {
+        .footer-main {
+            flex-direction: column;
+            text-align: center;
+            gap: 40px;
+        }
+
+        .footer-bottom {
             flex-direction: column;
             text-align: center;
         }
     }
-}
+</style>
 
-    
-    
+<!-- FontAwesome Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

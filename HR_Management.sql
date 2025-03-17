@@ -85,16 +85,6 @@ CREATE TABLE Skill (
     Skill_Description TEXT
 );
 
--- Training Table
-CREATE TABLE Training (
-    Training_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Skill_ID INT,
-    Program_Name VARCHAR(100),
-    Start_Date DATE,
-    End_Date DATE,
-    FOREIGN KEY (Skill_ID) REFERENCES Skill(Skill_ID)
-);
-
 -- Exit_Management Table
 CREATE TABLE Exit_Management (
     Exit_ID INT PRIMARY KEY AUTO_INCREMENT,

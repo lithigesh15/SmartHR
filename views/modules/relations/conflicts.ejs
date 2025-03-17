@@ -1,12 +1,16 @@
 <%- include('../../partials/header') %>
 
-<!-- Embedded CSS -->
 <style>
     body { font-family: Arial, sans-serif; }
     .container { margin-top: 30px; }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
     th { background-color: #f8f9fa; }
+    .delete-btn { background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+    .delete-btn:hover { background-color: darkred; }
+    .success-msg, .error-msg { text-align: center; font-weight: bold; margin-top: 10px; }
+    .success-msg { color: green; }
+    .error-msg { color: red; }
 </style>
 
 <!-- Breadcrumbs -->
@@ -20,8 +24,12 @@
 
 <div class="container">
     <h2 class="text-center">Conflict Management</h2>
-    
-    <label for="statusFilter" class="form-label">Filter by Action:</label>
+
+    <!-- Success/Error Messages -->
+    <div id="messageBox"></div>
+
+    <!-- Filter Dropdown -->
+    <label for="statusFilter" class="form-label">Filter by Status:</label>
     <select id="statusFilter" class="form-select w-25 mb-3" onchange="filterTable()">
         <option value="All">All</option>
         <option value="Resolved">Resolved</option>
@@ -29,7 +37,6 @@
         <option value="Pending">Pending</option>
     </select>
 
-    <!-- Conflict Table -->
     <div class="table-container">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -37,12 +44,13 @@
                     <th>Conflict ID</th>
                     <th>Employee IDs</th>
                     <th>Type of Conflict</th>
-                    <th>Action Status</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="conflictTable">
                 <% conflicts.forEach(conflict => { %>
-                <tr>
+                <tr data-conflict-id="<%= conflict.Conflict_ID %>" data-status="<%= conflict.Status %>">
                     <td><%= conflict.Conflict_ID %></td>
                     <td><%= conflict.Employee_IDs %></td>
                     <td><%= conflict.Conflict_Type %></td>
@@ -53,6 +61,9 @@
                             <option value="Pending" <%= conflict.Status === 'Pending' ? 'selected' : '' %>>Pending</option>
                         </select>
                     </td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteConflict(<%= conflict.Conflict_ID %>)">Delete</button>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
@@ -60,30 +71,88 @@
     </div>
 </div>
 
-<%- include('../../partials/footer') %>
 
-<!-- Embedded JavaScript -->
+
+<!-- JavaScript for Conflict Management -->
 <script>
+    console.log("✅ JavaScript Loaded!");
+
+    // ✅ Filter conflicts by status
     function filterTable() {
         let selectedStatus = document.getElementById("statusFilter").value;
-        let tableRows = document.querySelectorAll("#conflictTable tr");
+        let rows = document.querySelectorAll("#conflictTable tr");
 
-        tableRows.forEach(row => {
+        rows.forEach(row => {
             let status = row.querySelector(".action-status").value;
             row.style.display = (selectedStatus === "All" || status === selectedStatus) ? "" : "none";
         });
     }
 
+    // ✅ Update conflict status (Fixed)
     function updateStatus(selectElement) {
         let conflictID = selectElement.dataset.conflictId;
         let newStatus = selectElement.value;
+
+        console.log("📌 Sending update request for Conflict ID:", conflictID, "New Status:", newStatus);
 
         fetch('/relations/conflict-management/update-status', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ conflictID, newStatus })
-        }).then(response => response.json())
-          .then(data => console.log(data))
-          .catch(error => console.error("Error:", error));
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Server Response:", data);
+            if (data.success) {
+                showMessage("✅ Status updated successfully!", "success");
+            } else {
+                showMessage("❌ Failed to update status. Try again.", "error");
+            }
+        })
+        .catch(error => {
+            console.error("❌ Error sending request:", error);
+            showMessage("❌ Network error. Please try again.", "error");
+        });
     }
+
+    function deleteConflict(conflictID) {
+    if (!confirm("Are you sure you want to delete this conflict?")) return;
+
+    fetch(`/relations/conflict-management/${conflictID}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("✅ Server Response:", data);
+        if (data.success) {
+            document.querySelector(`tr[data-conflict-id="${conflictID}"]`).remove();
+            showMessage("✅ Conflict deleted successfully!", "success");
+        } else {
+            showMessage("❌ Failed to delete conflict.", "error");
+        }
+    })
+    .catch(error => {
+        console.error("❌ Error:", error);
+        showMessage("❌ Network error or invalid response. Please try again.", "error");
+    });
+}
+
+
+    // ✅ Show messages
+    function showMessage(msg, type) {
+        let messageBox = document.getElementById("messageBox");
+        messageBox.innerHTML = `<p class="${type}-msg">${msg}</p>`;
+        setTimeout(() => { messageBox.innerHTML = ""; }, 3000);
+    }
+
+    // ✅ Ensure script loads after the page
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ DOM fully loaded.");
+    });
+
 </script>

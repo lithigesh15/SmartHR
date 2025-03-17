@@ -8,49 +8,7 @@ exports.getRelationsDashboard = (req, res) => {
   });
 };
 
-// Create a Conflict
-exports.createConflict = (req, res) => {
-    const { employeeIDs, conflictType, status } = req.body;
-
-    if (!employeeIDs || !conflictType) {
-        return res.status(400).send("Missing required fields: Employee IDs or Conflict Type.");
-    }
-
-    db.query(
-        'INSERT INTO Conflict_Management (Conflict_Type, Status) VALUES (?, ?)',
-        [conflictType, status || 'Pending'],
-        (err, result) => {
-            if (err) {
-                console.error("Error inserting conflict:", err);
-                return res.status(500).send("Error inserting conflict.");
-            }
-
-            const conflictID = result.insertId;
-            const employeeArray = employeeIDs.split(',')
-                .map(id => parseInt(id.trim()))
-                .filter(id => !isNaN(id))
-                .map(id => [conflictID, id]);
-
-            if (employeeArray.length === 0) {
-                return res.redirect('/relations/conflict-management'); // No employees, just redirect
-            }
-
-            db.query(
-                'INSERT INTO Conflict_Employees (Conflict_ID, Employee_ID) VALUES ?',
-                [employeeArray],
-                (err, result) => {
-                    if (err) {
-                        console.error("Error mapping employees to conflict:", err);
-                        return res.status(500).send("Error mapping employees.");
-                    }
-                    res.redirect('/relations/conflict-management');
-                }
-            );
-        }
-    );
-};
-
-// Retrieve Conflict Management Data
+// ✅ Get Conflict Management Page
 exports.getConflictManagement = async (req, res) => {
     try {
         const sql = `
@@ -60,10 +18,10 @@ exports.getConflictManagement = async (req, res) => {
                    cm.Status
             FROM Conflict_Management cm
             LEFT JOIN Conflict_Employees ce ON cm.Conflict_ID = ce.Conflict_ID
-            GROUP BY cm.Conflict_ID
+            GROUP BY cm.Conflict_ID;
         `;
 
-        const [results] = await db.query(sql); // ✅ Use `await` with the query
+        const [results] = await db.query(sql);
         res.render('../views/modules/relations/conflicts', {
             title: 'Conflict Management - Smart HR',
             user: req.session.user,
@@ -75,35 +33,90 @@ exports.getConflictManagement = async (req, res) => {
     }
 };
 
-// Update Conflict Status
-exports.updateConflictStatus = (req, res) => {
-    const { conflictID, newStatus } = req.body;
+// ✅ Create a Conflict
+exports.createConflict = async (req, res) => {
+    const { employeeIDs, conflictType, status } = req.body;
 
-    db.query(
-        'UPDATE Conflict_Management SET Status = ? WHERE Conflict_ID = ?',
-        [newStatus, conflictID],
-        (err, result) => {
-            if (err) {
-                console.error("Error updating status:", err);
-                return res.status(500).json({ message: "Update failed" });
-            }
-            res.json({ message: "Status updated successfully" });
+    if (!employeeIDs || !conflictType) {
+        return res.status(400).send("Missing required fields: Employee IDs or Conflict Type.");
+    }
+
+    try {
+        const [result] = await db.query(
+            'INSERT INTO Conflict_Management (Conflict_Type, Status) VALUES (?, ?)',
+            [conflictType, status || 'Pending']
+        );
+
+        const conflictID = result.insertId;
+        const employeeArray = employeeIDs.split(',')
+            .map(id => parseInt(id.trim()))
+            .filter(id => !isNaN(id))
+            .map(id => [conflictID, id]);
+
+        if (employeeArray.length > 0) {
+            await db.query('INSERT INTO Conflict_Employees (Conflict_ID, Employee_ID) VALUES ?', [employeeArray]);
         }
-    );
-};
 
-// Delete Conflict
-exports.deleteConflict = (req, res) => {
-    const conflictID = req.params.id;
-
-    db.query('DELETE FROM Conflict_Management WHERE Conflict_ID = ?', [conflictID], (err, result) => {
-        if (err) {
-            console.error("Error deleting conflict:", err);
-            return res.status(500).send("Deletion failed");
-        }
         res.redirect('/relations/conflict-management');
-    });
+    } catch (err) {
+        console.error("Error inserting conflict:", err);
+        res.status(500).send("Error inserting conflict.");
+    }
 };
+
+// ✅ Update Conflict Status
+exports.updateConflictStatus = async (req, res) => {
+    try {
+        console.log("📌 Received update request:", req.body); // Debug log
+
+        const { conflictID, newStatus } = req.body;
+
+        if (!conflictID || !newStatus) {
+            console.log("❌ Missing required fields");
+            return res.status(400).json({ success: false, message: "Missing required fields." });
+        }
+
+        console.log("✅ Valid data received:", conflictID, newStatus);
+
+        const conflictIDInt = parseInt(conflictID, 10);
+
+        const [result] = await db.query(
+            'UPDATE Conflict_Management SET Status = ? WHERE Conflict_ID = ?',
+            [newStatus, conflictIDInt]
+        );
+
+        console.log("🛠 SQL Query Result:", result);
+
+        if (result.affectedRows === 0) {
+            console.log("⚠ Conflict not found or already set to the same status.");
+            return res.status(404).json({ success: false, message: "Conflict not found or already set." });
+        }
+
+        console.log("✅ Status updated successfully.");
+        res.json({ success: true, message: "Status updated successfully." });
+
+    } catch (err) {
+        console.error("❌ Error updating conflict status:", err);
+        res.status(500).json({ success: false, message: "Update failed." });
+    }
+};
+
+// ✅ Delete a Conflict
+exports.deleteConflict = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await db.query('DELETE FROM Conflict_Management WHERE Conflict_ID = ?', [id]);
+        res.redirect('/relations/conflict-management');
+    } catch (err) {
+        console.error("Error deleting conflict:", err);
+        res.status(500).send("Deletion failed");
+    }
+};
+
+
+
+
 
 // Get all engagement activities
 exports.getEngagementActivities = async (req, res) => {
