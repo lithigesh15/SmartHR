@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+ndocument.addEventListener('DOMContentLoaded', function() {
     // Fetch payslip data from the server
     fetchPayslipData();
     
