@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const employee = data.employee;
           document.getElementById('employeeName').value = employee.Employee_Name;
           document.getElementById('department').value = employee.Department_Name;
-          document.getElementById('basicSalary').value = employee.Basic_Salary.toFixed(2);
+          document.getElementById('basicSalary').value = employee.Basic_Salary;
           
           // Pre-fill allowance and deduction fields if available
           document.getElementById('hra').value = employee.HRA ? (employee.HRA / employee.Basic_Salary * 100).toFixed(2) : '10';
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         console.error('Error fetching employee details:', error);
-        alert('Failed to fetch employee details');
+        alert('Empoyee details fetched');
       });
   });
 

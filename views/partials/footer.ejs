@@ -42,7 +42,7 @@
                         <h6>Stay Updated</h6>
                         <div class="subscribe-form">
                             <input type="email" id="newsletter-email" placeholder="Your email" aria-label="Email for newsletter">
-                            <button type="submit" id="subscribe-btn" aria-label="Subscribe">
+                            <button type="submit" id="subscribe-btn" aria-label="Subscribe" onclick="alert('Successfully Registered!')">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -57,14 +57,13 @@
                     <div class="footer-links">
                         <a href="/privacy">Privacy Policy</a>
                         <a href="/terms">Terms of Use</a>
-                    </div>
+                    
                     <div class="language-selector">
                         <select aria-label="Select language">
                             <option value="en">English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
+                            <option value="es">Coming Soon...</option>
                         </select>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -221,19 +220,141 @@
         color: #0d6efd;
     }
 
-    /* Responsive Styles */
+    @media (max-width: 1024px) {
+    .container {
+        max-width: 95%;
+    }
+
+    .footer-main {
+        gap: 20px;
+    }
+
+    .brand-logo-container img {
+        width: 40px;
+    }
+
+    .brand-text .brand-name {
+        font-size: 1.3rem;
+    }
+
+    .social-icons {
+        gap: 10px;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1.1rem;
+    }
+
+    .subscribe-form {
+        height: 40px;
+    }
+}
+
+/* Mobile Styles (below 768px) */
     @media (max-width: 768px) {
+        .footer-wrapper {
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
         .footer-main {
             flex-direction: column;
             text-align: center;
-            gap: 40px;
+            gap: 30px;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-nav-container {
+            width: 100%;
+        }
+
+        .footer-nav {
+            margin: 0 auto;
+        }
+
+        .footer-social {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-icons {
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-form {
+            max-width: 300px;
+            margin: 0 auto;
         }
 
         .footer-bottom {
             flex-direction: column;
+            gap: 15px;
             text-align: center;
         }
+
+        .footer-bottom-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-links {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .language-selector {
+            margin-top: 10px;
+        }
     }
+
+    /* Small Mobile Styles (below 480px) */
+    @media (max-width: 480px) {
+        .footer-wrapper {
+            padding: 30px 0 15px;
+        }
+
+        .container {
+            padding: 0 15px;
+        }
+
+        .brand-text .brand-name {
+            font-size: 1.2rem;
+        }
+
+        .footer-nav h5, .footer-social h5 {
+            font-size: 1rem;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+        }
+
+        .subscribe-form {
+            max-width: 250px;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8rem;
+        }
+}
 </style>
 
 <!-- FontAwesome Icons -->
