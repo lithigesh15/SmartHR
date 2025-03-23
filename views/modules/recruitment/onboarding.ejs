@@ -85,7 +85,7 @@
                                 <tr>
                                     <td><%= employee.Applicant_ID %></td>
                                     <td><%= employee.Name %></td>
-                                    <td><%= employee.Joining_Date %></td>
+                                    <td><%= new Date(employee.Joining_Date).toLocaleDateString() %></td>
                                     <td>
                                         <span class="status-badge <%= employee.Onboarding_Status === 'Completed' ? 'status-success' : 'status-pending' %>">
                                             <%= employee.Onboarding_Status %>

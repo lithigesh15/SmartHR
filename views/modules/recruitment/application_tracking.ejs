@@ -107,7 +107,7 @@
                                             <%= applicant.Interview_Scheduled_Status == 1 ? 'Scheduled' : 'Not Scheduled' %>
                                         </span>
                                     </td>
-                                    <td><%= applicant.Interview_Date || 'N/A' %></td>
+                                    <td><%= applicant.Interview_Date ? new Date(applicant.Interview_Date).toLocaleDateString() : 'N/A' %></td>
                                     <td><%= applicant.Interviewer || 'N/A' %></td>
                                     <td>
                                         <a href="/recruitment/interview-scheduling?applicantId=<%= applicant.Applicant_ID %>" class="btn btn-sm btn-primary" <%= applicant.Interview_Scheduled_Status == 1 ? 'disabled' : '' %>>

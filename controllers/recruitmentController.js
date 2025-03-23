@@ -365,9 +365,12 @@ exports.onboardEmployee = async (req, res) => {
         }
 
         // Insert into Employee table
+        const departmentId = Math.floor(Math.random() * 10) + 1; // Random Department_ID between 1 and 10
+        const salary = Math.floor(Math.random() * (90000 - 50000 + 1)) + 50000; // Random salary between 50,000 and 90,000
+
         await db.query(
-            'INSERT INTO Employee (Applicant_ID, Joining_Date) VALUES (?, CURDATE())',
-            [applicantID]
+            'INSERT INTO Employee (Applicant_ID, Department_ID, Hired_Salary, Joining_Date) VALUES (?, ?, ?, CURDATE())',
+            [applicantID, departmentId, salary]
         );
 
         res.status(201).json({ message: 'Onboarding completed successfully' });
