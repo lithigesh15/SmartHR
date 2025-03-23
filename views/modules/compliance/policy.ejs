@@ -175,6 +175,7 @@
                 }
             })
             .catch(error => console.error("Error adding policy:", error));
+            window.location.reload();
         });
 
         // ✅ Delete Policy - Sends to Backend & Refreshes

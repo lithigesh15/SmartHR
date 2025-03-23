@@ -83,7 +83,7 @@
                     <td><%= survey.Survey_ID %></td>
                     <td><%= survey.Survey_Title %></td>
                     <td><%= survey.Survey_Type %></td>
-                    <td><%= survey.Expiry_Date %></td>
+                    <td><%= survey.Expiry_Date.toISOString().split('T')[0] %></td>
                     <td>
                         <select class="status-select" data-survey-id="<%= survey.Survey_ID %>" onchange="updateStatus(this)">
                             <option value="Active" <%= survey.Status === 'Active' ? 'selected' : '' %>>Active</option>
@@ -155,7 +155,7 @@
         if (e.target.classList.contains('delete-survey')) {
             const surveyID = e.target.dataset.surveyId;
             const response = await fetch(`/relations/surveys/${surveyID}`, { method: 'DELETE' });
-
+            window.location.reload();
             if (response.ok) {
                 location.reload();  // ✅ Refresh page to show updated list
             } else {

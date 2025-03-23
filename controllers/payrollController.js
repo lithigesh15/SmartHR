@@ -211,6 +211,7 @@ exports.showPaySlipPage = async (req, res) => {
                 Applicant a ON e.Applicant_ID = a.Applicant_ID
             JOIN 
                 Department d ON e.Department_ID = d.Department_ID
+            ORDER BY e.Employee_ID asc
         `);
         
         res.render('modules/payroll/payslip', {
@@ -244,7 +245,7 @@ exports.getPayslipData = async (req, res) => {
             Employee e ON p.Employee_ID = e.Employee_ID
         JOIN 
             Applicant a ON e.Applicant_ID = a.Applicant_ID
-        ORDER BY e.Employee_ID DESC, p.Pay_Date DESC
+        ORDER BY e.Employee_ID asc
         `);
 
         res.json(payslips);

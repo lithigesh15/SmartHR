@@ -83,7 +83,7 @@
                     <td><%= activity.Activity_ID %></td>
                     <td><%= activity.Activity_Name %></td>
                     <td><%= activity.Activity_Type %></td>
-                    <td><%= activity.Activity_Date %></td>
+                    <td><%= activity.Activity_Date.toISOString().split('T')[0] %></td>
                     <td>
                         <select class="status-select" data-activity-id="<%= activity.Activity_ID %>" onchange="updateStatus(this)">
                             <option value="Conducted" <%= activity.Status === 'Conducted' ? 'selected' : '' %>>Conducted</option>
@@ -155,9 +155,9 @@
         if (e.target.classList.contains('delete-activity')) {
             const activityID = e.target.dataset.activityId;
             const response = await fetch(`/relations/engagement-activities/${activityID}`, { method: 'DELETE' });
-
+            window.location.reload();
             if (response.ok) {
-                location.reload();  // ✅ Refresh page to show updated list
+                window.location.reload();
             } else {
                 console.error("Error deleting activity.");
             }

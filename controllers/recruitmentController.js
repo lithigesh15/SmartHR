@@ -99,10 +99,11 @@ exports.searchApplicants = async (req, res) => {
           params.push(`%${searchInput}%`);
       } else if (searchCriteria === 'email' && searchInput) {
           sqlQuery += ' AND Email LIKE ?';
-          params.push(`%${searchInput}%`);
-      } else if (searchCriteria === 'experience' && searchInput) {
-          sqlQuery += ' AND CAST(Experience AS CHAR) LIKE ?';
-          params.push(`%${searchInput}%`);
+            params.push(`%${searchInput}%`);
+          } else if (searchCriteria === 'experience' && searchInput) {
+            sqlQuery += ' AND experience >= ?';
+            params.push(parseInt(searchInput, 10));
+            sqlQuery += ' ORDER BY experience ASC';
       } else if (searchCriteria === 'interviewStatus' && searchInput) {
           const statusValue = searchInput.toLowerCase().includes('scheduled') ? 1 : 0;
           sqlQuery += ' AND Interview_Scheduled_Status = ?';

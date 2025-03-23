@@ -70,6 +70,8 @@ exports.getEmployeeDetails = async (req, res) => {
 
         res.json({ success: true, employee: rows[0] });
 
+        console.log('employee:', rows[0]);
+
     } catch (error) {
         console.error("Database error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });

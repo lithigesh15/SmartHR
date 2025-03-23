@@ -106,7 +106,18 @@ exports.deleteConflict = async (req, res) => {
     const { id } = req.params;
 
     try {
-        await db.query('DELETE FROM Conflict_Management WHERE Conflict_ID = ?', [id]);
+        const conflictID = parseInt(id, 10);
+
+        if (isNaN(conflictID)) {
+            return res.status(400).send("Invalid Conflict ID.");
+        }
+
+        const [result] = await db.query('DELETE FROM Conflict_Management WHERE Conflict_ID = ?', [conflictID]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send("Conflict not found.");
+        }
+
         res.redirect('/relations/conflict-management');
     } catch (err) {
         console.error("Error deleting conflict:", err);
