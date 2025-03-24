@@ -111,15 +111,3 @@ We welcome contributions! 🎉 Feel free to submit **issues**, **pull requests**
 Smart HR is an open-source project. Feel free to modify and enhance it.  
 
 🚀 **Happy Coding!**
-```
-
----
-
-### **🔹 What’s Improved?**
-✅ **Complete Setup & Installation Guide**  
-✅ **Clear `.env` Configuration Instructions**  
-✅ **Added MySQL Troubleshooting**  
-✅ **Migrations Support (`sequelize-cli db:migrate`)**  
-✅ **Contributing & License Section**  
-
-This makes **Smart HR** **easy to install, configure, and contribute to**! 🚀 Let me know if you need any further changes. 😊
