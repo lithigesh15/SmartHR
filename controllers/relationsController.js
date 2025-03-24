@@ -101,7 +101,7 @@ exports.updateConflictStatus = async (req, res) => {
     }
 };
 
-// ✅ Delete a Conflict
+// ✅ Delete a Conflict (Fixed)
 exports.deleteConflict = async (req, res) => {
     const { id } = req.params;
 
@@ -109,19 +109,19 @@ exports.deleteConflict = async (req, res) => {
         const conflictID = parseInt(id, 10);
 
         if (isNaN(conflictID)) {
-            return res.status(400).send("Invalid Conflict ID.");
+            return res.status(400).json({ success: false, message: "Invalid Conflict ID." });
         }
 
         const [result] = await db.query('DELETE FROM Conflict_Management WHERE Conflict_ID = ?', [conflictID]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).send("Conflict not found.");
+            return res.status(404).json({ success: false, message: "Conflict not found." });
         }
 
-        res.redirect('/relations/conflict-management');
+        res.json({ success: true, message: "Conflict deleted successfully." });
     } catch (err) {
-        console.error("Error deleting conflict:", err);
-        res.status(500).send("Deletion failed");
+        console.error("❌ Error deleting conflict:", err);
+        res.status(500).json({ success: false, message: "Deletion failed due to server error." });
     }
 };
 

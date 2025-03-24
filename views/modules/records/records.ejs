@@ -77,11 +77,11 @@
     .table {
         width: 100%;
         border-collapse: separate;
-        border-spacing: 0px 10px; /* Adds spacing between rows */
+        border-spacing: 0px 10px;
     }
 
     .table th {
-        background-color: #e0e0e0; /* Grey column headers */
+        background-color: #e0e0e0;
         color: black;
         font-size: 1rem;
         padding: 12px;
@@ -94,10 +94,6 @@
         text-align: center;
         border-radius: 5px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .table tbody tr {
-        margin-bottom: 15px; /* Adds spacing between rows */
     }
 
     .table tbody tr:hover {
@@ -139,10 +135,7 @@
     </div>
     
     <div id="employeeDetails" class="mt-4"></div>
-    <div style="height: 50px;"></div>
 </div>
-
-
 
 <script>
 document.getElementById('searchBtn').addEventListener('click', async function () {
@@ -164,7 +157,8 @@ document.getElementById('searchBtn').addEventListener('click', async function ()
             let tableHTML = `
                 <div class="info-card">
                     <h4>${emp.Name}</h4>
-                    <p><strong>Email:</strong> ${emp.Email} | <strong>Phone:</strong> ${emp.Phone || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${emp.Email}</p>
+                    <p><strong>Experience:</strong> ${emp.Experience || 'N/A'}</p>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -174,10 +168,15 @@ document.getElementById('searchBtn').addEventListener('click', async function ()
                             <tr><th>Joining Date</th><td>${formattedDate}</td></tr>
                             <tr><th>Salary</th><td>$${emp.Hired_Salary}</td></tr>
                             <tr><th>Performance Score</th><td>${emp.Appraisal || 'N/A'}</td></tr>
-                            <tr><th>Last Training Attended</th><td>${emp.Last_Training || 'N/A'}</td></tr>
-                            <tr><th>Total Trainings Completed</th><td>${emp.Total_Trainings || 0}</td></tr>
-                            <tr><th>Leave Balance</th><td>${emp.Leave_Balance || 'N/A'}</td></tr>
-                            <tr><th>Exit Status</th><td>${emp.Exit_Status}</td></tr>
+                            <tr><th>Performance Comments</th><td>${emp.Performance_Comments || 'No Comments'}</td></tr>
+                            <tr><th>Basic Pay</th><td>$${emp.Basic_Pay}</td></tr>
+                            <tr><th>Allowances</th><td>$${emp.Allowances}</td></tr>
+                            <tr><th>PF Deductions</th><td>$${emp.PF_Deductions}</td></tr>
+                            <tr><th>Tax Deductions</th><td>$${emp.Tax_Deductions}</td></tr>
+                            <tr><th>Total Bonus</th><td>$${emp.Total_Bonus}</td></tr>
+                            
+                            <tr><th>Resignation Date</th><td>${emp.Resignation_Date === 'Active' ? 'Still Employed' : emp.Resignation_Date}</td></tr>
+                            <tr><th>Exit Reason</th><td>${emp.Exit_Reason || 'N/A'}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -193,6 +192,5 @@ document.getElementById('searchBtn').addEventListener('click', async function ()
     }
 });
 </script>
-
 
 <%- include('../../partials/footer') %>
