@@ -130,7 +130,7 @@
     
     <div class="search-container">
         <label for="employeeId" class="form-label"><strong>Enter Employee ID:</strong></label>
-        <input type="number" id="employeeId" class="form-control" placeholder="Enter Employee ID (Starting from 1)">
+        <input type="number" id="employeeId" class="form-control" placeholder="Enter Employee ID">
         <button id="searchBtn" class="btn">Search</button>
     </div>
     
@@ -174,7 +174,6 @@ document.getElementById('searchBtn').addEventListener('click', async function ()
                             <tr><th>PF Deductions</th><td>$${emp.PF_Deductions}</td></tr>
                             <tr><th>Tax Deductions</th><td>$${emp.Tax_Deductions}</td></tr>
                             <tr><th>Total Bonus</th><td>$${emp.Total_Bonus}</td></tr>
-                            
                             <tr><th>Resignation Date</th><td>${emp.Resignation_Date === 'Active' ? 'Still Employed' : emp.Resignation_Date}</td></tr>
                             <tr><th>Exit Reason</th><td>${emp.Exit_Reason || 'N/A'}</td></tr>
                         </tbody>
