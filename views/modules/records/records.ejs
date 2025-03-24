@@ -175,7 +175,7 @@ document.getElementById('searchBtn').addEventListener('click', async function ()
                             <tr><th>Tax Deductions</th><td>$${emp.Tax_Deductions}</td></tr>
                             <tr><th>Total Bonus</th><td>$${emp.Total_Bonus}</td></tr>
                             <tr><th>Resignation Date</th><td>${emp.Resignation_Date === 'Active' ? 'Still Employed' : emp.Resignation_Date}</td></tr>
-                            <tr><th>Exit Reason</th><td>${emp.Exit_Reason || 'N/A'}</td></tr>
+                            <tr><th>Exit Reason</th><td>${emp.Exit_Reason || '-'}</td></tr>
                         </tbody>
                     </table>
                 </div>
