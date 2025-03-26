@@ -12,8 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Apply Standard Deduction (₹75,000)
+        let taxableIncome = salary - 75000;
+        if (taxableIncome < 0) taxableIncome = 0;
+
         // Calculate tax based on the selected regime
-        const taxAmount = calculateTax(salary, taxRegime);
+        const taxAmount = calculateTax(taxableIncome, taxRegime);
 
         // Display the calculated tax
         document.getElementById('totalTax').innerText = taxAmount.toFixed(2);
@@ -21,38 +25,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-/**
- * Function to calculate tax based on Indian tax slabs (Old vs New Regime)
- */
 function calculateTax(salary, regime) {
     let tax = 0;
 
     if (regime === 'old') {
-        // ✅ Old Regime Tax Slabs (FY 2024-25 & 2025-26)
         if (salary <= 250000) tax = 0;
         else if (salary <= 500000) tax = (salary - 250000) * 0.05;
         else if (salary <= 1000000) tax = 12500 + (salary - 500000) * 0.2;
-        else tax = 12500 + 100000 + (salary - 1000000) * 0.3;
+        else if (salary <= 1500000) tax = 112500 + (salary - 1000000) * 0.3;
+        else tax = 262500 + (salary - 1500000) * 0.3;
 
-        // ✅ Apply Standard Deduction (₹50,000)
-        salary -= 50000;
-
-        // ✅ Apply Rebate Under 87A (For Income Up to ₹5L)
+        // Apply Rebate Under 87A (Income ≤ ₹5L)
         if (salary <= 500000) tax = 0;
     } else if (regime === 'new') {
-        // ✅ New Regime Tax Slabs (Post Budget 2025)
-        if (salary <= 300000) tax = 0;
-        else if (salary <= 700000) tax = (salary - 300000) * 0.05;
-        else if (salary <= 1000000) tax = 20000 + (salary - 700000) * 0.1;
-        else if (salary <= 1200000) tax = 50000 + (salary - 1000000) * 0.15;
-        else if (salary <= 1500000) tax = 80000 + (salary - 1200000) * 0.2;
-        else tax = 140000 + (salary - 1500000) * 0.3;
-
-        // ✅ Apply Standard Deduction (₹75,000)
-        salary -= 75000;
-
-        // ✅ Apply Rebate Under 87A (For Income Up to ₹7L)
-        if (salary <= 700000) tax = 0;
+        if (salary <= 400000) return 0; // ✅ No tax for taxable income ≤ ₹4L
+        else if (salary <= 800000) tax = (salary - 400000) * 0.05;
+        else if (salary <= 1200000) tax = 20000 + (salary - 800000) * 0.1;
+        else if (salary <= 1600000) tax = 60000 + (salary - 1200000) * 0.15;
+        else if (salary <= 2000000) tax = 120000 + (salary - 1600000) * 0.2;
+        else if (salary <= 2400000) tax = 200000 + (salary - 2000000) * 0.25;
+        else tax = 300000 + (salary - 2400000) * 0.3;
     }
 
     return tax;
