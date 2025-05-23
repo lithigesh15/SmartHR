@@ -2,6 +2,11 @@
 
 Smart HR is an innovative solution designed to streamline and enhance human resource management processes. With features tailored for modern organizations, it simplifies hiring, employee management, payroll, offboarding, and more. 💼📊
 
+## 📄 Contents
+
+- `report.pdf` – Comprehensive project report detailing the objective, methodology, implementation, and results.
+- `presentation.pptx` – Slide presentation summarizing the project's key points for quick understanding and sharing.
+
 ---
 
 ## 🎯 **Key Features**
@@ -54,11 +59,7 @@ npm install
   ```
 
 ### 4️⃣ **Run Database Migrations (If Any)**
-If migrations are included, run:
-```bash
-npx sequelize-cli db:migrate
-```
-Otherwise, manually import the `smarthr.sql` database file.
+manually import the `hr_management.sql` database file.
 
 ### 5️⃣ **Run the Project**
 Start the server:
@@ -79,35 +80,3 @@ This will auto-restart the server on file changes.
 
 ---
 
-## 🛡 **Troubleshooting**
-### ❌ **MySQL Connection Error?**
-- Ensure MySQL is running.
-- Check that your `.env` file has the correct credentials.
-- Test connection using:
-  ```bash
-  mysql -u root -p -e "SHOW DATABASES;"
-  ```
-
-### ❌ **Port Conflict?**
-If **port 3000 is already in use**, change it in `.env` or kill the process:
-```bash
-npx kill-port 3000
-```
-
-### ❌ **Modules Not Found?**
-Run:
-```bash
-npm install
-```
-
----
-
-## 🤝 **Contributing**
-We welcome contributions! 🎉 Feel free to submit **issues**, **pull requests**, and **suggestions**.
-
----
-
-## 📄 **License**
-Smart HR is an open-source project. Feel free to modify and enhance it.  
-
-🚀 **Happy Coding!**
